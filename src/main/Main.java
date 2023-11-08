@@ -6,12 +6,18 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import fileio.input.LibraryInput;
+import fileio.input.PodcastInput;
+import fileio.input.UserInput;
+import main.audio.collections.Library;
+import main.audio.collections.Podcast;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 /**
@@ -73,7 +79,16 @@ public final class Main {
 
         ArrayNode outputs = objectMapper.createArrayNode();
 
-        // TODO add your implementation
+        Library songLibrary = new Library(library.getSongs());
+        List<Podcast> podcasts = new ArrayList<>();
+        List<User> users = new ArrayList<>();
+
+        for (PodcastInput podcastInput : library.getPodcasts()) {
+            podcasts.add(new Podcast(podcastInput));
+        }
+        for (UserInput userInput : library.getUsers()) {
+            users.add(new User(userInput));
+        }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

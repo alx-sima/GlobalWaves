@@ -79,6 +79,7 @@ public final class Main {
 
         ArrayNode outputs = objectMapper.createArrayNode();
 
+        Program programInstance = Program.getInstance();
         Library songLibrary = new Library(library.getSongs());
         List<Podcast> podcasts = new ArrayList<>();
         List<User> users = new ArrayList<>();
@@ -89,6 +90,10 @@ public final class Main {
         for (UserInput userInput : library.getUsers()) {
             users.add(new User(userInput));
         }
+
+        programInstance.setLibrary(songLibrary);
+        programInstance.setPodcasts(podcasts);
+        programInstance.setUsers(users);
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

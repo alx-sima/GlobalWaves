@@ -18,6 +18,7 @@ public final class Program {
     /**
      * Get the instance of the program
      * (creates it if it isn't running).
+     *
      * @return the instance
      */
     public static Program getInstance() {
@@ -51,5 +52,4 @@ public final class Program {
     public void setLibrary(final Library library) {
         this.library = library;
     }
-
 }

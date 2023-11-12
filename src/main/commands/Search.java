@@ -1,6 +1,7 @@
 package main.commands;
 
 import main.Program;
+import main.audio.Searchable;
 import main.audio.files.Song;
 
 import java.util.List;
@@ -18,10 +19,20 @@ public class Search extends Command {
         this.filters = filters;
     }
 
+    private boolean itemMatchesFilters(Searchable item) {
+        for (Map.Entry<String, String> filter : filters.entrySet()) {
+            if (!item.matchFilter(filter.getKey(), filter.getValue())) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public CommandResult execute() {
         Program program = Program.getInstance();
         Stream<Song> songs = program.getLibrary().getSongs().stream();
-        Stream<Song> validSongs = songs.filter((song) -> song.matches(filters));
+        Stream<Song> validSongs = songs.filter(this::itemMatchesFilters);
         List<String> songNames = validSongs.map(Song::getName).toList();
 
         return new CommandResult(command, user, timestamp,

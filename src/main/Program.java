@@ -1,5 +1,6 @@
 package main;
 
+import main.audio.Searchable;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
 
@@ -11,6 +12,8 @@ public final class Program {
     private List<User> users;
     private List<Podcast> podcasts;
     private Library library;
+
+    private List<Searchable> searchResults;
 
     private Program() {
     }
@@ -51,5 +54,13 @@ public final class Program {
 
     public void setLibrary(final Library library) {
         this.library = library;
+    }
+
+    public List<Searchable> getSearchResults() {
+        return searchResults;
+    }
+
+    public void setSearchResults(List<Searchable> searchResults) {
+        this.searchResults = searchResults;
     }
 }

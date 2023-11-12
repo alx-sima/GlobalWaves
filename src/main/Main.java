@@ -12,7 +12,9 @@ import fileio.input.PodcastInput;
 import fileio.input.UserInput;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
+import main.commands.Command;
 import main.commands.Search;
+import main.commands.Select;
 
 import java.io.File;
 import java.io.IOException;
@@ -98,13 +100,25 @@ public final class Main {
         programInstance.setPodcasts(podcasts);
         programInstance.setUsers(users);
 
-        List<CommandInput> commands = objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + filePathInput), new TypeReference<>() {
+        List<CommandInput> commands =
+                objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + filePathInput),
+                        new TypeReference<>() {
         });
         for (CommandInput cmd : commands) {
-            if (cmd.getCommand().equals("search")) {
-                Search command = new Search(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(), cmd.getType(), cmd.getFilters());
-                outputs.addPOJO(command.execute());
+            Command command;
+            switch (cmd.getCommand()) {
+                case "search":
+                    command = new Search(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(),
+                            cmd.getType(), cmd.getFilters());
+                    break;
+                case "select":
+                    command = new Select(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(),
+                            cmd.getItemNumber());
+                    break;
+                default:
+                    return;
             }
+            outputs.addPOJO(command.execute());
         }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();

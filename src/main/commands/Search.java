@@ -4,15 +4,13 @@ import fileio.input.FiltersInput;
 import main.Program;
 import main.User;
 import main.audio.Searchable;
-import main.audio.collections.Playlist;
-import main.audio.collections.Podcast;
-import main.audio.files.Song;
 import main.commands.searchFilters.ComplexFilter;
 import main.commands.searchFilters.Filter;
 import main.commands.searchFilters.SimpleFilter;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class Search extends Command {
@@ -61,19 +59,17 @@ public final class Search extends Command {
         return true;
     }
 
+    @Override
     public Result execute() {
         Program program = Program.getInstance();
-        List<String> result = new ArrayList<>();
+
+        Stream<? extends Searchable> searchPlace;
         switch (type) {
             case "song":
-                Stream<Song> songs = program.getLibrary().getSongs().stream();
-                Stream<Song> validSongs = songs.filter(this::itemMatchesFilters);
-                result = validSongs.map(Searchable::getName).toList();
+                searchPlace = program.getLibrary().getSongs().stream();
                 break;
             case "podcast":
-                Stream<Podcast> podcasts = program.getPodcasts().stream();
-                Stream<Podcast> validPodcasts = podcasts.filter(this::itemMatchesFilters);
-                result = validPodcasts.map(Searchable::getName).toList();
+                searchPlace = program.getPodcasts().stream();
                 break;
             case "playlist":
                 User user = null;
@@ -83,11 +79,16 @@ public final class Search extends Command {
                         break;
                     }
                 }
-                Stream<Playlist> playlists = user.getPlaylists().stream();
-                Stream<Playlist> validPlaylists = playlists.filter(this::itemMatchesFilters);
-                result = validPlaylists.map(Searchable::getName).toList();
+                searchPlace = user.getPlaylists().stream();
+                break;
+            default:
+                return null;
         }
 
+        List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).collect(Collectors.toList());
+        program.setSearchResults(valid);
+
+        List <String> result = valid.stream().map(Searchable::getName).toList();
 
         return new Result(getCommand(), getUser(), getTimestamp(),
                 "Search returned " + result.size() + " results", result);

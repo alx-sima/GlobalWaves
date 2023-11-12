@@ -22,4 +22,6 @@ public abstract class Command {
     public int getTimestamp() {
         return timestamp;
     }
+
+    public abstract Result execute();
 }

@@ -35,7 +35,7 @@ public class Search extends Command {
         Stream<Song> validSongs = songs.filter(this::itemMatchesFilters);
         List<String> songNames = validSongs.map(Song::getName).toList();
 
-        return new CommandResult(command, user, timestamp,
+        return new CommandResult(getCommand(), getUser(), getTimestamp(),
                 "Search returned " + songNames.size() + " results", songNames);
     }
 }

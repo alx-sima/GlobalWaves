@@ -1,13 +1,25 @@
 package main.commands;
 
-public class Command {
-    protected String command;
-    protected String user;
-    protected int timestamp;
+public abstract class Command {
+    private final String command;
+    private final String user;
+    private final int timestamp;
 
     public Command(final String command, final String user, final int timestamp) {
         this.command = command;
         this.user = user;
         this.timestamp = timestamp;
+    }
+
+    public String getCommand() {
+        return command;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public int getTimestamp() {
+        return timestamp;
     }
 }

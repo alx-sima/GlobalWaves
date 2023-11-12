@@ -27,7 +27,7 @@ public class Song extends AudioFile implements Searchable {
     public boolean matchFilter(String filter, String parameter) {
         switch (filter) {
             case "name":
-                return name.startsWith(parameter);
+                return getName().startsWith(parameter);
             default:
                 return false;
         }

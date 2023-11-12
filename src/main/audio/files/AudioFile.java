@@ -1,8 +1,8 @@
 package main.audio.files;
 
-public class AudioFile {
-    protected String name;
-    protected int duration;
+public abstract class AudioFile {
+    private final String name;
+    private final int duration;
 
     protected AudioFile(final String name, final int duration) {
         this.name = name;
@@ -11,5 +11,9 @@ public class AudioFile {
 
     public String getName() {
         return name;
+    }
+
+    public int getDuration() {
+        return duration;
     }
 }

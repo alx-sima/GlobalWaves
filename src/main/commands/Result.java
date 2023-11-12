@@ -10,11 +10,20 @@ public final class Result extends Command {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final List<String> results;
 
-    public Result(final String command, final String user, final int timestamp,
-                  final String message, final List<String> results) {
-        super(command, user, timestamp);
+    public Result(final Command command, final String message, final List<String> results) {
+        super(command);
         this.message = message;
         this.results = results;
+    }
+
+    /**
+     * Construct a Result that doesn't return any results.
+     *
+     * @param command The command that generated the result.
+     * @param message The result's message.
+     */
+    public Result(final Command command, final String message) {
+        this(command, message, null);
     }
 
     public String getMessage() {

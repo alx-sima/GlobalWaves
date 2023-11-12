@@ -5,10 +5,16 @@ public abstract class Command {
     private final String user;
     private final int timestamp;
 
-    public Command(final String command, final String user, final int timestamp) {
+    protected Command(final String command, final String user, final int timestamp) {
         this.command = command;
         this.user = user;
         this.timestamp = timestamp;
+    }
+
+    protected Command(Command command) {
+        this.command = command.command;
+        this.user = command.user;
+        this.timestamp = command.timestamp;
     }
 
     public String getCommand() {

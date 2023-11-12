@@ -20,17 +20,14 @@ public class Select extends Command {
         List<Searchable> searchResults = instance.getSearchResults();
 
         if (searchResults.isEmpty()) {
-            return new Result("select", getUser(), getTimestamp(), "Please conduct a search " +
-                    "before making a selection.", null);
+            return new Result(this, "Please conduct a search before making a selection.");
         }
 
         if (itemNumber >= searchResults.size()) {
-            return new Result("select", getUser(), getTimestamp(), "The selected ID is too high.",
-                    null);
+            return new Result(this, "The selected ID is too high.");
         }
 
         Searchable selected = searchResults.get(itemNumber - 1);
-        return new Result("select", getUser(), getTimestamp(),
-                "Successfully selected " + selected.getName() + ".", null);
+        return new Result(this, "Successfully selected " + selected.getName() + ".");
     }
 }

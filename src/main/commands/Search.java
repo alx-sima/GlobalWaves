@@ -85,12 +85,12 @@ public final class Search extends Command {
                 return null;
         }
 
-        List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).collect(Collectors.toList());
+        List<Searchable> valid =
+                searchPlace.filter(this::itemMatchesFilters).collect(Collectors.toList());
         program.setSearchResults(valid);
 
-        List <String> result = valid.stream().map(Searchable::getName).toList();
+        List<String> result = valid.stream().map(Searchable::getName).toList();
 
-        return new Result(getCommand(), getUser(), getTimestamp(),
-                "Search returned " + result.size() + " results", result);
+        return new Result(this, "Search returned " + result.size() + " results", result);
     }
 }

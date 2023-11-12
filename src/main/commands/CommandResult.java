@@ -12,4 +12,12 @@ public class CommandResult extends Command {
         this.message = message;
         this.results = results;
     }
+
+    public String getMessage() {
+        return message;
+    }
+
+    public List<String> getResults() {
+        return results;
+    }
 }

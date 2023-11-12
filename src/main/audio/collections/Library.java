@@ -19,4 +19,8 @@ public class Library {
 
         this.songs = songList;
     }
+
+    public List<Song> getSongs() {
+        return songs;
+    }
 }

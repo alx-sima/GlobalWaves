@@ -10,6 +10,9 @@ import fileio.input.PodcastInput;
 import fileio.input.UserInput;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
+import main.commands.Command;
+import main.commands.CommandResult;
+import main.commands.Search;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,6 +20,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -35,6 +39,7 @@ public final class Main {
     /**
      * DO NOT MODIFY MAIN METHOD
      * Call the checker
+     *
      * @param args from command line
      * @throws IOException in case of exceptions to reading / writing
      */
@@ -68,7 +73,7 @@ public final class Main {
     }
 
     /**
-     * @param filePathInput for input file
+     * @param filePathInput  for input file
      * @param filePathOutput for output file
      * @throws IOException in case of exceptions to reading / writing
      */
@@ -94,6 +99,11 @@ public final class Main {
         programInstance.setLibrary(songLibrary);
         programInstance.setPodcasts(podcasts);
         programInstance.setUsers(users);
+
+        var hmap = new HashMap<String, String>();
+        hmap.put("name", "Sta");
+        Search command = new Search("search", "alice22", 10, "song", hmap);
+        outputs.addPOJO(command.execute());
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

@@ -84,42 +84,8 @@ public final class Main {
 
         ArrayNode outputs = objectMapper.createArrayNode();
 
-        Program programInstance = Program.getInstance();
-        Library songLibrary = new Library(library.getSongs());
-        List<Podcast> podcasts = new ArrayList<>();
-        List<User> users = new ArrayList<>();
-
-        for (PodcastInput podcastInput : library.getPodcasts()) {
-            podcasts.add(new Podcast(podcastInput));
-        }
-        for (UserInput userInput : library.getUsers()) {
-            users.add(new User(userInput));
-        }
-
-        programInstance.setLibrary(songLibrary);
-        programInstance.setPodcasts(podcasts);
-        programInstance.setUsers(users);
-
-        List<CommandInput> commands =
-                objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + filePathInput),
-                        new TypeReference<>() {
-        });
-        for (CommandInput cmd : commands) {
-            Command command;
-            switch (cmd.getCommand()) {
-                case "search":
-                    command = new Search(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(),
-                            cmd.getType(), cmd.getFilters());
-                    break;
-                case "select":
-                    command = new Select(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(),
-                            cmd.getItemNumber());
-                    break;
-                default:
-                    return;
-            }
-            outputs.addPOJO(command.execute());
-        }
+        Program instance = Program.getInstance();
+        instance.run(library, CheckerConstants.TESTS_PATH + filePathInput, objectMapper, outputs);
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

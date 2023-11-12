@@ -18,8 +18,7 @@ public final class Search extends Command {
     private final String type;
     private final List<Filter> filters = new ArrayList<>();
 
-    public Search(final String command, final String user, final int timestamp, final String type
-            , final FiltersInput filters) {
+    public Search(final String command, final String user, final int timestamp, final String type, final FiltersInput filters) {
         super(command, user, timestamp);
         this.type = type;
 
@@ -86,8 +85,7 @@ public final class Search extends Command {
                 return null;
         }
 
-        List<Searchable> valid =
-                searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS).collect(Collectors.toList());
+        List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS).collect(Collectors.toList());
         program.setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();

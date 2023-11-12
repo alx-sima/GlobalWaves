@@ -24,6 +24,11 @@ public final class Playlist implements Searchable {
     }
 
     @Override
+    public List<AudioFile> getContents() {
+        return files;
+    }
+
+    @Override
     public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
             case "name" -> name.startsWith(parameter);

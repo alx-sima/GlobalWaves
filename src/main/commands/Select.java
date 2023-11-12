@@ -28,6 +28,7 @@ public final class Select extends Command {
         }
 
         Searchable selected = searchResults.get(itemNumber - 1);
+        instance.setSelectedResult(selected);
         return new Result(this, "Successfully selected " + selected.getName() + ".");
     }
 }

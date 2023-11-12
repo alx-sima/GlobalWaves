@@ -7,10 +7,12 @@ import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 import fileio.input.PodcastInput;
 import fileio.input.UserInput;
+import main.audio.Player;
 import main.audio.Searchable;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
 import main.commands.Command;
+import main.commands.Load;
 import main.commands.Search;
 import main.commands.Select;
 
@@ -21,12 +23,12 @@ import java.util.List;
 
 public final class Program {
     private static Program instance = null;
-
+    private final Player player = new Player();
     private List<User> users = new ArrayList<>();
     private List<Podcast> podcasts = new ArrayList<>();
     private Library library;
-
     private List<Searchable> searchResults;
+    private Searchable selectedResult = null;
 
     private Program() {
     }
@@ -43,6 +45,10 @@ public final class Program {
         }
 
         return instance;
+    }
+
+    public Player getPlayer() {
+        return player;
     }
 
     public List<User> getUsers() {
@@ -77,6 +83,14 @@ public final class Program {
         this.searchResults = searchResults;
     }
 
+    public Searchable getSelectedResult() {
+        return selectedResult;
+    }
+
+    public void setSelectedResult(Searchable selectedResult) {
+        this.selectedResult = selectedResult;
+    }
+
     /**
      * Run the program.
      *
@@ -109,6 +123,9 @@ public final class Program {
                 case "select":
                     command = new Select(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(),
                             cmd.getItemNumber());
+                    break;
+                case "load":
+                    command = new Load(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp());
                     break;
                 default:
                     return;

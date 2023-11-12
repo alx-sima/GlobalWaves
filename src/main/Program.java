@@ -11,10 +11,7 @@ import main.audio.Player;
 import main.audio.Searchable;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
-import main.commands.Command;
-import main.commands.Load;
-import main.commands.Search;
-import main.commands.Select;
+import main.commands.*;
 
 import java.io.File;
 import java.io.IOException;
@@ -126,6 +123,11 @@ public final class Program {
                     break;
                 case "load":
                     command = new Load(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp());
+                    break;
+                case "playPause":
+                    command = new PlayPause(cmd.getCommand(), cmd.getUsername(),
+                            cmd.getTimestamp());
+
                     break;
                 default:
                     return;

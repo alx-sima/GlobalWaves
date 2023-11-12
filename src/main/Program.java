@@ -22,8 +22,8 @@ import java.util.List;
 public final class Program {
     private static Program instance = null;
 
-    private List<User> users;
-    private List<Podcast> podcasts;
+    private List<User> users = new ArrayList<>();
+    private List<Podcast> podcasts = new ArrayList<>();
     private Library library;
 
     private List<Searchable> searchResults;
@@ -73,39 +73,32 @@ public final class Program {
         return searchResults;
     }
 
-    public void setSearchResults(List<Searchable> searchResults) {
+    public void setSearchResults(final List<Searchable> searchResults) {
         this.searchResults = searchResults;
     }
 
     /**
      * Run the program.
      *
-     * @param library      Parsed JSON of the libraries.
+     * @param libraryInput Parsed JSON of the libraries.
      * @param inputFile    File containing the commands for the program.
      * @param objectMapper The object mapper.
      * @param outputs      ArrayNode that will contain the outputs of the commands.
      * @throws IOException If the parser encounters an error.
      */
-    public void run(final LibraryInput library, final String inputFile,
-                    final ObjectMapper objectMapper, ArrayNode outputs) throws IOException {
-        Library songLibrary = new Library(library.getSongs());
-        List<Podcast> podcasts = new ArrayList<>();
-        List<User> users = new ArrayList<>();
-
-        for (PodcastInput podcastInput : library.getPodcasts()) {
+    public void run(final LibraryInput libraryInput, final String inputFile,
+                    final ObjectMapper objectMapper, final ArrayNode outputs) throws IOException {
+        library = new Library(libraryInput.getSongs());
+        for (PodcastInput podcastInput : libraryInput.getPodcasts()) {
             podcasts.add(new Podcast(podcastInput));
         }
-        for (UserInput userInput : library.getUsers()) {
+        for (UserInput userInput : libraryInput.getUsers()) {
             users.add(new User(userInput));
         }
 
-        setLibrary(songLibrary);
-        setPodcasts(podcasts);
-        setUsers(users);
-
         List<CommandInput> commands = objectMapper.readValue(new File(inputFile),
                 new TypeReference<>() {
-        });
+                });
         for (CommandInput cmd : commands) {
             Command command;
             switch (cmd.getCommand()) {

@@ -32,7 +32,7 @@ public final class Podcast implements Searchable {
     }
 
     @Override
-    public boolean matchFilter(String filter, String parameter) {
+    public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
             case "name" -> name.startsWith(parameter);
             case "owner" -> owner.equals(parameter);

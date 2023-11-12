@@ -5,10 +5,15 @@ import main.audio.Searchable;
 public abstract class Filter {
     private final String filter;
 
-    protected Filter(String filter) {
+    protected Filter(final String filter) {
         this.filter = filter;
     }
 
+    /**
+     * Get the type of the filter.
+     *
+     * @return The search criterion.
+     */
     public String getFilter() {
         return filter;
     }

@@ -5,7 +5,7 @@ import main.audio.Searchable;
 
 import java.util.List;
 
-public class Song extends AudioFile implements Searchable {
+public final class Song extends AudioFile implements Searchable {
     private final String album;
     private final List<String> tags;
     private final String lyrics;
@@ -24,7 +24,7 @@ public class Song extends AudioFile implements Searchable {
     }
 
     @Override
-    public boolean matchFilter(String filter, String parameter) {
+    public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
             case "name" -> getName().startsWith(parameter);
             case "album" -> album.equals(parameter);

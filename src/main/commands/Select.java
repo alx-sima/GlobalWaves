@@ -5,7 +5,7 @@ import main.audio.Searchable;
 
 import java.util.List;
 
-public class Select extends Command {
+public final class Select extends Command {
     private final int itemNumber;
 
     public Select(final String command, final String user, final int timestamp,

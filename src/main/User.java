@@ -6,7 +6,7 @@ import main.audio.collections.Playlist;
 import java.util.ArrayList;
 import java.util.List;
 
-public class User {
+public final class User {
     private final String username;
     private final int age;
     private final String city;

@@ -10,5 +10,10 @@ public interface Searchable {
      */
     boolean matchFilter(String filter, String parameter);
 
+    /**
+     * Get the name of the file.
+     *
+     * @return The name.
+     */
     String getName();
 }

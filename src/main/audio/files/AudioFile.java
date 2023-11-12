@@ -9,10 +9,20 @@ public abstract class AudioFile {
         this.duration = duration;
     }
 
+    /**
+     * Get the name of the file.
+     *
+     * @return The name.
+     */
     public String getName() {
         return name;
     }
 
+    /**
+     * Get the duration of the audio.
+     *
+     * @return The duration.
+     */
     public int getDuration() {
         return duration;
     }

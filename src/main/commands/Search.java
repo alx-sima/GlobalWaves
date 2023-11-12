@@ -14,6 +14,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class Search extends Command {
+    private static final int MAX_RESULTS = 5;
     private final String type;
     private final List<Filter> filters = new ArrayList<>();
 
@@ -49,7 +50,7 @@ public final class Search extends Command {
         }
     }
 
-    private boolean itemMatchesFilters(Searchable item) {
+    private boolean itemMatchesFilters(final Searchable item) {
         for (Filter filter : filters) {
             if (!filter.matchItem(item)) {
                 return false;
@@ -86,7 +87,7 @@ public final class Search extends Command {
         }
 
         List<Searchable> valid =
-                searchPlace.filter(this::itemMatchesFilters).limit(5).collect(Collectors.toList());
+                searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS).collect(Collectors.toList());
         program.setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();

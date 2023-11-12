@@ -25,11 +25,21 @@ public class Song extends AudioFile implements Searchable {
 
     @Override
     public boolean matchFilter(String filter, String parameter) {
-        switch (filter) {
-            case "name":
-                return getName().startsWith(parameter);
-            default:
-                return false;
-        }
+        return switch (filter) {
+            case "name" -> getName().startsWith(parameter);
+            case "album" -> album.equals(parameter);
+            case "tags" -> tags.contains(parameter);
+            case "lyrics" -> lyrics.contains(parameter);
+            case "genre" -> genre.equalsIgnoreCase(parameter);
+            case "releaseYear" -> {
+                int referenceYear = Integer.parseInt(parameter.substring(1));
+                if (parameter.startsWith("<")) {
+                    yield releaseYear < referenceYear;
+                }
+                yield releaseYear > referenceYear;
+            }
+            case "artist" -> artist.equals(parameter);
+            default -> false;
+        };
     }
 }

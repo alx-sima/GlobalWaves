@@ -6,7 +6,7 @@ import main.audio.files.Song;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Library {
+public final class Library {
     private final List<Song> songs;
 
     public Library(final List<SongInput> input) {

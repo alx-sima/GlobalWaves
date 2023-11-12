@@ -9,4 +9,6 @@ public interface Searchable {
      * @return True if the entity matches the search.
      */
     boolean matchFilter(String filter, String parameter);
+
+    String getName();
 }

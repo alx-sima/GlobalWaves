@@ -2,16 +2,16 @@ package main;
 
 import checker.Checker;
 import checker.CheckerConstants;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectWriter;
 import com.fasterxml.jackson.databind.node.ArrayNode;
+import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 import fileio.input.PodcastInput;
 import fileio.input.UserInput;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
-import main.commands.Command;
-import main.commands.CommandResult;
 import main.commands.Search;
 
 import java.io.File;
@@ -20,7 +20,6 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Objects;
 
@@ -77,8 +76,7 @@ public final class Main {
      * @param filePathOutput for output file
      * @throws IOException in case of exceptions to reading / writing
      */
-    public static void action(final String filePathInput,
-                              final String filePathOutput) throws IOException {
+    public static void action(final String filePathInput, final String filePathOutput) throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         LibraryInput library = objectMapper.readValue(new File(LIBRARY_PATH), LibraryInput.class);
 
@@ -100,10 +98,14 @@ public final class Main {
         programInstance.setPodcasts(podcasts);
         programInstance.setUsers(users);
 
-        var hmap = new HashMap<String, String>();
-        hmap.put("name", "Sta");
-        Search command = new Search("search", "alice22", 10, "song", hmap);
-        outputs.addPOJO(command.execute());
+        List<CommandInput> commands = objectMapper.readValue(new File(CheckerConstants.TESTS_PATH + filePathInput), new TypeReference<>() {
+        });
+        for (CommandInput cmd : commands) {
+            if (cmd.getCommand().equals("search")) {
+                Search command = new Search(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(), cmd.getType(), cmd.getFilters());
+                outputs.addPOJO(command.execute());
+            }
+        }
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

@@ -17,4 +17,12 @@ public class User {
         age = input.getAge();
         city = input.getCity();
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public List<Playlist> getPlaylists() {
+        return playlists;
+    }
 }

@@ -15,7 +15,6 @@ public final class Load extends Command {
     @Override
     public Result execute() {
         Program instance = Program.getInstance();
-        Player player = instance.getPlayer();
 
         Searchable selected = instance.getSelectedResult();
         if (selected == null) {
@@ -27,8 +26,7 @@ public final class Load extends Command {
             return new Result(this, "You can't load an empty audio collection!");
         }
 
-        player.setQueue(queue);
-
+        instance.setPlayer(new Player(queue, getTimestamp()));
         return new Result(this, "Playback loaded successfully.");
     }
 }

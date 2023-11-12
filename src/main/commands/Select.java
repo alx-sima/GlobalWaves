@@ -23,7 +23,7 @@ public final class Select extends Command {
             return new Result(this, "Please conduct a search before making a selection.");
         }
 
-        if (itemNumber >= searchResults.size()) {
+        if (itemNumber > searchResults.size()) {
             return new Result(this, "The selected ID is too high.");
         }
 

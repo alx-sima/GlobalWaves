@@ -14,13 +14,12 @@ public final class PlayPause extends Command {
         Player player = instance.getPlayer();
 
         if (player.getQueue().isEmpty()) {
-            return new Result(this, "Please load a source before attempting to pause or resume " +
-                    "playback");
+            return new Result(this, "Please load a source before attempting to pause or resume " + "playback");
         }
 
-        if (player.togglePaused()) {
-            return new Result(this, "Playback resumed successfully.");
+        if (player.togglePaused(getTimestamp())) {
+            return new Result(this, "Playback paused successfully.");
         }
-        return new Result(this, "Playback paused successfully");
+        return new Result(this, "Playback resumed successfully.");
     }
 }

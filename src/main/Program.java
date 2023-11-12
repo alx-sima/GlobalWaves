@@ -20,12 +20,12 @@ import java.util.List;
 
 public final class Program {
     private static Program instance = null;
-    private final Player player = new Player();
     private List<User> users = new ArrayList<>();
     private List<Podcast> podcasts = new ArrayList<>();
     private Library library;
     private List<Searchable> searchResults;
     private Searchable selectedResult = null;
+    private Player player = null;
 
     private Program() {
     }
@@ -46,6 +46,10 @@ public final class Program {
 
     public Player getPlayer() {
         return player;
+    }
+
+    public void setPlayer(final Player player) {
+        this.player = player;
     }
 
     public List<User> getUsers() {
@@ -84,7 +88,7 @@ public final class Program {
         return selectedResult;
     }
 
-    public void setSelectedResult(Searchable selectedResult) {
+    public void setSelectedResult(final Searchable selectedResult) {
         this.selectedResult = selectedResult;
     }
 
@@ -109,7 +113,7 @@ public final class Program {
 
         List<CommandInput> commands = objectMapper.readValue(new File(inputFile),
                 new TypeReference<>() {
-                });
+        });
         for (CommandInput cmd : commands) {
             Command command;
             switch (cmd.getCommand()) {
@@ -127,7 +131,9 @@ public final class Program {
                 case "playPause":
                     command = new PlayPause(cmd.getCommand(), cmd.getUsername(),
                             cmd.getTimestamp());
-
+                    break;
+                case "status":
+                    command = new Status(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp());
                     break;
                 default:
                     return;

@@ -86,7 +86,7 @@ public final class Search extends Command {
         }
 
         List<Searchable> valid =
-                searchPlace.filter(this::itemMatchesFilters).collect(Collectors.toList());
+                searchPlace.filter(this::itemMatchesFilters).limit(5).collect(Collectors.toList());
         program.setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();

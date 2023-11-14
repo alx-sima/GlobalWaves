@@ -120,29 +120,12 @@ public final class Program {
                 new TypeReference<>() {
         });
         for (CommandInput cmd : commands) {
-            Command command;
-            switch (cmd.getCommand()) {
-                case "search":
-                    command = new Search(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(),
-                            cmd.getType(), cmd.getFilters());
-                    break;
-                case "select":
-                    command = new Select(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp(),
-                            cmd.getItemNumber());
-                    break;
-                case "load":
-                    command = new Load(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp());
-                    break;
-                case "playPause":
-                    command = new PlayPause(cmd.getCommand(), cmd.getUsername(),
-                            cmd.getTimestamp());
-                    break;
-                case "status":
-                    command = new Status(cmd.getCommand(), cmd.getUsername(), cmd.getTimestamp());
-                    break;
-                default:
-                    return;
+            Command command = cmd.createCommand();
+            if (command == null) {
+                // TODO: unimplemented command!
+                continue;
             }
+
             outputs.addPOJO(command.execute());
         }
 

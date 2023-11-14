@@ -1,5 +1,12 @@
 package fileio.input;
 
+import main.commands.Command;
+import main.commands.player.Load;
+import main.commands.player.PlayPause;
+import main.commands.player.Status;
+import main.commands.search.Search;
+import main.commands.search.Select;
+
 public final class CommandInput {
     private String command;
     private String username;
@@ -85,5 +92,21 @@ public final class CommandInput {
 
     public void setPlaylistName(final String playlistName) {
         this.playlistName = playlistName;
+    }
+
+    /**
+     * Create a command, based on the `type` field.
+     *
+     * @return The associated command.
+     */
+    public Command createCommand() {
+        return switch (command) {
+            case "search" -> new Search(command, username, timestamp, getType(), getFilters());
+            case "select" -> new Select(command, username, timestamp, getItemNumber());
+            case "load" -> new Load(command, username, timestamp);
+            case "playPause" -> new PlayPause(command, username, timestamp);
+            case "status" -> new Status(command, username, timestamp);
+            default -> null;
+        };
     }
 }

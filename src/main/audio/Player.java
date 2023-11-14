@@ -10,6 +10,7 @@ public final class Player {
     private final int repeat = 0;
     private boolean isPaused;
     private boolean isShuffled;
+    private int shuffleSeed;
     /**
      * Time the current playlist has been playing.
      */
@@ -39,6 +40,20 @@ public final class Player {
 
     public boolean isShuffled() {
         return isShuffled;
+    }
+
+    /**
+     * Toggle the shuffled state of the player.
+     *
+     * @return The new state of shuffling.
+     */
+    public boolean toggleShuffled() {
+        isShuffled = !isShuffled;
+        return isShuffled;
+    }
+
+    public void setShuffleSeed(int shuffleSeed) {
+        this.shuffleSeed = shuffleSeed;
     }
 
     /**

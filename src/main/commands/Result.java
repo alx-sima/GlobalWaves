@@ -6,6 +6,7 @@ import main.audio.PlayerStatus;
 import java.util.List;
 
 public final class Result extends Command {
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final String message;
     @JsonInclude(JsonInclude.Include.NON_NULL)

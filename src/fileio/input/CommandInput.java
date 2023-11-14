@@ -3,6 +3,7 @@ package fileio.input;
 import main.commands.Command;
 import main.commands.player.Load;
 import main.commands.player.PlayPause;
+import main.commands.player.Shuffle;
 import main.commands.player.Status;
 import main.commands.search.Search;
 import main.commands.search.Select;
@@ -101,11 +102,12 @@ public final class CommandInput {
      */
     public Command createCommand() {
         return switch (command) {
-            case "search" -> new Search(command, username, timestamp, getType(), getFilters());
-            case "select" -> new Select(command, username, timestamp, getItemNumber());
-            case "load" -> new Load(command, username, timestamp);
-            case "playPause" -> new PlayPause(command, username, timestamp);
-            case "status" -> new Status(command, username, timestamp);
+            case "search" -> new Search(this);
+            case "select" -> new Select(this);
+            case "load" -> new Load(this);
+            case "playPause" -> new PlayPause(this);
+            case "shuffle" -> new Shuffle(this);
+            case "status" -> new Status(this);
             default -> null;
         };
     }

@@ -1,6 +1,6 @@
 package main.commands.search;
 
-import fileio.input.FiltersInput;
+import fileio.input.CommandInput;
 import main.Program;
 import main.audio.Searchable;
 import main.commands.Command;
@@ -19,34 +19,34 @@ public final class Search extends Command {
     private final String type;
     private final List<Filter> filters = new ArrayList<>();
 
-    public Search(final String command, final String user, final int timestamp, final String type, final FiltersInput filters) {
-        super(command, user, timestamp);
-        this.type = type;
+    public Search(final CommandInput input) {
+        super(input);
+        type = input.getType();
 
         // TODO: refactor later
-        if (filters.getName() != null) {
-            this.filters.add(new SimpleFilter("name", filters.getName()));
+        if (input.getFilters().getName() != null) {
+            filters.add(new SimpleFilter("name", input.getFilters().getName()));
         }
-        if (filters.getAlbum() != null) {
-            this.filters.add(new SimpleFilter("album", filters.getAlbum()));
+        if (input.getFilters().getAlbum() != null) {
+            filters.add(new SimpleFilter("album", input.getFilters().getAlbum()));
         }
-        if (filters.getTags() != null) {
-            this.filters.add(new ComplexFilter("tags", filters.getTags()));
+        if (input.getFilters().getTags() != null) {
+            filters.add(new ComplexFilter("tags", input.getFilters().getTags()));
         }
-        if (filters.getLyrics() != null) {
-            this.filters.add(new SimpleFilter("lyrics", filters.getLyrics()));
+        if (input.getFilters().getLyrics() != null) {
+            filters.add(new SimpleFilter("lyrics", input.getFilters().getLyrics()));
         }
-        if (filters.getGenre() != null) {
-            this.filters.add(new SimpleFilter("genre", filters.getGenre()));
+        if (input.getFilters().getGenre() != null) {
+            filters.add(new SimpleFilter("genre", input.getFilters().getGenre()));
         }
-        if (filters.getReleaseYear() != null) {
-            this.filters.add(new SimpleFilter("releaseYear", filters.getReleaseYear()));
+        if (input.getFilters().getReleaseYear() != null) {
+            filters.add(new SimpleFilter("releaseYear", input.getFilters().getReleaseYear()));
         }
-        if (filters.getArtist() != null) {
-            this.filters.add(new SimpleFilter("artist", filters.getArtist()));
+        if (input.getFilters().getArtist() != null) {
+            filters.add(new SimpleFilter("artist", input.getFilters().getArtist()));
         }
-        if (filters.getOwner() != null) {
-            this.filters.add(new SimpleFilter("owner", filters.getOwner()));
+        if (input.getFilters().getOwner() != null) {
+            filters.add(new SimpleFilter("owner", input.getFilters().getOwner()));
         }
     }
 

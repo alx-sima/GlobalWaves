@@ -1,5 +1,6 @@
 package main.commands;
 
+import fileio.input.CommandInput;
 import main.Program;
 import main.User;
 
@@ -8,10 +9,10 @@ public abstract class Command {
     private final String user;
     private final int timestamp;
 
-    protected Command(final String command, final String user, final int timestamp) {
-        this.command = command;
-        this.user = user;
-        this.timestamp = timestamp;
+    protected Command(final CommandInput input) {
+        command = input.getCommand();
+        user = input.getUsername();
+        timestamp = input.getTimestamp();
     }
 
     protected Command(final Command command) {

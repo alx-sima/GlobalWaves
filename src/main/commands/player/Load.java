@@ -1,5 +1,6 @@
 package main.commands.player;
 
+import fileio.input.CommandInput;
 import main.Program;
 import main.audio.Player;
 import main.audio.Searchable;
@@ -10,8 +11,9 @@ import main.commands.Result;
 import java.util.List;
 
 public final class Load extends Command {
-    public Load(final String command, final String user, final int timestamp) {
-        super(command, user, timestamp);
+
+    public Load(final CommandInput input) {
+        super(input);
     }
 
     @Override

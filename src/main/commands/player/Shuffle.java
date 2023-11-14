@@ -1,5 +1,6 @@
 package main.commands.player;
 
+import fileio.input.CommandInput;
 import main.Program;
 import main.audio.Player;
 import main.commands.Command;
@@ -8,9 +9,9 @@ import main.commands.Result;
 public final class Shuffle extends Command {
     private final int seed;
 
-    public Shuffle(String command, String user, int timestamp, int seed) {
-        super(command, user, timestamp);
-        this.seed = seed;
+    public Shuffle(final CommandInput input) {
+        super(input);
+        seed = input.getSeed();
     }
 
     @Override

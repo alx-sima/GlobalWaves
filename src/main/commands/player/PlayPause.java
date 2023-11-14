@@ -1,13 +1,14 @@
 package main.commands.player;
 
+import fileio.input.CommandInput;
 import main.Program;
 import main.audio.Player;
 import main.commands.Command;
 import main.commands.Result;
 
 public final class PlayPause extends Command {
-    public PlayPause(final String command, final String user, final int timestamp) {
-        super(command, user, timestamp);
+    public PlayPause(final CommandInput input) {
+        super(input);
     }
 
     @Override

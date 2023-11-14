@@ -1,5 +1,6 @@
 package main.commands.search;
 
+import fileio.input.CommandInput;
 import main.Program;
 import main.audio.Searchable;
 import main.commands.Command;
@@ -10,10 +11,9 @@ import java.util.List;
 public final class Select extends Command {
     private final int itemNumber;
 
-    public Select(final String command, final String user, final int timestamp,
-                  final int itemNumber) {
-        super(command, user, timestamp);
-        this.itemNumber = itemNumber;
+    public Select (final CommandInput input) {
+        super(input);
+        itemNumber = input.getItemNumber();
     }
 
     @Override

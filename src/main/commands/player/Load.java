@@ -1,9 +1,11 @@
-package main.commands;
+package main.commands.player;
 
 import main.Program;
 import main.audio.Player;
 import main.audio.Searchable;
 import main.audio.files.AudioFile;
+import main.commands.Command;
+import main.commands.Result;
 
 import java.util.List;
 

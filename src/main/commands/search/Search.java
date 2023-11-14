@@ -1,11 +1,13 @@
-package main.commands;
+package main.commands.search;
 
 import fileio.input.FiltersInput;
 import main.Program;
 import main.audio.Searchable;
-import main.commands.searchFilters.ComplexFilter;
-import main.commands.searchFilters.Filter;
-import main.commands.searchFilters.SimpleFilter;
+import main.commands.Command;
+import main.commands.Result;
+import main.commands.search.filters.ComplexFilter;
+import main.commands.search.filters.Filter;
+import main.commands.search.filters.SimpleFilter;
 
 import java.util.ArrayList;
 import java.util.List;

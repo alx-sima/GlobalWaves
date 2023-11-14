@@ -12,6 +12,11 @@ import main.audio.Searchable;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
 import main.commands.*;
+import main.commands.player.Load;
+import main.commands.player.PlayPause;
+import main.commands.player.Status;
+import main.commands.search.Search;
+import main.commands.search.Select;
 
 import java.io.File;
 import java.io.IOException;

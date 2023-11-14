@@ -1,8 +1,10 @@
-package main.commands;
+package main.commands.player;
 
 import main.Program;
 import main.audio.Player;
 import main.audio.PlayerStatus;
+import main.commands.Command;
+import main.commands.Result;
 
 public final class Status extends Command {
     public Status(final String command, final String user, final int timestamp) {

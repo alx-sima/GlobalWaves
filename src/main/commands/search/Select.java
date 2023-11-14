@@ -1,7 +1,9 @@
-package main.commands;
+package main.commands.search;
 
 import main.Program;
 import main.audio.Searchable;
+import main.commands.Command;
+import main.commands.Result;
 
 import java.util.List;
 

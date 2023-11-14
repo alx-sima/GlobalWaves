@@ -1,7 +1,9 @@
-package main.commands;
+package main.commands.player;
 
 import main.Program;
 import main.audio.Player;
+import main.commands.Command;
+import main.commands.Result;
 
 public final class PlayPause extends Command {
     public PlayPause(final String command, final String user, final int timestamp) {

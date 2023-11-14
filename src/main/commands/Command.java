@@ -1,5 +1,8 @@
 package main.commands;
 
+import main.Program;
+import main.User;
+
 public abstract class Command {
     private final String command;
     private final String user;
@@ -42,6 +45,23 @@ public abstract class Command {
      */
     public int getTimestamp() {
         return timestamp;
+    }
+
+    /**
+     * Get the user that called this command.
+     *
+     * @return A refference to the user.
+     */
+    public User getCallee() {
+        Program instance = Program.getInstance();
+
+        for (User u : instance.getUsers()) {
+            if (u.getUsername().equals(user)) {
+                return u;
+            }
+        }
+
+        return null;
     }
 
     /**

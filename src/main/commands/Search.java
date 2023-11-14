@@ -2,7 +2,6 @@ package main.commands;
 
 import fileio.input.FiltersInput;
 import main.Program;
-import main.User;
 import main.audio.Searchable;
 import main.commands.searchFilters.ComplexFilter;
 import main.commands.searchFilters.Filter;
@@ -72,14 +71,7 @@ public final class Search extends Command {
                 searchPlace = program.getPodcasts().stream();
                 break;
             case "playlist":
-                User user = null;
-                for (User u : program.getUsers()) {
-                    if (u.getUsername().equals(getUser())) {
-                        user = u;
-                        break;
-                    }
-                }
-                searchPlace = user.getPlaylists().stream();
+                searchPlace = getCallee().getPlaylists().stream();
                 break;
             default:
                 return null;

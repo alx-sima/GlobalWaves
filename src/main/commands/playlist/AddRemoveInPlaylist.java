@@ -5,7 +5,8 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.Program;
 import main.User;
-import main.audio.SongVisitor;
+import main.audio.Player;
+import main.audio.CurrentSongVisitor;
 import main.audio.collections.Queue;
 import main.audio.files.Song;
 import main.commands.Command;
@@ -23,9 +24,14 @@ public class AddRemoveInPlaylist extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         User user = instance.getUsers().get(getUser());
-        Queue queue = instance.getPlayer().getQueue();
+        Player player = instance.getPlayer();
+        if (player == null) {
+            return new MessageResult(this,
+                "Please load a source before adding to or removing from the playlist.");
+        }
+        Queue queue = player.getQueue();
 
-        SongVisitor visitor = new SongVisitor();
+        CurrentSongVisitor visitor = new CurrentSongVisitor();
         queue.getAudio().accept(visitor);
 
         Song currentSong = visitor.getPlayingSong();

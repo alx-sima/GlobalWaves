@@ -79,9 +79,10 @@ public final class User {
      * @param playlistId
      * @return true if the song was added after the operation.
      */
-    public boolean addRemoveSongInPlaylist(final Song song, final int playlistId) {
+    public boolean addRemoveSongInPlaylist(final Song song, final int playlistId)
+        throws IndexOutOfBoundsException {
         if (playlistId >= playlists.size()) {
-            return false;
+            throw new IndexOutOfBoundsException();
         }
         Playlist playlist = playlists.get(playlistId);
 

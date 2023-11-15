@@ -1,5 +1,6 @@
 package main.audio;
 
+import main.audio.collections.RepeatMode;
 import main.audio.files.AudioFile;
 
 public final class PlayerStatus {
@@ -11,18 +12,27 @@ public final class PlayerStatus {
     private final boolean paused;
 
     public PlayerStatus(final Player player, final int timestamp) {
-        AudioFile nowPlaying = player.getPlayingAt(timestamp);
-        if (nowPlaying != null) {
-            name = nowPlaying.getName();
-            remainedTime = player.remainingTimeAt(timestamp);
-            paused = player.isPaused();
-        } else {
+        // TODO: refactor
+        if (player == null) {
             name = "";
             remainedTime = 0;
             paused = true;
+            repeat = RepeatMode.NO_REPEAT.toString();
+        } else {
+            AudioFile nowPlaying = player.getPlayingAt(timestamp);
+            if (nowPlaying != null) {
+                name = nowPlaying.getName();
+                remainedTime = player.remainingTimeAt(timestamp);
+                paused = player.isPaused();
+            } else {
+                name = "";
+                remainedTime = 0;
+                paused = true;
+            }
+
+            repeat = player.getQueue().getRepeatMode().toString();
         }
 
-        repeat = player.getQueue().getRepeatMode().toString();
         shuffle = false;
     }
 

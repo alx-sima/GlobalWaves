@@ -65,18 +65,18 @@ public final class Search extends Command {
 
     @Override
     public CommandResult execute() {
-        Program program = Program.getInstance();
+        Program instance = Program.getInstance();
 
         Stream<? extends Searchable> searchPlace;
         switch (type) {
             case "song":
-                searchPlace = program.getLibrary().getSongs().stream();
+                searchPlace = instance.getLibrary().getSongs().stream();
                 break;
             case "podcast":
-                searchPlace = program.getPodcasts().stream();
+                searchPlace = instance.getPodcasts().stream();
                 break;
             case "playlist":
-                User user = program.getUsers().get(getUser());
+                User user = instance.getUsers().get(getUser());
                 searchPlace = user.getPlaylists().stream();
                 break;
             default:
@@ -85,9 +85,10 @@ public final class Search extends Command {
 
         List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS)
             .collect(Collectors.toList());
-        program.setSearchResults(valid);
+        instance.setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
+        instance.setPlayer(null);
 
         return new SearchResult(this, "Search returned " + result.size() + " results", result);
     }

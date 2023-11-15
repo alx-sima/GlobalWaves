@@ -4,13 +4,13 @@ import main.audio.collections.Playlist;
 import main.audio.collections.Podcast;
 import main.audio.files.Song;
 
-public final class SongVisitor implements SearchableVisitor {
+public final class CurrentSongVisitor implements SearchableVisitor {
 
-    private Song containedSong = null;
+    private Song playingSong = null;
 
     @Override
     public void visit(Playlist playlist) {
-
+        playingSong = playlist.getCurrentSong();
     }
 
     @Override
@@ -20,10 +20,10 @@ public final class SongVisitor implements SearchableVisitor {
 
     @Override
     public void visit(Song song) {
-        this.containedSong = song;
+        playingSong = song;
     }
 
-    public Song getContainedSong() {
-        return containedSong;
+    public Song getPlayingSong() {
+        return playingSong;
     }
 }

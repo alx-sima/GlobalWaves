@@ -24,6 +24,6 @@ public final class CreatePlaylist extends Command {
         if (owner.createPlaylist(playListName)) {
             return new MessageResult(this, "Playlist created successfully.");
         }
-        return new MessageResult(this, "Eroare");
+        return new MessageResult(this, "A playlist with the same name already exists.");
     }
 }

@@ -22,7 +22,7 @@ import main.commands.Command;
 public final class Program {
 
     private static Program instance = null;
-    private Map<String, User> users = new HashMap<>();
+    private final Map<String, User> users = new HashMap<>();
     private List<Podcast> podcasts = new ArrayList<>();
     private Library library;
     private List<Searchable> searchResults;
@@ -57,24 +57,12 @@ public final class Program {
         return users;
     }
 
-    public void setUsers(final Map<String, User> users) {
-        this.users = users;
-    }
-
     public List<Podcast> getPodcasts() {
         return podcasts;
     }
 
-    public void setPodcasts(final List<Podcast> podcasts) {
-        this.podcasts = podcasts;
-    }
-
     public Library getLibrary() {
         return library;
-    }
-
-    public void setLibrary(final Library library) {
-        this.library = library;
     }
 
     public List<Searchable> getSearchResults() {
@@ -105,9 +93,12 @@ public final class Program {
     public void run(final LibraryInput libraryInput, final String inputFile,
         final ObjectMapper objectMapper, final ArrayNode outputs) throws IOException {
         library = new Library(libraryInput.getSongs());
+        List<Podcast> podcasts2 = new ArrayList<>();
         for (PodcastInput podcastInput : libraryInput.getPodcasts()) {
-            podcasts.add(new Podcast(podcastInput));
+            podcasts2.add(new Podcast(podcastInput));
         }
+        podcasts = podcasts2;
+
         for (UserInput userInput : libraryInput.getUsers()) {
             User user = new User(userInput);
             users.put(user.getUsername(), user);
@@ -125,6 +116,5 @@ public final class Program {
 
             outputs.addPOJO(command.execute());
         }
-
     }
 }

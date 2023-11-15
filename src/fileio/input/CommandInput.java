@@ -1,6 +1,7 @@
 package fileio.input;
 
 import main.commands.Command;
+import main.commands.playlist.AddRemoveInPlaylist;
 import main.commands.playlist.CreatePlaylist;
 import main.commands.player.Load;
 import main.commands.player.PlayPause;
@@ -112,8 +113,9 @@ public final class CommandInput {
             case "playPause" -> new PlayPause(this);
             case "shuffle" -> new Shuffle(this);
             case "status" -> new Status(this);
+            case "addRemoveInPlaylist" -> new AddRemoveInPlaylist(this);
             case "createPlaylist" -> new CreatePlaylist(this);
-            case "like" ->new Like(this);
+            case "like" -> new Like(this);
             case "showPlaylists" -> new ShowPlaylists(this);
             default -> null;
         };

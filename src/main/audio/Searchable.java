@@ -1,5 +1,6 @@
 package main.audio;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import main.audio.collections.RepeatMode;
 import main.audio.files.AudioFile;
 
@@ -21,7 +22,8 @@ public interface Searchable {
      *
      * @return The list of audio files contained by the entity.
      */
-    List<AudioFile> getContents();
+    @JsonIgnore
+    List<? extends AudioFile> getContents();
 
     /**
      * Get the name of the file.

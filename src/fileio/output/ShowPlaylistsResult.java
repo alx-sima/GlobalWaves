@@ -6,14 +6,14 @@ import main.commands.Command;
 
 public final class ShowPlaylistsResult extends CommandResult {
 
-    private final List<Playlist> result;
+    private final List<PlaylistOutput> result;
 
     public ShowPlaylistsResult(final Command command, final List<Playlist> playlists) {
         super(command);
-        result = playlists;
+        result = playlists.stream().map((PlaylistOutput::new)).toList();
     }
 
-    public List<Playlist> getResult() {
+    public List<PlaylistOutput> getResult() {
         return result;
     }
 }

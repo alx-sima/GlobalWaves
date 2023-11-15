@@ -1,22 +1,34 @@
 package main.audio.collections;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.ArrayList;
 import java.util.List;
 import main.User;
 import main.audio.Searchable;
 import main.audio.SearchableVisitor;
 import main.audio.files.AudioFile;
+import main.audio.files.Song;
 
 public final class Playlist implements Searchable {
 
     private final String name;
     private final User user;
     private final boolean isPrivate = false;
-    private final List<AudioFile> songs = new ArrayList<>();
+    private final List<Song> songs = new ArrayList<>();
+    private int currentSongIndex = 0;
+    private int followers = 0;
 
     public Playlist(final String name, final User user) {
         this.name = name;
         this.user = user;
+    }
+
+    public boolean isPrivate() {
+        return isPrivate;
+    }
+
+    public int getFollowers() {
+        return followers;
     }
 
     @Override
@@ -25,7 +37,7 @@ public final class Playlist implements Searchable {
     }
 
     @Override
-    public List<AudioFile> getContents() {
+    public List<Song> getContents() {
         return songs;
     }
 
@@ -42,9 +54,12 @@ public final class Playlist implements Searchable {
     public AudioFile getSongAt(final int timePassed) {
         int duration = 0;
 
-        for (AudioFile file : songs) {
+        for (int i = 0; i < songs.size(); i++) {
+            AudioFile file = songs.get(i);
+
             duration += file.getDuration();
             if (duration >= timePassed) {
+                currentSongIndex = i;
                 return file;
             }
         }
@@ -62,8 +77,31 @@ public final class Playlist implements Searchable {
         };
     }
 
-    @Override
     public void accept(SearchableVisitor visitor) {
         visitor.visit(this);
+    }
+
+    /**
+     * Add the song to the playlist, or remove it if it was already present.
+     *
+     * @param song The song to be added (or removed).
+     * @return true if the song was added after this operation.
+     */
+    public boolean addRemoveSong(Song song) {
+        if (songs.remove(song)) {
+            return false;
+        }
+
+        songs.add(song);
+        return true;
+    }
+
+    @JsonIgnore
+    public Song getCurrentSong() {
+        if (currentSongIndex >= songs.size()) {
+            return null;
+        }
+
+        return songs.get(currentSongIndex);
     }
 }

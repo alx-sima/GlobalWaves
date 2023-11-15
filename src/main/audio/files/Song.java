@@ -16,6 +16,16 @@ public final class Song extends AudioFile implements Searchable {
     private final int releaseYear;
     private final String artist;
 
+    public Song(final Song song) {
+        super(song.getName(), song.getDuration());
+        album = song.album;
+        tags = song.tags;
+        lyrics = song.lyrics;
+        genre = song.genre;
+        releaseYear = song.releaseYear;
+        artist = song.artist;
+    }
+
     public Song(final SongInput input) {
         super(input.getName(), input.getDuration());
         album = input.getAlbum();
@@ -27,7 +37,7 @@ public final class Song extends AudioFile implements Searchable {
     }
 
     @Override
-    public List<AudioFile> getContents() {
+    public List<Song> getContents() {
         return List.of(this);
     }
 

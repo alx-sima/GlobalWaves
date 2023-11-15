@@ -20,6 +20,10 @@ public final class Queue {
         duration = queueLen;
     }
 
+    public Searchable getAudio() {
+        return audio;
+    }
+
     public RepeatMode getRepeatMode() {
         return repeatMode;
     }

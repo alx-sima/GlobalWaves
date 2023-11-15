@@ -69,4 +69,19 @@ public final class User {
         likedSongs.add(file);
         return true;
     }
+
+    /**
+     *
+     * @param song
+     * @param playlistId
+     * @return true if the song was added after the operation.
+     */
+    public boolean addRemoveSongInPlaylist(final Song song, final int playlistId) {
+        if (playlistId >= playlists.size()) {
+            return false;
+        }
+        Playlist playlist = playlists.get(playlistId);
+
+        return playlist.addRemoveSong(song);
+    }
 }

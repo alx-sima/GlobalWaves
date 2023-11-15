@@ -7,10 +7,11 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class User {
+
     private final String username;
     private final int age;
     private final String city;
-    private List<Playlist> playlists = new ArrayList<>();
+    private final List<Playlist> playlists = new ArrayList<>();
 
     public User(final UserInput input) {
         username = input.getUsername();

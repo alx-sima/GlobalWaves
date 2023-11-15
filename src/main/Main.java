@@ -18,6 +18,7 @@ import java.util.Objects;
  * The entry point to this homework. It runs the checker that tests your implentation.
  */
 public final class Main {
+
     static final String LIBRARY_PATH = CheckerConstants.TESTS_PATH + "library/library.json";
 
     /**
@@ -27,8 +28,7 @@ public final class Main {
     }
 
     /**
-     * DO NOT MODIFY MAIN METHOD
-     * Call the checker
+     * DO NOT MODIFY MAIN METHOD Call the checker
      *
      * @param args from command line
      * @throws IOException in case of exceptions to reading / writing
@@ -67,7 +67,8 @@ public final class Main {
      * @param filePathOutput for output file
      * @throws IOException in case of exceptions to reading / writing
      */
-    public static void action(final String filePathInput, final String filePathOutput) throws IOException {
+    public static void action(final String filePathInput, final String filePathOutput)
+        throws IOException {
         ObjectMapper objectMapper = new ObjectMapper();
         LibraryInput library = objectMapper.readValue(new File(LIBRARY_PATH), LibraryInput.class);
 

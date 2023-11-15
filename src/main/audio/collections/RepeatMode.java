@@ -1,11 +1,7 @@
 package main.audio.collections;
 
 public enum RepeatMode {
-    NO_REPEAT,
-    REPEAT_ALL,
-    REPEAT_CURRENT,
-    REPEAT_ONCE,
-    REPEAT_INFINITE;
+    NO_REPEAT, REPEAT_ALL, REPEAT_CURRENT, REPEAT_ONCE, REPEAT_INFINITE;
 
     @Override
     public String toString() {

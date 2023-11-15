@@ -1,6 +1,7 @@
 package main.audio.files;
 
 public abstract class AudioFile {
+
     private final String name;
     private final int duration;
 

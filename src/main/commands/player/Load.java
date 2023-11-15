@@ -5,11 +5,8 @@ import main.Program;
 import main.audio.Player;
 import main.audio.Searchable;
 import main.audio.collections.Queue;
-import main.audio.files.AudioFile;
 import main.commands.Command;
 import main.commands.Result;
-
-import java.util.List;
 
 public final class Load extends Command {
 

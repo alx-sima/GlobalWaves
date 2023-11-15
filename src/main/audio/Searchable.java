@@ -6,6 +6,7 @@ import main.audio.files.AudioFile;
 import java.util.List;
 
 public interface Searchable {
+
     /**
      * Check if the entity (song, podcast, playlist) matches the filter and its parameter.
      *

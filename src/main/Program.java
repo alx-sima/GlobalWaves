@@ -7,8 +7,11 @@ import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 import fileio.input.PodcastInput;
 import fileio.input.UserInput;
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Hashtable;
+import java.util.List;
 import java.util.Map;
 import main.audio.Player;
 import main.audio.Searchable;
@@ -16,12 +19,8 @@ import main.audio.collections.Library;
 import main.audio.collections.Podcast;
 import main.commands.Command;
 
-import java.io.File;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-
 public final class Program {
+
     private static Program instance = null;
     private Map<String, User> users = new HashMap<>();
     private List<Podcast> podcasts = new ArrayList<>();
@@ -34,8 +33,7 @@ public final class Program {
     }
 
     /**
-     * Get the instance of the program
-     * (creates it if it isn't running).
+     * Get the instance of the program (creates it if it isn't running).
      *
      * @return the instance
      */
@@ -59,7 +57,7 @@ public final class Program {
         return users;
     }
 
-    public void setUsers(final Map<String,User> users) {
+    public void setUsers(final Map<String, User> users) {
         this.users = users;
     }
 
@@ -105,7 +103,7 @@ public final class Program {
      * @throws IOException If the parser encounters an error.
      */
     public void run(final LibraryInput libraryInput, final String inputFile,
-                    final ObjectMapper objectMapper, final ArrayNode outputs) throws IOException {
+        final ObjectMapper objectMapper, final ArrayNode outputs) throws IOException {
         library = new Library(libraryInput.getSongs());
         for (PodcastInput podcastInput : libraryInput.getPodcasts()) {
             podcasts.add(new Podcast(podcastInput));
@@ -116,8 +114,8 @@ public final class Program {
         }
 
         List<CommandInput> commands = objectMapper.readValue(new File(inputFile),
-                new TypeReference<>() {
-        });
+            new TypeReference<>() {
+            });
         for (CommandInput cmd : commands) {
             Command command = cmd.createCommand();
             if (command == null) {

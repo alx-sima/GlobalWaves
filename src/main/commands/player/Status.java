@@ -8,6 +8,7 @@ import main.commands.Command;
 import main.commands.Result;
 
 public final class Status extends Command {
+
     public Status(final CommandInput input) {
         super(input);
     }

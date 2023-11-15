@@ -3,6 +3,7 @@ package main.commands.search.filters;
 import main.audio.Searchable;
 
 public abstract class Filter {
+
     private final String filter;
 
     protected Filter(final String filter) {

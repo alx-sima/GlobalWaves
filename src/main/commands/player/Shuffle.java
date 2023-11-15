@@ -7,6 +7,7 @@ import main.commands.Command;
 import main.commands.Result;
 
 public final class Shuffle extends Command {
+
     private final int seed;
 
     public Shuffle(final CommandInput input) {

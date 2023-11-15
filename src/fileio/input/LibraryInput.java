@@ -3,6 +3,7 @@ package fileio.input;
 import java.util.ArrayList;
 
 public final class LibraryInput {
+
     private ArrayList<SongInput> songs;
     private ArrayList<PodcastInput> podcasts;
     private ArrayList<UserInput> users;

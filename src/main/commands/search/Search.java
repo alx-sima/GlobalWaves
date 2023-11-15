@@ -16,6 +16,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public final class Search extends Command {
+
     private static final int MAX_RESULTS = 5;
     private final String type;
     private final List<Filter> filters = new ArrayList<>();

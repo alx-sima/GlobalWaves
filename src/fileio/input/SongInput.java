@@ -3,6 +3,7 @@ package fileio.input;
 import java.util.ArrayList;
 
 public final class SongInput {
+
     private String name;
     private Integer duration;
     private String album;

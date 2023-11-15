@@ -1,10 +1,9 @@
 package main.commands;
 
 import fileio.input.CommandInput;
-import main.Program;
-import main.User;
 
 public abstract class Command {
+
     private final String command;
     private final String user;
     private final int timestamp;

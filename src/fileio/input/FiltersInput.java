@@ -3,6 +3,7 @@ package fileio.input;
 import java.util.List;
 
 public final class FiltersInput {
+
     private String name;
     private String album;
     private List<String> tags;

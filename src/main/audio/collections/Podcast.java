@@ -52,7 +52,7 @@ public final class Podcast implements Searchable {
     }
 
     @Override
-    public AudioFile getSongAt(int timePassed) {
+    public AudioFile getSongAt(final int timePassed) {
         int duration = 0;
 
         for (Episode episode : episodes) {
@@ -66,7 +66,7 @@ public final class Podcast implements Searchable {
     }
 
     @Override
-    public RepeatMode nextRepeatMode(RepeatMode mode) {
+    public RepeatMode nextRepeatMode(final RepeatMode mode) {
         return switch (mode) {
             case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
             case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;

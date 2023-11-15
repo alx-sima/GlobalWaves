@@ -9,9 +9,10 @@ import main.commands.Result;
 import java.util.List;
 
 public final class Select extends Command {
+
     private final int itemNumber;
 
-    public Select (final CommandInput input) {
+    public Select(final CommandInput input) {
         super(input);
         itemNumber = input.getItemNumber();
     }

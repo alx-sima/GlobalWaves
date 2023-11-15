@@ -1,6 +1,7 @@
 package fileio.input;
 
 public final class EpisodeInput {
+
     private String name;
     private Integer duration;
     private String description;

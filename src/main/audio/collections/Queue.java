@@ -3,31 +3,41 @@ package main.audio.collections;
 import main.audio.Searchable;
 import main.audio.files.AudioFile;
 
-public class Queue {
+public final class Queue {
 
     private final Searchable audio;
     private final int duration;
     private RepeatMode repeatMode = RepeatMode.NO_REPEAT;
     private int timePassed = 0;
 
-    public Queue(Searchable audio) {
+    public Queue(final Searchable audio) {
         this.audio = audio;
 
-        int duration = 0;
+        int queueLen = 0;
         for (AudioFile file : audio.getContents()) {
-            duration += file.getDuration();
+            queueLen += file.getDuration();
         }
-        this.duration = duration;
+        duration = queueLen;
     }
 
     public RepeatMode getRepeatMode() {
         return repeatMode;
     }
 
-    public void addTimeIncrement(int increment) {
+    /**
+     * Simulate the passing of `increment` seconds.
+     *
+     * @param increment The time duration that passed.
+     */
+    public void addTimeIncrement(final int increment) {
         timePassed += increment;
     }
 
+    /**
+     * Switch to the next repeat mode, based on the type of the queue that is playing.
+     *
+     * @return The updated repeat mode.
+     */
     public RepeatMode changeRepeatMode() {
         repeatMode = audio.nextRepeatMode(repeatMode);
         return repeatMode;

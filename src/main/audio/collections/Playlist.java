@@ -1,12 +1,10 @@
 package main.audio.collections;
 
+import java.util.ArrayList;
+import java.util.List;
 import main.User;
 import main.audio.Searchable;
 import main.audio.files.AudioFile;
-
-import java.util.ArrayList;
-import java.util.List;
-import main.audio.files.Song;
 
 public final class Playlist implements Searchable {
 
@@ -40,7 +38,7 @@ public final class Playlist implements Searchable {
     }
 
     @Override
-    public AudioFile getSongAt(int timePassed) {
+    public AudioFile getSongAt(final int timePassed) {
         int duration = 0;
 
         for (AudioFile file : files) {
@@ -54,7 +52,7 @@ public final class Playlist implements Searchable {
     }
 
     @Override
-    public RepeatMode nextRepeatMode(RepeatMode mode) {
+    public RepeatMode nextRepeatMode(final RepeatMode mode) {
         return switch (mode) {
             case NO_REPEAT -> RepeatMode.REPEAT_ALL;
             case REPEAT_ALL -> RepeatMode.REPEAT_CURRENT;

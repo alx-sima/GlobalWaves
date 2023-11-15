@@ -9,6 +9,7 @@ import main.commands.search.Search;
 import main.commands.search.Select;
 
 public final class CommandInput {
+
     private String command;
     private String username;
     private int timestamp;

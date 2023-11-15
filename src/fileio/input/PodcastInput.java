@@ -3,6 +3,7 @@ package fileio.input;
 import java.util.ArrayList;
 
 public final class PodcastInput {
+
     private String name;
     private String owner;
     private ArrayList<EpisodeInput> episodes;

@@ -9,7 +9,7 @@ import main.commands.Result;
 
 public final class Repeat extends Command {
 
-    public Repeat(CommandInput input) {
+    public Repeat(final CommandInput input) {
         super(input);
     }
 

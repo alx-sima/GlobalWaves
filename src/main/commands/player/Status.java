@@ -1,11 +1,12 @@
 package main.commands.player;
 
 import fileio.input.CommandInput;
+import fileio.output.StatusResult;
 import main.Program;
 import main.audio.Player;
 import main.audio.PlayerStatus;
 import main.commands.Command;
-import main.commands.Result;
+import fileio.output.CommandResult;
 
 public final class Status extends Command {
 
@@ -14,9 +15,9 @@ public final class Status extends Command {
     }
 
     @Override
-    public Result execute() {
+    public CommandResult execute() {
         Program instance = Program.getInstance();
         Player player = instance.getPlayer();
-        return new Result(this, new PlayerStatus(player, getTimestamp()));
+        return new StatusResult(this, new PlayerStatus(player, getTimestamp()));
     }
 }

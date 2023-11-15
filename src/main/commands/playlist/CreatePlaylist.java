@@ -1,12 +1,13 @@
 package main.commands.playlist;
 
 import fileio.input.CommandInput;
+import fileio.output.MessageResult;
 import main.Program;
 import main.User;
 import main.commands.Command;
-import main.commands.Result;
+import fileio.output.CommandResult;
 
-public class CreatePlaylist extends Command {
+public final class CreatePlaylist extends Command {
 
     private final String playListName;
 
@@ -16,13 +17,13 @@ public class CreatePlaylist extends Command {
     }
 
     @Override
-    public Result execute() {
+    public CommandResult execute() {
         Program instance = Program.getInstance();
 
         User owner = instance.getUsers().get(getUser());
         if (owner.createPlaylist(playListName)) {
-            return new Result(this, "Playlist created successfully.");
+            return new MessageResult(this, "Playlist created successfully.");
         }
-        return new Result(this, "Eroare");
+        return new MessageResult(this, "Eroare");
     }
 }

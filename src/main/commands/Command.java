@@ -1,6 +1,7 @@
 package main.commands;
 
 import fileio.input.CommandInput;
+import fileio.output.CommandResult;
 
 public abstract class Command {
 
@@ -52,5 +53,5 @@ public abstract class Command {
      *
      * @return The result of the execution.
      */
-    public abstract Result execute();
+    public abstract CommandResult execute();
 }

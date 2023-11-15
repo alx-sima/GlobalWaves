@@ -1,10 +1,11 @@
 package main.commands.player;
 
 import fileio.input.CommandInput;
+import fileio.output.MessageResult;
 import main.Program;
 import main.audio.Player;
 import main.commands.Command;
-import main.commands.Result;
+import fileio.output.CommandResult;
 
 public final class Shuffle extends Command {
 
@@ -16,12 +17,13 @@ public final class Shuffle extends Command {
     }
 
     @Override
-    public Result execute() {
+    public CommandResult execute() {
         Program instance = Program.getInstance();
         Player player = instance.getPlayer();
 
         if (player == null) {
-            return new Result(this, "Please load a source before using the shuffle function.");
+            return new MessageResult(this,
+                "Please load a source before using the shuffle function.");
         }
 
 //        if (player.getQueue().size() == 1) {
@@ -32,6 +34,6 @@ public final class Shuffle extends Command {
 //            player.setShuffleSeed(seed);
 //            return new Result(this, "Shuffle function activated successfully");
 //        }
-        return new Result(this, "Shuffle function deactivated successfully.");
+        return new MessageResult(this, "Shuffle function deactivated successfully.");
     }
 }

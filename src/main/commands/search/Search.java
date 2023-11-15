@@ -1,11 +1,12 @@
 package main.commands.search;
 
 import fileio.input.CommandInput;
+import fileio.output.CommandResult;
 import main.Program;
 import main.User;
 import main.audio.Searchable;
 import main.commands.Command;
-import main.commands.Result;
+import fileio.output.SearchResult;
 import main.commands.search.filters.ComplexFilter;
 import main.commands.search.filters.Filter;
 import main.commands.search.filters.SimpleFilter;
@@ -63,7 +64,7 @@ public final class Search extends Command {
     }
 
     @Override
-    public Result execute() {
+    public CommandResult execute() {
         Program program = Program.getInstance();
 
         Stream<? extends Searchable> searchPlace;
@@ -88,6 +89,6 @@ public final class Search extends Command {
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
 
-        return new Result(this, "Search returned " + result.size() + " results", result);
+        return new SearchResult(this, "Search returned " + result.size() + " results", result);
     }
 }

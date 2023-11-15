@@ -1,10 +1,11 @@
 package main.commands.player;
 
 import fileio.input.CommandInput;
+import fileio.output.MessageResult;
 import main.Program;
 import main.audio.Player;
 import main.commands.Command;
-import main.commands.Result;
+import fileio.output.CommandResult;
 
 public final class PlayPause extends Command {
 
@@ -13,7 +14,7 @@ public final class PlayPause extends Command {
     }
 
     @Override
-    public Result execute() {
+    public CommandResult execute() {
         Program instance = Program.getInstance();
         Player player = instance.getPlayer();
 
@@ -23,8 +24,8 @@ public final class PlayPause extends Command {
 //        }
 
         if (player.togglePaused(getTimestamp())) {
-            return new Result(this, "Playback paused successfully.");
+            return new MessageResult(this, "Playback paused successfully.");
         }
-        return new Result(this, "Playback resumed successfully.");
+        return new MessageResult(this, "Playback resumed successfully.");
     }
 }

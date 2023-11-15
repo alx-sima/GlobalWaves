@@ -26,6 +26,10 @@ public final class User {
         return username;
     }
 
+    public List<AudioFile> getLikedSongs() {
+        return likedSongs;
+    }
+
     public List<Playlist> getPlaylists() {
         return playlists;
     }
@@ -61,7 +65,7 @@ public final class User {
      * @param file The file to be added/removed.
      * @return true if `file` wasn't liked before.
      */
-    public boolean like(AudioFile file) {
+    public boolean like(final AudioFile file) {
         if (likedSongs.remove(file)) {
             return false;
         }
@@ -71,7 +75,6 @@ public final class User {
     }
 
     /**
-     *
      * @param song
      * @param playlistId
      * @return true if the song was added after the operation.

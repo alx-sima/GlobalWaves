@@ -9,6 +9,7 @@ import main.commands.player.Shuffle;
 import main.commands.player.Status;
 import main.commands.playlist.Like;
 import main.commands.playlist.ShowPlaylists;
+import main.commands.playlist.ShowPreferredSongs;
 import main.commands.search.Search;
 import main.commands.search.Select;
 
@@ -117,6 +118,7 @@ public final class CommandInput {
             case "createPlaylist" -> new CreatePlaylist(this);
             case "like" -> new Like(this);
             case "showPlaylists" -> new ShowPlaylists(this);
+            case "showPreferredSongs" -> new ShowPreferredSongs(this);
             default -> null;
         };
     }

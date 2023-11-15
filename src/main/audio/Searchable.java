@@ -33,4 +33,6 @@ public interface Searchable {
     RepeatMode nextRepeatMode(RepeatMode mode);
 
     AudioFile getSongAt(int timePassed);
+
+    void accept(SearchableVisitor visitor);
 }

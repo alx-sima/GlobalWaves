@@ -4,6 +4,7 @@ import fileio.input.SongInput;
 import main.audio.Searchable;
 
 import java.util.List;
+import main.audio.SearchableVisitor;
 import main.audio.collections.RepeatMode;
 
 public final class Song extends AudioFile implements Searchable {
@@ -66,5 +67,10 @@ public final class Song extends AudioFile implements Searchable {
             case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
             default -> null;
         };
+    }
+
+    @Override
+    public void accept(SearchableVisitor visitor) {
+        visitor.visit(this);
     }
 }

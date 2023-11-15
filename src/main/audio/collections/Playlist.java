@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import main.User;
 import main.audio.Searchable;
+import main.audio.SearchableVisitor;
 import main.audio.files.AudioFile;
 
 public final class Playlist implements Searchable {
@@ -59,5 +60,10 @@ public final class Playlist implements Searchable {
             case REPEAT_CURRENT -> RepeatMode.NO_REPEAT;
             default -> null;
         };
+    }
+
+    @Override
+    public void accept(SearchableVisitor visitor) {
+        visitor.visit(this);
     }
 }

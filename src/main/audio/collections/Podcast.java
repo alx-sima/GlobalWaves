@@ -3,6 +3,7 @@ package main.audio.collections;
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import main.audio.Searchable;
+import main.audio.SearchableVisitor;
 import main.audio.files.AudioFile;
 import main.audio.files.Episode;
 
@@ -73,5 +74,10 @@ public final class Podcast implements Searchable {
             case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
             default -> null;
         };
+    }
+
+    @Override
+    public void accept(SearchableVisitor visitor) {
+        visitor.visit(this);
     }
 }

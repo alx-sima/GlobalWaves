@@ -6,6 +6,7 @@ import main.commands.player.Load;
 import main.commands.player.PlayPause;
 import main.commands.player.Shuffle;
 import main.commands.player.Status;
+import main.commands.playlist.Like;
 import main.commands.playlist.ShowPlaylists;
 import main.commands.search.Search;
 import main.commands.search.Select;
@@ -112,6 +113,7 @@ public final class CommandInput {
             case "shuffle" -> new Shuffle(this);
             case "status" -> new Status(this);
             case "createPlaylist" -> new CreatePlaylist(this);
+            case "like" ->new Like(this);
             case "showPlaylists" -> new ShowPlaylists(this);
             default -> null;
         };

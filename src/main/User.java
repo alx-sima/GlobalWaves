@@ -5,6 +5,8 @@ import main.audio.collections.Playlist;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.audio.files.AudioFile;
+import main.audio.files.Song;
 
 public final class User {
 
@@ -12,6 +14,7 @@ public final class User {
     private final int age;
     private final String city;
     private final List<Playlist> playlists = new ArrayList<>();
+    private final List<AudioFile> likedSongs = new ArrayList<>();
 
     public User(final UserInput input) {
         username = input.getUsername();
@@ -49,6 +52,21 @@ public final class User {
         }
 
         playlists.add(new Playlist(playListName, this));
+        return true;
+    }
+
+    /**
+     * Add the `file` to the liked list of this user. If it was already liked, remove it instead.
+     *
+     * @param file The file to be added/removed.
+     * @return true if `file` wasn't liked before.
+     */
+    public boolean like(AudioFile file) {
+        if (likedSongs.remove(file)) {
+            return false;
+        }
+
+        likedSongs.add(file);
         return true;
     }
 }

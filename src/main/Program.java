@@ -7,6 +7,9 @@ import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 import fileio.input.PodcastInput;
 import fileio.input.UserInput;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Map;
 import main.audio.Player;
 import main.audio.Searchable;
 import main.audio.collections.Library;
@@ -20,7 +23,7 @@ import java.util.List;
 
 public final class Program {
     private static Program instance = null;
-    private List<User> users = new ArrayList<>();
+    private Map<String, User> users = new HashMap<>();
     private List<Podcast> podcasts = new ArrayList<>();
     private Library library;
     private List<Searchable> searchResults;
@@ -52,11 +55,11 @@ public final class Program {
         this.player = player;
     }
 
-    public List<User> getUsers() {
+    public Map<String, User> getUsers() {
         return users;
     }
 
-    public void setUsers(final List<User> users) {
+    public void setUsers(final Map<String,User> users) {
         this.users = users;
     }
 
@@ -108,7 +111,8 @@ public final class Program {
             podcasts.add(new Podcast(podcastInput));
         }
         for (UserInput userInput : libraryInput.getUsers()) {
-            users.add(new User(userInput));
+            User user = new User(userInput);
+            users.put(user.getUsername(), user);
         }
 
         List<CommandInput> commands = objectMapper.readValue(new File(inputFile),

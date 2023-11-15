@@ -2,6 +2,7 @@ package main.commands.search;
 
 import fileio.input.CommandInput;
 import main.Program;
+import main.User;
 import main.audio.Searchable;
 import main.commands.Command;
 import main.commands.Result;
@@ -73,13 +74,15 @@ public final class Search extends Command {
                 searchPlace = program.getPodcasts().stream();
                 break;
             case "playlist":
-                searchPlace = getCallee().getPlaylists().stream();
+                User user = program.getUsers().get(getUser());
+                searchPlace = user.getPlaylists().stream();
                 break;
             default:
                 return null;
         }
 
-        List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS).collect(Collectors.toList());
+        List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS)
+            .collect(Collectors.toList());
         program.setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();

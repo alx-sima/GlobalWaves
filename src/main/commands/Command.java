@@ -49,23 +49,6 @@ public abstract class Command {
     }
 
     /**
-     * Get the user that called this command.
-     *
-     * @return A refference to the user.
-     */
-    public User getCallee() {
-        Program instance = Program.getInstance();
-
-        for (User u : instance.getUsers()) {
-            if (u.getUsername().equals(user)) {
-                return u;
-            }
-        }
-
-        return null;
-    }
-
-    /**
      * Execute the command.
      *
      * @return The result of the execution.

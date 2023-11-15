@@ -1,14 +1,17 @@
 package main.commands;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import main.audio.PlayerStatus;
 
 import java.util.List;
+import main.audio.collections.Playlist;
 
-public final class Result extends Command {
+public class Result extends Command {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final String message;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private final List<String> results;
     @JsonInclude(JsonInclude.Include.NON_NULL)

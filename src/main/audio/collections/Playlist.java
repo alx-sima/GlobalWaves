@@ -11,7 +11,7 @@ public final class Playlist implements Searchable {
     private final String name;
     private final User user;
     private final boolean isPrivate = false;
-    private final List<AudioFile> files = new ArrayList<>();
+    private final List<AudioFile> songs = new ArrayList<>();
 
     public Playlist(final String name, final User user) {
         this.name = name;
@@ -25,7 +25,7 @@ public final class Playlist implements Searchable {
 
     @Override
     public List<AudioFile> getContents() {
-        return files;
+        return songs;
     }
 
     @Override
@@ -41,7 +41,7 @@ public final class Playlist implements Searchable {
     public AudioFile getSongAt(final int timePassed) {
         int duration = 0;
 
-        for (AudioFile file : files) {
+        for (AudioFile file : songs) {
             duration += file.getDuration();
             if (duration >= timePassed) {
                 return file;

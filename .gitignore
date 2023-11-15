@@ -31,3 +31,6 @@ bin/
 ### checker ###
 checkstyle.txt
 result/
+
+### other ###
+/*.zip

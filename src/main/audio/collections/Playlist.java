@@ -6,8 +6,10 @@ import main.audio.files.AudioFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.audio.files.Song;
 
 public final class Playlist implements Searchable {
+
     private final String name;
     private final User user;
     private final boolean isPrivate = false;
@@ -37,4 +39,27 @@ public final class Playlist implements Searchable {
         };
     }
 
+    @Override
+    public AudioFile getSongAt(int timePassed) {
+        int duration = 0;
+
+        for (AudioFile file : files) {
+            duration += file.getDuration();
+            if (duration >= timePassed) {
+                return file;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public RepeatMode nextRepeatMode(RepeatMode mode) {
+        return switch (mode) {
+            case NO_REPEAT -> RepeatMode.REPEAT_ALL;
+            case REPEAT_ALL -> RepeatMode.REPEAT_CURRENT;
+            case REPEAT_CURRENT -> RepeatMode.NO_REPEAT;
+            default -> null;
+        };
+    }
 }

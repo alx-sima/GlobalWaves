@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public final class Podcast implements Searchable {
+
     private final String name;
     private final String owner;
     private final List<Episode> episodes;
@@ -47,6 +48,30 @@ public final class Podcast implements Searchable {
             case "name" -> name.startsWith(parameter);
             case "owner" -> owner.equals(parameter);
             default -> false;
+        };
+    }
+
+    @Override
+    public AudioFile getSongAt(int timePassed) {
+        int duration = 0;
+
+        for (Episode episode : episodes) {
+            duration += episode.getDuration();
+            if (duration >= timePassed) {
+                return episode;
+            }
+        }
+
+        return null;
+    }
+
+    @Override
+    public RepeatMode nextRepeatMode(RepeatMode mode) {
+        return switch (mode) {
+            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
+            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
+            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
+            default -> null;
         };
     }
 }

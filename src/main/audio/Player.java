@@ -1,59 +1,28 @@
 package main.audio;
 
+import main.audio.collections.Queue;
 import main.audio.files.AudioFile;
 
-import java.util.List;
-
 public final class Player {
-    private final List<AudioFile> queue;
-    private final int duration;
-    private final int repeat = 0;
+
+    private final Queue queue;
     private boolean isPaused;
-    private boolean isShuffled;
-    private int shuffleSeed;
-    /**
-     * Time the current playlist has been playing.
-     */
-    private int elapsedTime = 0;
     /**
      * The timestamp when the playlist has been un-paused.
      */
     private int lastUpdate;
 
-    public Player(final List<AudioFile> queue, final int lastUpdate) {
+    public Player(final Queue queue, final int lastUpdate) {
         this.queue = queue;
         this.lastUpdate = lastUpdate;
-        duration = queue.stream().mapToInt(AudioFile::getDuration).sum();
     }
 
-    public int getRepeat() {
-        return repeat;
-    }
-
-    public List<AudioFile> getQueue() {
+    public Queue getQueue() {
         return queue;
     }
 
     public boolean isPaused() {
         return isPaused;
-    }
-
-    public boolean isShuffled() {
-        return isShuffled;
-    }
-
-    /**
-     * Toggle the shuffled state of the player.
-     *
-     * @return The new state of shuffling.
-     */
-    public boolean toggleShuffled() {
-        isShuffled = !isShuffled;
-        return isShuffled;
-    }
-
-    public void setShuffleSeed(int shuffleSeed) {
-        this.shuffleSeed = shuffleSeed;
     }
 
     /**
@@ -63,7 +32,7 @@ public final class Player {
      */
     public void updateTime(final int timestamp) {
         if (!isPaused) {
-            elapsedTime += (timestamp - lastUpdate);
+            queue.addTimeIncrement(timestamp - lastUpdate);
             lastUpdate = timestamp;
         }
     }
@@ -91,16 +60,7 @@ public final class Player {
      */
     public AudioFile getPlayingAt(final int timestamp) {
         updateTime(timestamp);
-
-        int queueDuration = 0;
-        for (AudioFile audio : queue) {
-            queueDuration += audio.getDuration();
-            if (queueDuration > elapsedTime) {
-                return audio;
-            }
-        }
-
-        return null;
+        return queue.getPlayingSong();
     }
 
     /**
@@ -111,7 +71,6 @@ public final class Player {
      */
     public int remainingTimeAt(final int timestamp) {
         updateTime(timestamp);
-
-        return duration - elapsedTime;
+        return queue.getRemainingTime();
     }
 }

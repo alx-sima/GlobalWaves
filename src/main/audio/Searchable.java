@@ -1,5 +1,6 @@
 package main.audio;
 
+import main.audio.collections.RepeatMode;
 import main.audio.files.AudioFile;
 
 import java.util.List;
@@ -27,4 +28,8 @@ public interface Searchable {
      * @return The name.
      */
     String getName();
+
+    RepeatMode nextRepeatMode(RepeatMode mode);
+
+    AudioFile getSongAt(int timePassed);
 }

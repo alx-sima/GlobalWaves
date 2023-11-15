@@ -3,6 +3,7 @@ package main.audio;
 import main.audio.files.AudioFile;
 
 public final class PlayerStatus {
+
     private final String name;
     private final int remainedTime;
     private final String repeat;
@@ -14,22 +15,15 @@ public final class PlayerStatus {
         if (nowPlaying != null) {
             name = nowPlaying.getName();
             remainedTime = player.remainingTimeAt(timestamp);
-            switch (player.getRepeat()) {
-                case 0:
-                    repeat = "No Repeat";
-                    break;
-                default:
-                    repeat = "";
-            }
-            shuffle = player.isShuffled();
             paused = player.isPaused();
         } else {
             name = "";
             remainedTime = 0;
-            repeat = "No Repeat";
-            shuffle = false;
             paused = true;
         }
+
+        repeat = player.getQueue().getRepeatMode().toString();
+        shuffle = false;
     }
 
     public String getName() {

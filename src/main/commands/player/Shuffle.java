@@ -23,14 +23,14 @@ public final class Shuffle extends Command {
             return new Result(this, "Please load a source before using the shuffle function.");
         }
 
-        if (player.getQueue().size() == 1) {
-            return new Result(this, "The loaded source is not a playlist.");
-        }
+//        if (player.getQueue().size() == 1) {
+//            return new Result(this, "The loaded source is not a playlist.");
+//        }
 
-        if (player.toggleShuffled()) {
-            player.setShuffleSeed(seed);
-            return new Result(this, "Shuffle function activated successfully");
-        }
+//        if (player.toggleShuffled()) {
+//            player.setShuffleSeed(seed);
+//            return new Result(this, "Shuffle function activated successfully");
+//        }
         return new Result(this, "Shuffle function deactivated successfully.");
     }
 }

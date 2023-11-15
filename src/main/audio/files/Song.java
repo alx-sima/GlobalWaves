@@ -4,8 +4,10 @@ import fileio.input.SongInput;
 import main.audio.Searchable;
 
 import java.util.List;
+import main.audio.collections.RepeatMode;
 
 public final class Song extends AudioFile implements Searchable {
+
     private final String album;
     private final List<String> tags;
     private final String lyrics;
@@ -45,6 +47,24 @@ public final class Song extends AudioFile implements Searchable {
             }
             case "artist" -> artist.equals(parameter);
             default -> false;
+        };
+    }
+
+    @Override
+    public AudioFile getSongAt(int timePassed) {
+        if (timePassed <= getDuration()) {
+            return this;
+        }
+        return null;
+    }
+
+    @Override
+    public RepeatMode nextRepeatMode(RepeatMode mode) {
+        return switch (mode) {
+            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
+            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
+            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
+            default -> null;
         };
     }
 }

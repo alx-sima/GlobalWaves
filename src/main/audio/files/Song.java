@@ -4,6 +4,7 @@ import fileio.input.SongInput;
 import java.util.List;
 import main.audio.Searchable;
 import main.audio.collections.Playable;
+import main.audio.collections.RepeatMode;
 import main.audio.collections.SongQueue;
 
 public final class Song extends AudioFile implements Searchable {
@@ -62,7 +63,12 @@ public final class Song extends AudioFile implements Searchable {
 
     @Override
     public Playable createPlayable() {
-        return new SongQueue(List.of(this));
+        return new SongQueue(List.of(this), (repeatMode) -> switch (repeatMode) {
+            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
+            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
+            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
+            default -> null;
+        });
     }
 
 }

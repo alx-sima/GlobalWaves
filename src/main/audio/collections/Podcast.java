@@ -14,7 +14,7 @@ public final class Podcast extends Playable implements Searchable {
     private final String name;
     private final String owner;
     private final List<Episode> episodes;
-    private int currentEpisode = 0;
+    private int episodeIndex = 0;
 
     public Podcast(final PodcastInput input) {
         name = input.getName();
@@ -66,12 +66,24 @@ public final class Podcast extends Playable implements Searchable {
 
     @Override
     protected AudioFile getNext() {
-        currentEpisode++;
-        if (currentEpisode >= episodes.size()) {
-            return null;
+        switch (repeatMode) {
+            case REPEAT_INFINITE -> {
+                return episodes.get(episodeIndex);
+            }
+            case REPEAT_ONCE -> {
+                repeatMode = RepeatMode.NO_REPEAT;
+                return episodes.get(episodeIndex);
+            }
         }
 
-        return episodes.get(currentEpisode);
+        episodeIndex++;
+        if (episodeIndex >= episodes.size()) {
+            if (repeatMode == RepeatMode.NO_REPEAT) {
+                return null;
+            }
+        }
+
+        return episodes.get(episodeIndex);
     }
 
     @Override

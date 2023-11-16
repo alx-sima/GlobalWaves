@@ -1,5 +1,9 @@
 package main.audio.collections;
 
+import static main.audio.collections.RepeatMode.NO_REPEAT;
+import static main.audio.collections.RepeatMode.REPEAT_ALL;
+import static main.audio.collections.RepeatMode.REPEAT_CURRENT;
+
 import java.util.ArrayList;
 import java.util.List;
 import main.User;
@@ -39,7 +43,12 @@ public final class Playlist implements Searchable {
 
     @Override
     public Playable createPlayable() {
-        return new SongQueue(songs);
+        return new SongQueue(songs, (repeatMode) -> switch (repeatMode) {
+            case NO_REPEAT -> REPEAT_ALL;
+            case REPEAT_ALL -> REPEAT_CURRENT;
+            case REPEAT_CURRENT -> NO_REPEAT;
+            default -> null;
+        });
     }
 
     @Override

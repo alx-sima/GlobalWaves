@@ -2,16 +2,19 @@ package main.audio.collections;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Function;
 import main.audio.files.AudioFile;
 import main.audio.files.Song;
 
 public final class SongQueue extends Playable {
 
     private final List<Song> audios;
+    private final Function<RepeatMode, RepeatMode> repeatModeToggle;
     private int songIndex = 0;
 
-    public SongQueue(List<Song> songs) {
+    public SongQueue(List<Song> songs, Function<RepeatMode, RepeatMode> repeatModeToggle) {
         this.audios = new ArrayList<>(songs);
+        this.repeatModeToggle = repeatModeToggle;
         currentlyPlaying = audios.get(0);
     }
 
@@ -22,19 +25,30 @@ public final class SongQueue extends Playable {
      */
     @Override
     public RepeatMode changeRepeatMode() {
-        return switch (repeatMode) {
-            case NO_REPEAT -> RepeatMode.REPEAT_ALL;
-            case REPEAT_ALL -> RepeatMode.REPEAT_CURRENT;
-            case REPEAT_CURRENT -> RepeatMode.NO_REPEAT;
-            default -> null;
-        };
+        repeatMode = repeatModeToggle.apply(repeatMode);
+        return repeatMode;
     }
 
     @Override
     protected AudioFile getNext() {
+        switch (repeatMode) {
+            case REPEAT_CURRENT, REPEAT_INFINITE -> {
+                return audios.get(songIndex);
+            }
+            case REPEAT_ONCE -> {
+                repeatMode = RepeatMode.NO_REPEAT;
+                return audios.get(songIndex);
+            }
+        }
+
         songIndex++;
         if (songIndex >= audios.size()) {
-            return null;
+            switch (repeatMode) {
+                case NO_REPEAT -> {
+                    return null;
+                }
+                case REPEAT_ALL -> songIndex = 0;
+            }
         }
 
         return audios.get(songIndex);

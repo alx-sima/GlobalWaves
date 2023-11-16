@@ -8,7 +8,7 @@ public enum RepeatMode {
         return switch (this) {
             case NO_REPEAT -> "No Repeat";
             case REPEAT_ALL -> "Repeat All";
-            case REPEAT_CURRENT -> "Repeat Current";
+            case REPEAT_CURRENT -> "Repeat Current Song";
             case REPEAT_ONCE -> "Repeat Once";
             case REPEAT_INFINITE -> "Repeat Infinite";
         };

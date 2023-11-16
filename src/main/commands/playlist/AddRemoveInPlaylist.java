@@ -6,12 +6,12 @@ import fileio.output.MessageResult;
 import main.Program;
 import main.User;
 import main.audio.Player;
-import main.audio.CurrentSongVisitor;
-import main.audio.collections.Queue;
+import main.audio.collections.Playable;
+import main.audio.collections.SongVisitor;
 import main.audio.files.Song;
 import main.commands.Command;
 
-public class AddRemoveInPlaylist extends Command {
+public final class AddRemoveInPlaylist extends Command {
 
     private final int playlistId;
 
@@ -29,12 +29,12 @@ public class AddRemoveInPlaylist extends Command {
             return new MessageResult(this,
                 "Please load a source before adding to or removing from the playlist.");
         }
-        Queue queue = player.getQueue();
+        Playable queue = player.getQueue();
 
-        CurrentSongVisitor visitor = new CurrentSongVisitor();
-        queue.getAudio().accept(visitor);
+        SongVisitor visitor = new SongVisitor();
+        queue.accept(visitor);
 
-        Song currentSong = visitor.getPlayingSong();
+        Song currentSong = visitor.getCurrentSong();
         if (currentSong == null) {
             return new MessageResult(this, "The loaded source is not a song.");
         }

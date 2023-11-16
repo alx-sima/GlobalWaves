@@ -3,18 +3,18 @@ package main.audio.collections;
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import main.audio.Searchable;
-import main.audio.SearchableVisitor;
 import main.audio.files.AudioFile;
 import main.audio.files.Episode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Podcast implements Searchable {
+public final class Podcast extends Playable implements Searchable {
 
     private final String name;
     private final String owner;
     private final List<Episode> episodes;
+    private int currentEpisode = 0;
 
     public Podcast(final PodcastInput input) {
         name = input.getName();
@@ -26,7 +26,8 @@ public final class Podcast implements Searchable {
             episodeList.add(episode);
         }
 
-        this.episodes = episodeList;
+        episodes = episodeList;
+        currentlyPlaying = episodes.get(0);
     }
 
     @Override
@@ -34,13 +35,14 @@ public final class Podcast implements Searchable {
         return name;
     }
 
-    public List<Episode> getEpisodes() {
-        return episodes;
-    }
-
     @Override
     public List<AudioFile> getContents() {
         return List.copyOf(episodes);
+    }
+
+    @Override
+    public Playable createPlayable() {
+        return this;
     }
 
     @Override
@@ -53,22 +55,8 @@ public final class Podcast implements Searchable {
     }
 
     @Override
-    public AudioFile getSongAt(final int timePassed) {
-        int duration = 0;
-
-        for (Episode episode : episodes) {
-            duration += episode.getDuration();
-            if (duration >= timePassed) {
-                return episode;
-            }
-        }
-
-        return null;
-    }
-
-    @Override
-    public RepeatMode nextRepeatMode(final RepeatMode mode) {
-        return switch (mode) {
+    public RepeatMode changeRepeatMode() {
+        return switch (repeatMode) {
             case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
             case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
             case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
@@ -77,7 +65,18 @@ public final class Podcast implements Searchable {
     }
 
     @Override
-    public void accept(SearchableVisitor visitor) {
+    protected AudioFile getNext() {
+        currentEpisode++;
+        if (currentEpisode >= episodes.size()) {
+            return null;
+        }
+
+        return episodes.get(currentEpisode);
+    }
+
+    @Override
+    public void accept(PlayableVisitor visitor) {
         visitor.visit(this);
     }
+
 }

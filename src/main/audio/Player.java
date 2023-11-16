@@ -1,23 +1,23 @@
 package main.audio;
 
-import main.audio.collections.Queue;
+import main.audio.collections.Playable;
 import main.audio.files.AudioFile;
 
 public final class Player {
 
-    private final Queue queue;
+    private final Playable queue;
     private boolean isPaused;
     /**
      * The timestamp when the playlist has been un-paused.
      */
     private int lastUpdate;
 
-    public Player(final Queue queue, final int lastUpdate) {
+    public Player(final Playable queue, final int lastUpdate) {
         this.queue = queue;
         this.lastUpdate = lastUpdate;
     }
 
-    public Queue getQueue() {
+    public Playable getQueue() {
         return queue;
     }
 
@@ -60,7 +60,7 @@ public final class Player {
      */
     public AudioFile getPlayingAt(final int timestamp) {
         updateTime(timestamp);
-        return queue.getPlayingSong();
+        return queue.getCurrentlyPlaying();
     }
 
     /**

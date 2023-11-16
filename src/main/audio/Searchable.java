@@ -1,10 +1,9 @@
 package main.audio;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import main.audio.collections.RepeatMode;
-import main.audio.files.AudioFile;
-
 import java.util.List;
+import main.audio.collections.Playable;
+import main.audio.files.AudioFile;
 
 public interface Searchable {
 
@@ -25,16 +24,12 @@ public interface Searchable {
     @JsonIgnore
     List<? extends AudioFile> getContents();
 
+    Playable createPlayable();
+
     /**
      * Get the name of the file.
      *
      * @return The name.
      */
     String getName();
-
-    RepeatMode nextRepeatMode(RepeatMode mode);
-
-    AudioFile getSongAt(int timePassed);
-
-    void accept(SearchableVisitor visitor);
 }

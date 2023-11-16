@@ -4,6 +4,7 @@ import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import main.Program;
 import main.User;
+import main.audio.Player;
 import main.audio.Searchable;
 import main.commands.Command;
 import fileio.output.SearchResult;
@@ -88,6 +89,10 @@ public final class Search extends Command {
         instance.setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
+        Player player = instance.getPlayer();
+        if (player != null) {
+            player.updateTime(getTimestamp());
+        }
         instance.setPlayer(null);
 
         return new SearchResult(this, "Search returned " + result.size() + " results", result);

@@ -1,11 +1,10 @@
 package main.audio.files;
 
 import fileio.input.SongInput;
-import main.audio.Searchable;
-
 import java.util.List;
-import main.audio.SearchableVisitor;
-import main.audio.collections.RepeatMode;
+import main.audio.Searchable;
+import main.audio.collections.Playable;
+import main.audio.collections.SongQueue;
 
 public final class Song extends AudioFile implements Searchable {
 
@@ -62,25 +61,8 @@ public final class Song extends AudioFile implements Searchable {
     }
 
     @Override
-    public AudioFile getSongAt(final int timePassed) {
-        if (timePassed <= getDuration()) {
-            return this;
-        }
-        return null;
+    public Playable createPlayable() {
+        return new SongQueue(List.of(this));
     }
 
-    @Override
-    public RepeatMode nextRepeatMode(final RepeatMode mode) {
-        return switch (mode) {
-            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
-            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
-            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
-            default -> null;
-        };
-    }
-
-    @Override
-    public void accept(SearchableVisitor visitor) {
-        visitor.visit(this);
-    }
 }

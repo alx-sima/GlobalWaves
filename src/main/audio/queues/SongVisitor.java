@@ -1,8 +1,9 @@
-package main.audio.collections;
+package main.audio.queues;
 
+import main.audio.collections.Podcast;
 import main.audio.files.Song;
 
-public final class SongVisitor implements PlayableVisitor {
+public final class SongVisitor implements QueueVisitor {
 
     private Song currentSong = null;
 

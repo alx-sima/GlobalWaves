@@ -1,7 +1,7 @@
 package fileio.output;
 
 import java.util.List;
-import main.commands.Command;
+import main.program.commands.Command;
 
 public final class SearchResult extends MessageResult {
 

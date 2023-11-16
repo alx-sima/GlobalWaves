@@ -1,15 +1,14 @@
-package main.commands.playlist;
+package main.program.commands.playlist;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
-import main.Program;
-import main.User;
-import main.audio.Player;
-import main.audio.collections.Playable;
-import main.audio.collections.SongVisitor;
 import main.audio.files.Song;
-import main.commands.Command;
+import main.audio.queues.Queue;
+import main.audio.queues.SongVisitor;
+import main.program.Program;
+import main.program.User;
+import main.program.commands.Command;
 
 public final class Like extends Command {
 
@@ -21,11 +20,12 @@ public final class Like extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         User user = instance.getUsers().get(getUser());
-        Player player = instance.getPlayer();
-        if (player == null) {
+        Queue queue = instance.getPlayer().getQueue();
+
+        if (queue == null) {
             return new MessageResult(this, "Please load a source before liking or unliking.");
         }
-        Playable queue = player.getQueue();
+
         SongVisitor visitor = new SongVisitor();
         queue.accept(visitor);
 

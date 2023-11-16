@@ -1,6 +1,8 @@
-package main.audio.collections;
+package main.audio.queues;
 
-public interface PlayableVisitor {
+import main.audio.collections.Podcast;
+
+public interface QueueVisitor {
 
     /**
      * Visit a podcast.

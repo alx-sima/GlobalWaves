@@ -1,4 +1,4 @@
-package main;
+package main.program;
 
 import fileio.input.UserInput;
 import main.audio.collections.Playlist;

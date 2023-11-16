@@ -1,10 +1,10 @@
-package main.commands.player;
+package main.program.commands.player;
 
 import fileio.input.CommandInput;
 import fileio.output.MessageResult;
-import main.Program;
-import main.audio.Player;
-import main.commands.Command;
+import main.program.Program;
+import main.program.Player;
+import main.program.commands.Command;
 import fileio.output.CommandResult;
 
 public final class PlayPause extends Command {
@@ -17,11 +17,6 @@ public final class PlayPause extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         Player player = instance.getPlayer();
-
-//        if (player.getQueue().isEmpty()) {
-//            return new Result(this, "Please load a source before attempting to pause or resume "
-//              + "playback");
-//        }
 
         if (player.togglePaused(getTimestamp())) {
             return new MessageResult(this, "Playback paused successfully.");

@@ -1,18 +1,18 @@
 package fileio.input;
 
-import main.commands.Command;
-import main.commands.player.Repeat;
-import main.commands.playlist.AddRemoveInPlaylist;
-import main.commands.playlist.CreatePlaylist;
-import main.commands.player.Load;
-import main.commands.player.PlayPause;
-import main.commands.player.Shuffle;
-import main.commands.player.Status;
-import main.commands.playlist.Like;
-import main.commands.playlist.ShowPlaylists;
-import main.commands.playlist.ShowPreferredSongs;
-import main.commands.search.Search;
-import main.commands.search.Select;
+import main.program.commands.Command;
+import main.program.commands.player.Repeat;
+import main.program.commands.playlist.AddRemoveInPlaylist;
+import main.program.commands.playlist.CreatePlaylist;
+import main.program.commands.player.Load;
+import main.program.commands.player.PlayPause;
+import main.program.commands.player.Shuffle;
+import main.program.commands.player.Status;
+import main.program.commands.playlist.Like;
+import main.program.commands.playlist.ShowPlaylists;
+import main.program.commands.playlist.ShowPreferredSongs;
+import main.program.commands.search.Search;
+import main.program.commands.search.Select;
 
 public final class CommandInput {
 

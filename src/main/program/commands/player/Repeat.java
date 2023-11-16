@@ -1,12 +1,13 @@
-package main.commands.player;
+package main.program.commands.player;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
-import main.Program;
-import main.audio.Player;
+import main.audio.queues.Queue;
+import main.program.Program;
+import main.program.Player;
 import main.audio.collections.RepeatMode;
-import main.commands.Command;
+import main.program.commands.Command;
 
 public final class Repeat extends Command {
 
@@ -18,12 +19,15 @@ public final class Repeat extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         Player player = instance.getPlayer();
-        if (player == null) {
-            return new MessageResult(this, "Please load a source before setting the repeat status.");
+        Queue queue = player.getQueue();
+
+        if (queue == null) {
+            return new MessageResult(this,
+                "Please load a source before setting the repeat status.");
         }
 
         player.updateTime(getTimestamp());
-        RepeatMode newMode = player.getQueue().changeRepeatMode();
+        RepeatMode newMode = queue.changeRepeatMode();
         return new MessageResult(this,
             "Repeat mode changed to " + newMode.toString().toLowerCase() + ".");
     }

@@ -1,11 +1,11 @@
-package main.commands.player;
+package main.program.commands.player;
 
 import fileio.input.CommandInput;
 import fileio.output.StatusResult;
-import main.Program;
-import main.audio.Player;
-import main.audio.PlayerStatus;
-import main.commands.Command;
+import main.program.Program;
+import main.program.Player;
+import fileio.output.StatusOutput;
+import main.program.commands.Command;
 import fileio.output.CommandResult;
 
 public final class Status extends Command {
@@ -18,6 +18,6 @@ public final class Status extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         Player player = instance.getPlayer();
-        return new StatusResult(this, new PlayerStatus(player, getTimestamp()));
+        return new StatusResult(this, new StatusOutput(player, getTimestamp()));
     }
 }

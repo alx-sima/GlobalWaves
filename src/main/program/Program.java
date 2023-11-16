@@ -1,4 +1,4 @@
-package main;
+package main.program;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,11 +13,10 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import main.audio.Player;
 import main.audio.Searchable;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
-import main.commands.Command;
+import main.program.commands.Command;
 
 public final class Program {
 
@@ -27,7 +26,7 @@ public final class Program {
     private Library library;
     private List<Searchable> searchResults;
     private Searchable selectedResult = null;
-    private Player player = null;
+    private final Player player = new Player();
 
     private Program() {
     }
@@ -47,10 +46,6 @@ public final class Program {
 
     public Player getPlayer() {
         return player;
-    }
-
-    public void setPlayer(final Player player) {
-        this.player = player;
     }
 
     public Map<String, User> getUsers() {

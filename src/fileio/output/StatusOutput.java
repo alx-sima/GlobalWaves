@@ -1,9 +1,10 @@
-package main.audio;
+package fileio.output;
 
+import main.program.Player;
 import main.audio.collections.RepeatMode;
 import main.audio.files.AudioFile;
 
-public final class PlayerStatus {
+public final class StatusOutput {
 
     private final String name;
     private final int remainedTime;
@@ -11,7 +12,7 @@ public final class PlayerStatus {
     private final boolean shuffle;
     private final boolean paused;
 
-    public PlayerStatus(final Player player, final int timestamp) {
+    public StatusOutput(final Player player, final int timestamp) {
         // TODO: refactor
         if (player == null) {
             name = "";
@@ -30,7 +31,7 @@ public final class PlayerStatus {
                 paused = true;
             }
 
-            repeat = player.getQueue().getRepeatMode().toString();
+            repeat = player.getRepeatMode().toString();
         }
 
         shuffle = false;

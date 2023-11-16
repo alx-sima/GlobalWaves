@@ -1,10 +1,10 @@
-package main.commands.playlist;
+package main.program.commands.playlist;
 
 import fileio.input.CommandInput;
 import fileio.output.MessageResult;
-import main.Program;
-import main.User;
-import main.commands.Command;
+import main.program.Program;
+import main.program.User;
+import main.program.commands.Command;
 import fileio.output.CommandResult;
 
 public final class CreatePlaylist extends Command {
@@ -19,8 +19,8 @@ public final class CreatePlaylist extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-
         User owner = instance.getUsers().get(getUser());
+
         if (owner.createPlaylist(playListName)) {
             return new MessageResult(this, "Playlist created successfully.");
         }

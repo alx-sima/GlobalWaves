@@ -6,11 +6,13 @@ import static main.audio.collections.RepeatMode.REPEAT_CURRENT;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.User;
+import main.program.User;
 import main.audio.Searchable;
+import main.audio.queues.Queue;
+import main.audio.queues.SongQueue;
 import main.audio.files.Song;
 
-public final class Playlist implements Searchable {
+public final class Playlist implements Searchable, SongSource {
 
     private final String name;
     private final User user;
@@ -37,18 +39,8 @@ public final class Playlist implements Searchable {
     }
 
     @Override
-    public List<Song> getContents() {
-        return songs;
-    }
-
-    @Override
-    public Playable createPlayable() {
-        return new SongQueue(songs, (repeatMode) -> switch (repeatMode) {
-            case NO_REPEAT -> REPEAT_ALL;
-            case REPEAT_ALL -> REPEAT_CURRENT;
-            case REPEAT_CURRENT -> NO_REPEAT;
-            default -> null;
-        });
+    public Queue createQueue() {
+        return new SongQueue(this);
     }
 
     @Override
@@ -73,5 +65,31 @@ public final class Playlist implements Searchable {
 
         songs.add(song);
         return true;
+    }
+
+    @Override
+    public RepeatMode getNextRepeatMode(final RepeatMode repeatMode) {
+        return switch (repeatMode) {
+            case NO_REPEAT -> REPEAT_ALL;
+            case REPEAT_ALL -> REPEAT_CURRENT;
+            case REPEAT_CURRENT -> NO_REPEAT;
+            default -> null;
+        };
+    }
+
+    @Override
+    public Song get(final int index) {
+        if (index < songs.size()) {
+            return songs.get(index);
+        }
+
+        return null;
+    }
+
+    /**
+     * Get the names of the songs of the playlist.
+     */
+    public List<String> getSongNames() {
+        return songs.stream().map(Song::getName).toList();
     }
 }

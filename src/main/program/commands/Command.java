@@ -1,8 +1,11 @@
-package main.commands;
+package main.program.commands;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 
+/**
+ * A command that can be executed by a user, returning a result.
+ */
 public abstract class Command {
 
     private final String command;
@@ -23,8 +26,6 @@ public abstract class Command {
 
     /**
      * Get the command name.
-     *
-     * @return The command name.
      */
     public String getCommand() {
         return command;
@@ -32,8 +33,6 @@ public abstract class Command {
 
     /**
      * Get the user that executes the command.
-     *
-     * @return The username.
      */
     public String getUser() {
         return user;
@@ -41,8 +40,6 @@ public abstract class Command {
 
     /**
      * Get the timestamp when the command was executed.
-     *
-     * @return The timestamp.
      */
     public int getTimestamp() {
         return timestamp;

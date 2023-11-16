@@ -3,13 +3,15 @@ package main.audio.collections;
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import main.audio.Searchable;
+import main.audio.queues.Queue;
+import main.audio.queues.QueueVisitor;
 import main.audio.files.AudioFile;
 import main.audio.files.Episode;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public final class Podcast extends Playable implements Searchable {
+public final class Podcast extends Queue implements Searchable {
 
     private final String name;
     private final String owner;
@@ -36,12 +38,7 @@ public final class Podcast extends Playable implements Searchable {
     }
 
     @Override
-    public List<AudioFile> getContents() {
-        return List.copyOf(episodes);
-    }
-
-    @Override
-    public Playable createPlayable() {
+    public Queue createQueue() {
         return this;
     }
 
@@ -66,14 +63,11 @@ public final class Podcast extends Playable implements Searchable {
 
     @Override
     protected AudioFile getNext() {
-        switch (repeatMode) {
-            case REPEAT_INFINITE -> {
-                return episodes.get(episodeIndex);
-            }
-            case REPEAT_ONCE -> {
-                repeatMode = RepeatMode.NO_REPEAT;
-                return episodes.get(episodeIndex);
-            }
+        if (repeatMode == RepeatMode.REPEAT_INFINITE) {
+            return episodes.get(episodeIndex);
+        } else if (repeatMode == RepeatMode.REPEAT_ONCE) {
+            repeatMode = RepeatMode.NO_REPEAT;
+            return episodes.get(episodeIndex);
         }
 
         episodeIndex++;
@@ -87,7 +81,7 @@ public final class Podcast extends Playable implements Searchable {
     }
 
     @Override
-    public void accept(PlayableVisitor visitor) {
+    public void accept(final QueueVisitor visitor) {
         visitor.visit(this);
     }
 

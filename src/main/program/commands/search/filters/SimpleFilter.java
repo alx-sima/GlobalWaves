@@ -1,4 +1,4 @@
-package main.commands.search.filters;
+package main.program.commands.search.filters;
 
 import main.audio.Searchable;
 

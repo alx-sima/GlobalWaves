@@ -1,16 +1,16 @@
-package main.commands.search;
+package main.program.commands.search;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
-import main.Program;
-import main.User;
-import main.audio.Player;
+import main.program.Program;
+import main.program.User;
+import main.program.Player;
 import main.audio.Searchable;
-import main.commands.Command;
+import main.program.commands.Command;
 import fileio.output.SearchResult;
-import main.commands.search.filters.ComplexFilter;
-import main.commands.search.filters.Filter;
-import main.commands.search.filters.SimpleFilter;
+import main.program.commands.search.filters.ComplexFilter;
+import main.program.commands.search.filters.Filter;
+import main.program.commands.search.filters.SimpleFilter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +93,7 @@ public final class Search extends Command {
         if (player != null) {
             player.updateTime(getTimestamp());
         }
-        instance.setPlayer(null);
+        instance.getPlayer().clearQueue();
 
         return new SearchResult(this, "Search returned " + result.size() + " results", result);
     }

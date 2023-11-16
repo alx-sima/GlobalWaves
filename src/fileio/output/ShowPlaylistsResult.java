@@ -2,7 +2,7 @@ package fileio.output;
 
 import java.util.List;
 import main.audio.collections.Playlist;
-import main.commands.Command;
+import main.program.commands.Command;
 
 public final class ShowPlaylistsResult extends CommandResult {
 

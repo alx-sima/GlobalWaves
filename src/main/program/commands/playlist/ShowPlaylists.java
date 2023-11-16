@@ -1,10 +1,10 @@
-package main.commands.playlist;
+package main.program.commands.playlist;
 
 import fileio.input.CommandInput;
 import fileio.output.ShowPlaylistsResult;
-import main.Program;
-import main.User;
-import main.commands.Command;
+import main.program.Program;
+import main.program.User;
+import main.program.commands.Command;
 import fileio.output.CommandResult;
 
 

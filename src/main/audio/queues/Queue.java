@@ -1,8 +1,9 @@
-package main.audio.collections;
+package main.audio.queues;
 
+import main.audio.collections.RepeatMode;
 import main.audio.files.AudioFile;
 
-public abstract class Playable {
+public abstract class Queue {
 
     protected RepeatMode repeatMode = RepeatMode.NO_REPEAT;
     protected AudioFile currentlyPlaying = null;
@@ -38,10 +39,18 @@ public abstract class Playable {
         }
     }
 
+    /**
+     * Get the currently playing file.
+     */
     public AudioFile getCurrentlyPlaying() {
         return currentlyPlaying;
     }
 
+    /**
+     * Get the repeating mode of the queue.
+     *
+     * @return
+     */
     public RepeatMode getRepeatMode() {
         return repeatMode;
     }
@@ -63,5 +72,5 @@ public abstract class Playable {
     /**
      * Accept a PlayableVisitor.
      */
-    public abstract void accept(PlayableVisitor visitor);
+    public abstract void accept(QueueVisitor visitor);
 }

@@ -1,24 +1,40 @@
-package main.audio;
+package main.program;
 
-import main.audio.collections.Playable;
+import main.audio.collections.RepeatMode;
+import main.audio.queues.Queue;
 import main.audio.files.AudioFile;
 
 public final class Player {
 
-    private final Playable queue;
-    private boolean isPaused;
+    private Queue queue;
+    private boolean isPaused = true;
     /**
      * The timestamp when the playlist has been un-paused.
      */
     private int lastUpdate;
 
-    public Player(final Playable queue, final int lastUpdate) {
-        this.queue = queue;
-        this.lastUpdate = lastUpdate;
+    public Queue getQueue() {
+        return queue;
     }
 
-    public Playable getQueue() {
-        return queue;
+    /**
+     * Add a new queue to the playlist and start playing it.
+     *
+     * @param list     the list to be added.
+     * @param timestamp the moment the playlist starts.
+     */
+    public void addQueue(final Queue list, final int timestamp) {
+        this.queue = list;
+        lastUpdate = timestamp;
+        isPaused = false;
+    }
+
+    /**
+     * Stop the player and clear the queue.
+     */
+    public void clearQueue() {
+        this.queue = null;
+        isPaused = true;
     }
 
     public boolean isPaused() {
@@ -59,6 +75,10 @@ public final class Player {
      * @return The song currently playing, or `null` if the queue ended.
      */
     public AudioFile getPlayingAt(final int timestamp) {
+        if (queue == null) {
+            return null;
+        }
+
         updateTime(timestamp);
         return queue.getCurrentlyPlaying();
     }
@@ -72,5 +92,13 @@ public final class Player {
     public int remainingTimeAt(final int timestamp) {
         updateTime(timestamp);
         return queue.getRemainingTime();
+    }
+
+    public RepeatMode getRepeatMode() {
+        if (queue == null) {
+            return RepeatMode.NO_REPEAT;
+        }
+
+        return queue.getRepeatMode();
     }
 }

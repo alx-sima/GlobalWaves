@@ -3,11 +3,12 @@ package main.audio.files;
 import fileio.input.SongInput;
 import java.util.List;
 import main.audio.Searchable;
-import main.audio.collections.Playable;
+import main.audio.collections.SongSource;
+import main.audio.queues.Queue;
 import main.audio.collections.RepeatMode;
-import main.audio.collections.SongQueue;
+import main.audio.queues.SongQueue;
 
-public final class Song extends AudioFile implements Searchable {
+public final class Song extends AudioFile implements Searchable, SongSource {
 
     private final String album;
     private final List<String> tags;
@@ -37,11 +38,6 @@ public final class Song extends AudioFile implements Searchable {
     }
 
     @Override
-    public List<Song> getContents() {
-        return List.of(this);
-    }
-
-    @Override
     public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
             case "name" -> getName().startsWith(parameter);
@@ -62,13 +58,26 @@ public final class Song extends AudioFile implements Searchable {
     }
 
     @Override
-    public Playable createPlayable() {
-        return new SongQueue(List.of(this), (repeatMode) -> switch (repeatMode) {
+    public Queue createQueue() {
+        return new SongQueue(this);
+    }
+
+    @Override
+    public RepeatMode getNextRepeatMode(final RepeatMode repeatMode) {
+        return switch (repeatMode) {
             case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
             case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
             case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
             default -> null;
-        });
+        };
     }
 
+    @Override
+    public Song get(final int index) {
+        if (index == 0) {
+            return this;
+        }
+
+        return null;
+    }
 }

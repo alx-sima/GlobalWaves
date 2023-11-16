@@ -1,18 +1,17 @@
-package main.commands.playlist;
+package main.program.commands.playlist;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.ShowPreferredSongsResult;
 import java.util.List;
-import main.Program;
-import main.User;
-import main.audio.Searchable;
+import main.program.Program;
+import main.program.User;
 import main.audio.files.AudioFile;
-import main.commands.Command;
+import main.program.commands.Command;
 
-public class ShowPreferredSongs extends Command {
+public final class ShowPreferredSongs extends Command {
 
-    public ShowPreferredSongs(CommandInput input) {
+    public ShowPreferredSongs(final CommandInput input) {
         super(input);
     }
 

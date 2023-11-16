@@ -1,6 +1,6 @@
 package fileio.output;
 
-import main.commands.Command;
+import main.program.commands.Command;
 
 public class MessageResult extends CommandResult {
 

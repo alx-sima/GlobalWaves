@@ -1,11 +1,10 @@
-package main.commands.search;
+package main.program.commands.search;
 
 import fileio.input.CommandInput;
 import fileio.output.MessageResult;
-import main.Program;
-import main.audio.Player;
+import main.program.Program;
 import main.audio.Searchable;
-import main.commands.Command;
+import main.program.commands.Command;
 import fileio.output.CommandResult;
 
 import java.util.List;

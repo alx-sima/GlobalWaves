@@ -2,9 +2,12 @@ package main.audio;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import java.util.List;
-import main.audio.collections.Playable;
+import main.audio.queues.Queue;
 import main.audio.files.AudioFile;
 
+/**
+ * An entry that can be searched and then loaded into the player.
+ */
 public interface Searchable {
 
     /**
@@ -12,24 +15,19 @@ public interface Searchable {
      *
      * @param filter    The search filter.
      * @param parameter The filter's parameter.
-     * @return True if the entity matches the search.
+     * @return true if the entity matches the search.
      */
     boolean matchFilter(String filter, String parameter);
 
     /**
-     * Get the files to be played when loading the search result.
+     * Create a queue to be played from this search result.
      *
-     * @return The list of audio files contained by the entity.
+     * @return a queue based on the internal type.
      */
-    @JsonIgnore
-    List<? extends AudioFile> getContents();
-
-    Playable createPlayable();
+    Queue createQueue();
 
     /**
      * Get the name of the file.
-     *
-     * @return The name.
      */
     String getName();
 }

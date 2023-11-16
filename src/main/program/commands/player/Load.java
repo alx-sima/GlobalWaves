@@ -1,12 +1,11 @@
-package main.commands.player;
+package main.program.commands.player;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
-import main.Program;
-import main.audio.Player;
 import main.audio.Searchable;
-import main.commands.Command;
+import main.program.Program;
+import main.program.commands.Command;
 
 public final class Load extends Command {
 
@@ -24,7 +23,7 @@ public final class Load extends Command {
             return new MessageResult(this, "Please select a source before attempting to load.");
         }
 
-        instance.setPlayer(new Player(selected.createPlayable(), getTimestamp()));
+        instance.getPlayer().addQueue(selected.createQueue(), getTimestamp());
         return new MessageResult(this, "Playback loaded successfully.");
     }
 }

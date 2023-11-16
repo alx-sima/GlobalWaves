@@ -4,7 +4,7 @@ import java.util.List;
 import main.audio.Searchable;
 import main.audio.collections.Playlist;
 
-public class PlaylistOutput {
+public final class PlaylistOutput {
     private final String name;
     private final List<String> songs;
     private final String visibility;
@@ -12,7 +12,7 @@ public class PlaylistOutput {
 
     public PlaylistOutput(final Playlist playlist) {
         name = playlist.getName();
-        songs = playlist.getContents().stream().map(Searchable::getName).toList();
+        songs = playlist.getSongNames();
         visibility = playlist.isPrivate() ? "private" : "public";
         followers = playlist.getFollowers();
     }

@@ -19,6 +19,7 @@ public final class Load extends Command {
         Program instance = Program.getInstance();
 
         Searchable selected = instance.getSelectedResult();
+        instance.setSelectedResult(null);
         if (selected == null) {
             return new MessageResult(this, "Please select a source before attempting to load.");
         }

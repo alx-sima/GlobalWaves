@@ -30,7 +30,8 @@ bin/
 
 ### checker ###
 checkstyle.txt
+out.txt
 result/
 
 ### other ###
-/*.zip
+*.zip

@@ -20,7 +20,7 @@ public final class Player {
     /**
      * Add a new queue to the playlist and start playing it.
      *
-     * @param list     the list to be added.
+     * @param list      the list to be added.
      * @param timestamp the moment the playlist starts.
      */
     public void addQueue(final Queue list, final int timestamp) {
@@ -50,6 +50,10 @@ public final class Player {
         if (!isPaused) {
             queue.addTimeIncrement(timestamp - lastUpdate);
             lastUpdate = timestamp;
+
+            if (queue.getCurrentlyPlaying() == null) {
+                clearQueue();
+            }
         }
     }
 
@@ -80,6 +84,9 @@ public final class Player {
         }
 
         updateTime(timestamp);
+        if (queue == null) {
+            return null;
+        }
         return queue.getCurrentlyPlaying();
     }
 
@@ -94,6 +101,11 @@ public final class Player {
         return queue.getRemainingTime();
     }
 
+    /**
+     * Get the repeating mode of the queue that is currently playing.
+     *
+     * @return NO_REPEAT (default) if nothing is playing.
+     */
     public RepeatMode getRepeatMode() {
         if (queue == null) {
             return RepeatMode.NO_REPEAT;

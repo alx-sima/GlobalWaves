@@ -8,11 +8,18 @@ import main.audio.files.Song;
 public final class SongQueue extends Queue {
 
     private final SongSource songSource;
+    private final int size;
     private int songIndex = 0;
 
-    public SongQueue(final SongSource songSource) {
+    public SongQueue(final SongSource songSource, final int size, final boolean canShuffle) {
+        super(canShuffle);
         this.songSource = songSource;
-        currentlyPlaying = this.songSource.get(0);
+        this.size = size;
+        currentlyPlaying = getCurrentSong();
+    }
+
+    public int getSize() {
+        return size;
     }
 
     /**
@@ -29,21 +36,25 @@ public final class SongQueue extends Queue {
     @Override
     protected AudioFile getNext() {
         if (repeatMode == RepeatMode.REPEAT_CURRENT || repeatMode == RepeatMode.REPEAT_INFINITE) {
-            return songSource.get(songIndex);
+            return getCurrentSong();
         } else if (repeatMode == RepeatMode.REPEAT_ONCE) {
             repeatMode = RepeatMode.NO_REPEAT;
-            return songSource.get(songIndex);
+            return getCurrentSong();
         }
 
+        if (shuffler != null) {
+            shuffler.advance();
+        }
         songIndex++;
-        Song nextSong = songSource.get(songIndex);
+
+        Song nextSong = getCurrentSong();
         if (nextSong != null) {
             return nextSong;
         }
 
         if (repeatMode == RepeatMode.REPEAT_ALL) {
             songIndex = 0;
-            return songSource.get(songIndex);
+            return getCurrentSong();
         }
 
         return null;
@@ -54,7 +65,17 @@ public final class SongQueue extends Queue {
         visitor.visit(this);
     }
 
+    /**
+     * Get the song currently playing.
+     *
+     * @return null if the queue ended.
+     */
     public Song getCurrentSong() {
-        return songSource.get(songIndex);
+        int index = songIndex;
+        if (shuffler != null) {
+            index = shuffler.getCurrent();
+        }
+
+        return songSource.get(index);
     }
 }

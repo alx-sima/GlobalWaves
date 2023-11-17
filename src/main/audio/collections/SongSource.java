@@ -8,11 +8,9 @@ import main.audio.files.Song;
 public interface SongSource {
 
     /**
-     * Get the next way to repeat the collection, based on its internal type.
-     *
-     * @param repeatMode the current repeat mode.
+     * Get the number of songs contained.
      */
-    RepeatMode getNextRepeatMode(RepeatMode repeatMode);
+    int size();
 
     /**
      * Get the `index`-th song of the collection, if it exists.
@@ -20,4 +18,11 @@ public interface SongSource {
      * @return null, if the song doesn't exist.
      */
     Song get(int index);
+
+    /**
+     * Get the next way to repeat the collection, based on its internal type.
+     *
+     * @param repeatMode the current repeat mode.
+     */
+    RepeatMode getNextRepeatMode(RepeatMode repeatMode);
 }

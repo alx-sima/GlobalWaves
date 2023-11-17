@@ -59,7 +59,7 @@ public final class Song extends AudioFile implements Searchable, SongSource {
 
     @Override
     public Queue createQueue() {
-        return new SongQueue(this);
+        return new SongQueue(this, 1, false);
     }
 
     @Override
@@ -70,6 +70,11 @@ public final class Song extends AudioFile implements Searchable, SongSource {
             case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
             default -> null;
         };
+    }
+
+    @Override
+    public int size() {
+        return 1;
     }
 
     @Override

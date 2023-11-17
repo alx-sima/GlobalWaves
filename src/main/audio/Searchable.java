@@ -1,9 +1,6 @@
 package main.audio;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import java.util.List;
 import main.audio.queues.Queue;
-import main.audio.files.AudioFile;
 
 /**
  * An entry that can be searched and then loaded into the player.

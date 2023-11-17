@@ -1,7 +1,6 @@
 package fileio.output;
 
 import main.program.Player;
-import main.audio.collections.RepeatMode;
 import main.audio.files.AudioFile;
 
 public final class StatusOutput {
@@ -13,27 +12,20 @@ public final class StatusOutput {
     private final boolean paused;
 
     public StatusOutput(final Player player, final int timestamp) {
-        // TODO: refactor
-        if (player == null) {
-            name = "";
-            remainedTime = 0;
-            paused = true;
-            repeat = RepeatMode.NO_REPEAT.toString();
-        } else {
-            AudioFile nowPlaying = player.getPlayingAt(timestamp);
-            if (nowPlaying != null) {
-                name = nowPlaying.getName();
-                remainedTime = player.remainingTimeAt(timestamp);
-                paused = player.isPaused();
-            } else {
-                name = "";
-                remainedTime = 0;
-                paused = true;
-            }
+        AudioFile nowPlaying = player.getPlayingAt(timestamp);
+        repeat = player.getRepeatMode().toString();
 
-            repeat = player.getRepeatMode().toString();
+        if (nowPlaying != null) {
+            name = nowPlaying.getName();
+            remainedTime = player.remainingTimeAt(timestamp);
+            paused = player.isPaused();
+            shuffle = player.getQueue().isShuffled();
+            return;
         }
 
+        name = "";
+        remainedTime = 0;
+        paused = true;
         shuffle = false;
     }
 

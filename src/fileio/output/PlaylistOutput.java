@@ -1,7 +1,6 @@
 package fileio.output;
 
 import java.util.List;
-import main.audio.Searchable;
 import main.audio.collections.Playlist;
 
 public final class PlaylistOutput {

@@ -19,6 +19,7 @@ public final class Podcast extends Queue implements Searchable {
     private int episodeIndex = 0;
 
     public Podcast(final PodcastInput input) {
+        super(false);
         name = input.getName();
         owner = input.getOwner();
 

@@ -2,6 +2,8 @@ package main.program.commands.player;
 
 import fileio.input.CommandInput;
 import fileio.output.MessageResult;
+import main.audio.queues.Queue;
+import main.audio.queues.ShuffleVisitor;
 import main.program.Program;
 import main.program.Player;
 import main.program.commands.Command;
@@ -20,20 +22,25 @@ public final class Shuffle extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         Player player = instance.getPlayer();
+        player.updateTime(getTimestamp());
+        Queue queue = player.getQueue();
 
-        if (player == null) {
+        if (queue == null) {
             return new MessageResult(this,
                 "Please load a source before using the shuffle function.");
         }
 
-//        if (player.getQueue().size() == 1) {
-//            return new MessageResult(this, "The loaded source is not a playlist.");
-//        }
+        if (!queue.isShuffle()) {
+            return new MessageResult(this, "The loaded source is not a playlist.");
+        }
 
-//        if (player.toggleShuffled()) {
-//            player.setShuffleSeed(seed);
-//            return new MessageResult(this, "Shuffle function activated successfully");
-//        }
-        return new MessageResult(this, "Shuffle function deactivated successfully.");
+        if (queue.isShuffled()) {
+            queue.disableShuffle();
+            player.updateTime(getTimestamp());
+            return new MessageResult(this, "Shuffle function deactivated successfully.");
+        }
+        ShuffleVisitor visitor = new ShuffleVisitor(seed);
+        queue.accept(visitor);
+        return new MessageResult(this, "Shuffle function activated successfully.");
     }
 }

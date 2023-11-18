@@ -63,7 +63,7 @@ public final class Podcast extends Queue implements Searchable {
     }
 
     @Override
-    protected AudioFile getNext() {
+    public AudioFile getNext() {
         if (repeatMode == RepeatMode.REPEAT_INFINITE) {
             return episodes.get(episodeIndex);
         } else if (repeatMode == RepeatMode.REPEAT_ONCE) {
@@ -86,4 +86,27 @@ public final class Podcast extends Queue implements Searchable {
         visitor.visit(this);
     }
 
+
+    @Override
+    public AudioFile prev() {
+        if (playTime == 0 && episodeIndex != 0) {
+            episodeIndex--;
+            currentlyPlaying = episodes.get(episodeIndex);
+        }
+
+        playTime = 0;
+        return currentlyPlaying;
+    }
+
+    @Override
+    public boolean skip(int deltaTime) {
+        if (playTime + deltaTime < 0) {
+            playTime = 0;
+            prev();
+            return true;
+        }
+
+        addTimeIncrement(deltaTime);
+        return true;
+    }
 }

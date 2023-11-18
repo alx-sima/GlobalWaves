@@ -139,7 +139,7 @@ public abstract class Queue {
      *
      * @return null if the queue ended.
      */
-    protected abstract AudioFile getNext();
+    public abstract AudioFile getNext();
 
     /**
      * Change to the next repeat mode.
@@ -153,4 +153,15 @@ public abstract class Queue {
      */
     public abstract void accept(QueueVisitor visitor);
 
+    public abstract boolean skip(int deltaTime);
+
+    public AudioFile next() {
+        AudioFile nextFile = getNext();
+        currentlyPlaying = nextFile;
+        playTime = 0;
+
+        return nextFile;
+    }
+
+    public abstract AudioFile prev();
 }

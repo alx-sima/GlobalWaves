@@ -1,6 +1,10 @@
 package fileio.input;
 
 import main.program.commands.Command;
+import main.program.commands.player.Backward;
+import main.program.commands.player.Forward;
+import main.program.commands.player.Next;
+import main.program.commands.player.Prev;
 import main.program.commands.player.Repeat;
 import main.program.commands.playlist.AddRemoveInPlaylist;
 import main.program.commands.playlist.CreatePlaylist;
@@ -111,8 +115,12 @@ public final class CommandInput {
         return switch (command) {
             case "search" -> new Search(this);
             case "select" -> new Select(this);
+            case "backward" -> new Backward(this);
+            case "forward" -> new Forward(this);
             case "load" -> new Load(this);
+            case "next" -> new Next(this);
             case "playPause" -> new PlayPause(this);
+            case "prev" -> new Prev(this);
             case "repeat" -> new Repeat(this);
             case "shuffle" -> new Shuffle(this);
             case "status" -> new Status(this);

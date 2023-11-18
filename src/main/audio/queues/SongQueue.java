@@ -34,7 +34,7 @@ public final class SongQueue extends Queue {
     }
 
     @Override
-    protected AudioFile getNext() {
+    public AudioFile getNext() {
         if (repeatMode == RepeatMode.REPEAT_CURRENT || repeatMode == RepeatMode.REPEAT_INFINITE) {
             return getCurrentSong();
         } else if (repeatMode == RepeatMode.REPEAT_ONCE) {
@@ -77,5 +77,22 @@ public final class SongQueue extends Queue {
         }
 
         return songSource.get(index);
+    }
+
+    @Override
+    public AudioFile prev() {
+        if (playTime > 0 || songIndex == 0) {
+            playTime = 0;
+            return currentlyPlaying;
+        }
+
+        songIndex--;
+        currentlyPlaying = songSource.get(songIndex);
+        return currentlyPlaying;
+    }
+
+    @Override
+    public boolean skip(int deltaTime) {
+        return false;
     }
 }

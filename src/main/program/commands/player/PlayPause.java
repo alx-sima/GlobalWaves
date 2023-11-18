@@ -17,6 +17,10 @@ public final class PlayPause extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         Player player = instance.getPlayer();
+        if (player.getQueue() == null) {
+            return new MessageResult(this,
+                "Please load a source before attempting to pause or resume playback.");
+        }
 
         if (player.togglePaused(getTimestamp())) {
             return new MessageResult(this, "Playback paused successfully.");

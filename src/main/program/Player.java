@@ -1,21 +1,19 @@
 package main.program;
 
+import lombok.Getter;
 import main.audio.collections.RepeatMode;
 import main.audio.queues.Queue;
 import main.audio.files.AudioFile;
 
 public final class Player {
 
+    @Getter
     private Queue queue;
     private boolean isPaused = true;
     /**
      * The timestamp when the playlist has been un-paused.
      */
     private int lastUpdate;
-
-    public Queue getQueue() {
-        return queue;
-    }
 
     /**
      * Add a new queue to the playlist and start playing it.

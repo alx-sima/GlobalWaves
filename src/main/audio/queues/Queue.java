@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Random;
+import lombok.Getter;
 import main.audio.collections.RepeatMode;
 import main.audio.files.AudioFile;
 
@@ -47,35 +48,17 @@ class Shuffler {
 
 public abstract class Queue {
 
+    @Getter
     private final boolean isShuffle;
+    @Getter
     protected RepeatMode repeatMode = RepeatMode.NO_REPEAT;
+    @Getter
     protected AudioFile currentlyPlaying = null;
     protected int playTime = 0;
     protected Shuffler shuffler = null;
 
     public Queue(final boolean isShuffle) {
         this.isShuffle = isShuffle;
-    }
-
-    /**
-     * Check if queue can be shuffled.
-     */
-    public boolean isShuffle() {
-        return isShuffle;
-    }
-
-    /**
-     * Get the currently playing file.
-     */
-    public AudioFile getCurrentlyPlaying() {
-        return currentlyPlaying;
-    }
-
-    /**
-     * Get the repeating mode of the queue.
-     */
-    public RepeatMode getRepeatMode() {
-        return repeatMode;
     }
 
     /**

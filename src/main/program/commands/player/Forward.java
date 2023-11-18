@@ -7,9 +7,11 @@ import main.audio.queues.Queue;
 import main.program.commands.Command;
 import main.program.Program;
 
-public class Forward extends Command {
+public final class Forward extends Command {
 
-    public Forward(CommandInput input) {
+    private static final int FORWARD_TIME = 90;
+
+    public Forward(final CommandInput input) {
         super(input);
     }
 
@@ -22,7 +24,7 @@ public class Forward extends Command {
             return new MessageResult(this, "Please load a source before attempting to forward.");
         }
 
-        if (queue.skip(90)) {
+        if (queue.skip(FORWARD_TIME)) {
             return new MessageResult(this, "Skipped forward successfully.");
         } else {
             return new MessageResult(this, "The loaded source is not a podcast.");

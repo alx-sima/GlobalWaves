@@ -99,7 +99,7 @@ public final class Podcast extends Queue implements Searchable {
     }
 
     @Override
-    public boolean skip(int deltaTime) {
+    public boolean skip(final int deltaTime) {
         if (playTime + deltaTime < 0) {
             playTime = 0;
             prev();

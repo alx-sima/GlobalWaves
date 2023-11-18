@@ -1,8 +1,10 @@
 package fileio.output;
 
+import lombok.Getter;
 import main.program.Player;
 import main.audio.files.AudioFile;
 
+@Getter
 public final class StatusOutput {
 
     private final String name;
@@ -27,25 +29,5 @@ public final class StatusOutput {
         remainedTime = 0;
         paused = true;
         shuffle = false;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public int getRemainedTime() {
-        return remainedTime;
-    }
-
-    public boolean isShuffle() {
-        return shuffle;
-    }
-
-    public boolean isPaused() {
-        return paused;
-    }
-
-    public String getRepeat() {
-        return repeat;
     }
 }

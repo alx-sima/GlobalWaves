@@ -1,9 +1,12 @@
 package fileio.output;
 
 import java.util.List;
+import lombok.Getter;
 import main.audio.collections.Playlist;
 
+@Getter
 public final class PlaylistOutput {
+
     private final String name;
     private final List<String> songs;
     private final String visibility;
@@ -14,21 +17,5 @@ public final class PlaylistOutput {
         songs = playlist.getSongNames();
         visibility = playlist.isPrivate() ? "private" : "public";
         followers = playlist.getFollowers();
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public List<String> getSongs() {
-        return songs;
-    }
-
-    public String getVisibility() {
-        return visibility;
-    }
-
-    public int getFollowers() {
-        return followers;
     }
 }

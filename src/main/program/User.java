@@ -1,6 +1,7 @@
 package main.program;
 
 import fileio.input.UserInput;
+import lombok.Getter;
 import main.audio.collections.Playlist;
 
 import java.util.ArrayList;
@@ -10,28 +11,19 @@ import main.audio.files.Song;
 
 public final class User {
 
+    @Getter
     private final String username;
     private final int age;
     private final String city;
+    @Getter
     private final List<Playlist> playlists = new ArrayList<>();
+    @Getter
     private final List<AudioFile> likedSongs = new ArrayList<>();
 
     public User(final UserInput input) {
         username = input.getUsername();
         age = input.getAge();
         city = input.getCity();
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public List<AudioFile> getLikedSongs() {
-        return likedSongs;
-    }
-
-    public List<Playlist> getPlaylists() {
-        return playlists;
     }
 
     private Playlist getPlaylist(final String playListName) {
@@ -75,8 +67,10 @@ public final class User {
     }
 
     /**
-     * @param song
-     * @param playlistId
+     * Try to add or remove the song in the playlist.
+     *
+     * @param song       the song to be added.
+     * @param playlistId the playlist's id.
      * @return true if the song was added after the operation.
      */
     public boolean addRemoveSongInPlaylist(final Song song, final int playlistId)

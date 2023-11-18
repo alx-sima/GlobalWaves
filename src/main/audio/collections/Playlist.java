@@ -6,19 +6,21 @@ import static main.audio.collections.RepeatMode.REPEAT_CURRENT;
 
 import java.util.ArrayList;
 import java.util.List;
-import main.audio.files.AudioFile;
-import main.program.User;
+import lombok.Getter;
 import main.audio.Searchable;
+import main.audio.files.Song;
 import main.audio.queues.Queue;
 import main.audio.queues.SongQueue;
-import main.audio.files.Song;
+import main.program.User;
 
 public final class Playlist implements Searchable, SongSource {
 
     private final String name;
     private final User user;
+    @Getter
     private final boolean isPrivate = false;
     private final List<Song> songs = new ArrayList<>();
+    @Getter
     private final int followers = 0;
 
     public Playlist(final String name, final User user) {
@@ -29,14 +31,6 @@ public final class Playlist implements Searchable, SongSource {
     @Override
     public int size() {
         return songs.size();
-    }
-
-    public boolean isPrivate() {
-        return isPrivate;
-    }
-
-    public int getFollowers() {
-        return followers;
     }
 
     @Override

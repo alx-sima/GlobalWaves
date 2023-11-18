@@ -1,5 +1,6 @@
 package main.audio.queues;
 
+import lombok.Getter;
 import main.audio.collections.RepeatMode;
 import main.audio.collections.SongSource;
 import main.audio.files.AudioFile;
@@ -8,6 +9,7 @@ import main.audio.files.Song;
 public final class SongQueue extends Queue {
 
     private final SongSource songSource;
+    @Getter
     private final int size;
     private int songIndex = 0;
 
@@ -16,10 +18,6 @@ public final class SongQueue extends Queue {
         this.songSource = songSource;
         this.size = size;
         currentlyPlaying = getCurrentSong();
-    }
-
-    public int getSize() {
-        return size;
     }
 
     /**
@@ -92,7 +90,7 @@ public final class SongQueue extends Queue {
     }
 
     @Override
-    public boolean skip(int deltaTime) {
+    public boolean skip(final int deltaTime) {
         return false;
     }
 }

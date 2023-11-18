@@ -2,10 +2,12 @@ package main.program.commands;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
+import lombok.Getter;
 
 /**
  * A command that can be executed by a user, returning a result.
  */
+@Getter
 public abstract class Command {
 
     private final String command;
@@ -22,27 +24,6 @@ public abstract class Command {
         this.command = command.command;
         this.user = command.user;
         this.timestamp = command.timestamp;
-    }
-
-    /**
-     * Get the command name.
-     */
-    public String getCommand() {
-        return command;
-    }
-
-    /**
-     * Get the user that executes the command.
-     */
-    public String getUser() {
-        return user;
-    }
-
-    /**
-     * Get the timestamp when the command was executed.
-     */
-    public int getTimestamp() {
-        return timestamp;
     }
 
     /**

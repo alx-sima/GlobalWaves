@@ -1,7 +1,11 @@
 package fileio.input;
 
 import java.util.ArrayList;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public final class LibraryInput {
 
     private ArrayList<SongInput> songs;
@@ -11,27 +15,4 @@ public final class LibraryInput {
     public LibraryInput() {
     }
 
-    public ArrayList<SongInput> getSongs() {
-        return songs;
-    }
-
-    public void setSongs(final ArrayList<SongInput> songs) {
-        this.songs = songs;
-    }
-
-    public ArrayList<PodcastInput> getPodcasts() {
-        return podcasts;
-    }
-
-    public void setPodcasts(final ArrayList<PodcastInput> podcasts) {
-        this.podcasts = podcasts;
-    }
-
-    public ArrayList<UserInput> getUsers() {
-        return users;
-    }
-
-    public void setUsers(final ArrayList<UserInput> users) {
-        this.users = users;
-    }
 }

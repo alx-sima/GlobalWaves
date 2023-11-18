@@ -13,18 +13,23 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import lombok.Getter;
+import lombok.Setter;
 import main.audio.Searchable;
 import main.audio.collections.Library;
 import main.audio.collections.Podcast;
 import main.program.commands.Command;
 
+@Getter
 public final class Program {
 
     private static Program instance = null;
     private final Map<String, User> users = new HashMap<>();
     private List<Podcast> podcasts = new ArrayList<>();
     private Library library;
+    @Setter
     private List<Searchable> searchResults;
+    @Setter
     private Searchable selectedResult = null;
     private final Player player = new Player();
 
@@ -42,38 +47,6 @@ public final class Program {
         }
 
         return instance;
-    }
-
-    public Player getPlayer() {
-        return player;
-    }
-
-    public Map<String, User> getUsers() {
-        return users;
-    }
-
-    public List<Podcast> getPodcasts() {
-        return podcasts;
-    }
-
-    public Library getLibrary() {
-        return library;
-    }
-
-    public List<Searchable> getSearchResults() {
-        return searchResults;
-    }
-
-    public void setSearchResults(final List<Searchable> searchResults) {
-        this.searchResults = searchResults;
-    }
-
-    public Searchable getSelectedResult() {
-        return selectedResult;
-    }
-
-    public void setSelectedResult(final Searchable selectedResult) {
-        this.selectedResult = selectedResult;
     }
 
     /**

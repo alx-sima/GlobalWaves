@@ -1,11 +1,13 @@
 package main.audio.collections;
 
 import fileio.input.SongInput;
+import lombok.Getter;
 import main.audio.files.Song;
 
 import java.util.ArrayList;
 import java.util.List;
 
+@Getter
 public final class Library {
 
     private final List<Song> songs;
@@ -21,7 +23,4 @@ public final class Library {
         this.songs = songList;
     }
 
-    public List<Song> getSongs() {
-        return songs;
-    }
 }

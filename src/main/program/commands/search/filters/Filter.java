@@ -1,22 +1,15 @@
 package main.program.commands.search.filters;
 
+import lombok.Getter;
 import main.audio.Searchable;
 
+@Getter
 public abstract class Filter {
 
     private final String filter;
 
     protected Filter(final String filter) {
         this.filter = filter;
-    }
-
-    /**
-     * Get the type of the filter.
-     *
-     * @return The search criterion.
-     */
-    public String getFilter() {
-        return filter;
     }
 
     /**

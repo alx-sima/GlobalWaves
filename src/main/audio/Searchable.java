@@ -1,6 +1,8 @@
 package main.audio;
 
+import main.audio.collections.Playlist;
 import main.audio.queues.Queue;
+import main.program.User;
 
 /**
  * An entry that can be searched and then loaded into the player.
@@ -27,4 +29,13 @@ public interface Searchable {
      * Get the name of the file.
      */
     String getName();
+
+    /**
+     * Try to follow the playlist as a user.
+     *
+     * @return true if this action succeeded.
+     */
+    default Playlist getPlaylist() {
+        return null;
+    }
 }

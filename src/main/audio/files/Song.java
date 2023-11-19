@@ -43,7 +43,8 @@ public final class Song extends AudioFile implements Searchable, SongSource {
             case "name" -> getName().startsWith(parameter);
             case "album" -> album.equals(parameter);
             case "tags" -> tags.contains(parameter);
-            case "lyrics" -> lyrics.contains(parameter) || lyrics.toLowerCase().contains(parameter);
+            case "lyrics" -> lyrics.contains(parameter) || lyrics.toLowerCase().contains(parameter)
+                || lyrics.contains(parameter.toLowerCase());
             case "genre" -> genre.equalsIgnoreCase(parameter);
             case "releaseYear" -> {
                 int referenceYear = Integer.parseInt(parameter.substring(1));

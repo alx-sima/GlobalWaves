@@ -14,9 +14,11 @@ import main.program.commands.player.Load;
 import main.program.commands.player.PlayPause;
 import main.program.commands.player.Shuffle;
 import main.program.commands.player.Status;
+import main.program.commands.playlist.Follow;
 import main.program.commands.playlist.Like;
 import main.program.commands.playlist.ShowPlaylists;
 import main.program.commands.playlist.ShowPreferredSongs;
+import main.program.commands.playlist.SwitchVisibility;
 import main.program.commands.search.Search;
 import main.program.commands.search.Select;
 
@@ -45,8 +47,6 @@ public final class CommandInput {
      */
     public Command createCommand() {
         return switch (command) {
-            case "search" -> new Search(this);
-            case "select" -> new Select(this);
             case "backward" -> new Backward(this);
             case "forward" -> new Forward(this);
             case "load" -> new Load(this);
@@ -58,9 +58,13 @@ public final class CommandInput {
             case "status" -> new Status(this);
             case "addRemoveInPlaylist" -> new AddRemoveInPlaylist(this);
             case "createPlaylist" -> new CreatePlaylist(this);
+            case "follow" -> new Follow(this);
             case "like" -> new Like(this);
             case "showPlaylists" -> new ShowPlaylists(this);
             case "showPreferredSongs" -> new ShowPreferredSongs(this);
+            case "switchVisibility" -> new SwitchVisibility(this);
+            case "search" -> new Search(this);
+            case "select" -> new Select(this);
             default -> null;
         };
     }

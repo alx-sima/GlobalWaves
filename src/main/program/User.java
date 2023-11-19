@@ -19,6 +19,7 @@ public final class User {
     private final List<Playlist> playlists = new ArrayList<>();
     @Getter
     private final List<AudioFile> likedSongs = new ArrayList<>();
+    private final List<Playlist> followedPlaylists = new ArrayList<>();
 
     public User(final UserInput input) {
         username = input.getUsername();
@@ -43,11 +44,15 @@ public final class User {
      * @return Whether this operation succeeded or not.
      */
     public boolean createPlaylist(final String playListName) {
+        Program instance = Program.getInstance();
+
         if (getPlaylist(playListName) != null) {
             return false;
         }
 
-        playlists.add(new Playlist(playListName, this));
+        Playlist playlist = new Playlist(playListName, this);
+        instance.getPublicPlaylists().add(playlist);
+        playlists.add(playlist);
         return true;
     }
 
@@ -81,5 +86,17 @@ public final class User {
         Playlist playlist = playlists.get(playlistId);
 
         return playlist.addRemoveSong(song);
+    }
+
+    public boolean follow(final Playlist playlist) {
+        if (followedPlaylists.contains(playlist)) {
+            followedPlaylists.remove(playlist);
+            playlist.setFollowers(playlist.getFollowers() - 1);
+            return false;
+        }
+
+        followedPlaylists.add(playlist);
+        playlist.setFollowers(playlist.getFollowers() + 1);
+        return true;
     }
 }

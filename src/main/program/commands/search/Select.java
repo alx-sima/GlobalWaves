@@ -23,7 +23,7 @@ public final class Select extends Command {
         Program instance = Program.getInstance();
         List<Searchable> searchResults = instance.getSearchResults();
 
-        if (searchResults.isEmpty()) {
+        if (searchResults == null) {
             return new MessageResult(this, "Please conduct a search before making a selection.");
         }
 
@@ -32,6 +32,7 @@ public final class Select extends Command {
         }
 
         Searchable selected = searchResults.get(itemNumber - 1);
+        instance.setSearchResults(null);
         instance.setSelectedResult(selected);
         return new MessageResult(this, "Successfully selected " + selected.getName() + ".");
     }

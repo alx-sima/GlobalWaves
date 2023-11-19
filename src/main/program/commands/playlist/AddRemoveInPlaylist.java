@@ -3,6 +3,7 @@ package main.program.commands.playlist;
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
+import java.util.ArrayList;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
 import main.audio.queues.SongVisitor;

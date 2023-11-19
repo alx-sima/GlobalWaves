@@ -40,34 +40,37 @@ public final class User {
     /**
      * Create a playlist for this user. This fails if a playlist with the same name already exists.
      *
-     * @param playListName The name of the playlist.
-     * @return Whether this operation succeeded or not.
+     * @param playListName the name of the playlist.
+     * @param timestamp    when the playlist is created.
+     * @return whether this operation succeeded or not.
      */
-    public boolean createPlaylist(final String playListName) {
+    public boolean createPlaylist(final String playListName, final int timestamp) {
         Program instance = Program.getInstance();
 
         if (getPlaylist(playListName) != null) {
             return false;
         }
 
-        Playlist playlist = new Playlist(playListName, this);
+        Playlist playlist = new Playlist(playListName, this, timestamp);
         instance.getPublicPlaylists().add(playlist);
         playlists.add(playlist);
         return true;
     }
 
     /**
-     * Add the `file` to the liked list of this user. If it was already liked, remove it instead.
+     * Add the `song` to the liked list of this user. If it was already liked, remove it instead.
      *
-     * @param file The file to be added/removed.
-     * @return true if `file` wasn't liked before.
+     * @param song The song to be added/removed.
+     * @return true if `song` wasn't liked before.
      */
-    public boolean like(final AudioFile file) {
-        if (likedSongs.remove(file)) {
+    public boolean like(final Song song) {
+        if (likedSongs.remove(song)) {
+            song.setLikes(song.getLikes() - 1);
             return false;
         }
 
-        likedSongs.add(file);
+        likedSongs.add(song);
+        song.setLikes(song.getLikes() + 1);
         return true;
     }
 

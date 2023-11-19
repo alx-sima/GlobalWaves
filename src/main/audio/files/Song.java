@@ -2,6 +2,8 @@ package main.audio.files;
 
 import fileio.input.SongInput;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
 import main.audio.Searchable;
 import main.audio.collections.SongSource;
 import main.audio.queues.Queue;
@@ -16,6 +18,9 @@ public final class Song extends AudioFile implements Searchable, SongSource {
     private final String genre;
     private final int releaseYear;
     private final String artist;
+    @Getter
+    @Setter
+    private int likes = 0;
 
     public Song(final Song song) {
         super(song.getName(), song.getDuration());

@@ -21,7 +21,7 @@ public final class CreatePlaylist extends Command {
         Program instance = Program.getInstance();
         User owner = instance.getUsers().get(getUser());
 
-        if (owner.createPlaylist(playListName)) {
+        if (owner.createPlaylist(playListName, getTimestamp())) {
             return new MessageResult(this, "Playlist created successfully.");
         }
         return new MessageResult(this, "A playlist with the same name already exists.");

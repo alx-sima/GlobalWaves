@@ -19,6 +19,8 @@ import main.program.commands.playlist.Like;
 import main.program.commands.playlist.ShowPlaylists;
 import main.program.commands.playlist.ShowPreferredSongs;
 import main.program.commands.playlist.SwitchVisibility;
+import main.program.commands.search.GetTop5Playlists;
+import main.program.commands.search.GetTop5Songs;
 import main.program.commands.search.Search;
 import main.program.commands.search.Select;
 
@@ -63,6 +65,8 @@ public final class CommandInput {
             case "showPlaylists" -> new ShowPlaylists(this);
             case "showPreferredSongs" -> new ShowPreferredSongs(this);
             case "switchVisibility" -> new SwitchVisibility(this);
+            case "getTop5Playlists" -> new GetTop5Playlists(this);
+            case "getTop5Songs" -> new GetTop5Songs(this);
             case "search" -> new Search(this);
             case "select" -> new Select(this);
             default -> null;

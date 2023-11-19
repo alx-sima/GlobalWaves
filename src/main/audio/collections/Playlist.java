@@ -26,10 +26,13 @@ public final class Playlist implements Searchable, SongSource {
     @Getter
     @Setter
     private int followers = 0;
+    @Getter
+    private final int creationTimestamp;
 
-    public Playlist(final String name, final User user) {
+    public Playlist(final String name, final User user, final int creationTimestamp) {
         this.name = name;
         this.user = user;
+        this.creationTimestamp = creationTimestamp;
     }
 
     @Override

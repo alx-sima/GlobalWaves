@@ -1,5 +1,10 @@
 package main.program.commands;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import lombok.Getter;
@@ -11,6 +16,7 @@ import lombok.Getter;
 public abstract class Command {
 
     private final String command;
+    @JsonInclude(Include.NON_NULL)
     private final String user;
     private final int timestamp;
 

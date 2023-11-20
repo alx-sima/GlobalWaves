@@ -1,22 +1,22 @@
-package main.program.commands.search.filters;
+package main.program.commands.search;
 
 import main.audio.Searchable;
 
 import java.util.List;
 
-public final class ComplexFilter extends Filter {
+public final class SearchFilter  {
 
+    private final String filter;
     private final List<String> parameters;
 
-    public ComplexFilter(final String filter, final List<String> parameters) {
-        super(filter);
+    public SearchFilter(final String filter, final List<String> parameters) {
+        this.filter = filter;
         this.parameters = parameters;
     }
 
-    @Override
     public boolean matchItem(final Searchable item) {
         for (String parameter : parameters) {
-            if (!item.matchFilter(getFilter(), parameter)) {
+            if (!item.matchFilter(filter, parameter)) {
                 return false;
             }
         }

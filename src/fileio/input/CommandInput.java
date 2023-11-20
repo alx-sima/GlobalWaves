@@ -1,19 +1,23 @@
 package fileio.input;
 
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonSubTypes.Type;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import lombok.Getter;
 import lombok.Setter;
 import main.program.commands.Command;
 import main.program.commands.player.Backward;
 import main.program.commands.player.Forward;
+import main.program.commands.player.Load;
 import main.program.commands.player.Next;
+import main.program.commands.player.PlayPause;
 import main.program.commands.player.Prev;
 import main.program.commands.player.Repeat;
-import main.program.commands.playlist.AddRemoveInPlaylist;
-import main.program.commands.playlist.CreatePlaylist;
-import main.program.commands.player.Load;
-import main.program.commands.player.PlayPause;
 import main.program.commands.player.Shuffle;
 import main.program.commands.player.Status;
+import main.program.commands.playlist.AddRemoveInPlaylist;
+import main.program.commands.playlist.CreatePlaylist;
 import main.program.commands.playlist.Follow;
 import main.program.commands.playlist.Like;
 import main.program.commands.playlist.ShowPlaylists;
@@ -21,18 +25,18 @@ import main.program.commands.playlist.ShowPreferredSongs;
 import main.program.commands.playlist.SwitchVisibility;
 import main.program.commands.search.GetTop5Playlists;
 import main.program.commands.search.GetTop5Songs;
-import main.program.commands.search.Search;
 import main.program.commands.search.Select;
 
 @Getter
 @Setter
-public final class CommandInput {
+@JsonTypeInfo(use = Id.NAME, visible = true, property = "command", defaultImpl = CommandInput.class)
+@JsonSubTypes({@Type(value = SearchInput.class, name = "search"),})
+public class CommandInput {
 
-    private String command;
-    private String username;
-    private int timestamp;
-    private String type;
-    private FiltersInput filters;
+    protected String command;
+    protected String username;
+    protected int timestamp;
+    protected String type;
 
     private int itemNumber;
     private int seed;
@@ -43,9 +47,9 @@ public final class CommandInput {
     }
 
     /**
-     * Create a command, based on the `type` field.
+     * Create a command, based on the `command` field.
      *
-     * @return The associated command.
+     * @return The associated command, or null if the command is unknown.
      */
     public Command createCommand() {
         return switch (command) {
@@ -67,7 +71,6 @@ public final class CommandInput {
             case "switchVisibility" -> new SwitchVisibility(this);
             case "getTop5Playlists" -> new GetTop5Playlists(this);
             case "getTop5Songs" -> new GetTop5Songs(this);
-            case "search" -> new Search(this);
             case "select" -> new Select(this);
             default -> null;
         };

@@ -18,20 +18,20 @@ public final class Next extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
-        Queue queue = user.getPlayer().getQueue();
-        user.getPlayer().updateTime(getTimestamp());
+        User callee = getCallee();
+        Queue queue = callee.getPlayer().getQueue();
+        callee.getPlayer().updateTime(timestamp);
         if (queue != null) {
             AudioFile nextFile = queue.next();
 
             if (nextFile != null) {
-                user.getPlayer().setPaused(false, getTimestamp());
+                callee.getPlayer().setPaused(false, timestamp);
                 return new MessageResult(this,
                     "Skipped to next track successfully. The current track is "
                         + nextFile.getName() + ".");
             }
 
-            user.getPlayer().clearQueue();
+            callee.getPlayer().clearQueue();
         }
 
         return new MessageResult(this, "Please load a source before skipping to the next track.");

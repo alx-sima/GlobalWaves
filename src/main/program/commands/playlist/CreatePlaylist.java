@@ -1,11 +1,10 @@
 package main.program.commands.playlist;
 
 import fileio.input.CommandInput;
+import fileio.output.CommandResult;
 import fileio.output.MessageResult;
-import main.program.Program;
 import main.program.User;
 import main.program.commands.Command;
-import fileio.output.CommandResult;
 
 public final class CreatePlaylist extends Command {
 
@@ -18,10 +17,9 @@ public final class CreatePlaylist extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User owner = instance.getUsers().get(getUser());
+        User callee = getCallee();
 
-        if (owner.createPlaylist(playListName, getTimestamp())) {
+        if (callee.createPlaylist(playListName, timestamp)) {
             return new MessageResult(this, "Playlist created successfully.");
         }
         return new MessageResult(this, "A playlist with the same name already exists.");

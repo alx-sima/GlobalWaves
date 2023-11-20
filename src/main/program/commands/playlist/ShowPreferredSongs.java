@@ -2,7 +2,7 @@ package main.program.commands.playlist;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.ShowPreferredSongsResult;
+import fileio.output.StatsResult;
 import java.util.List;
 import main.program.Program;
 import main.program.User;
@@ -18,10 +18,10 @@ public final class ShowPreferredSongs extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
+        User callee = getCallee();
 
-        List<String> likes = user.getLikedSongs().stream().map(AudioFile::getName).toList();
+        List<String> likes = callee.getLikedSongs().stream().map(AudioFile::getName).toList();
 
-        return new ShowPreferredSongsResult(this, likes);
+        return new StatsResult(this, likes);
     }
 }

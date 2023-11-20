@@ -24,8 +24,8 @@ public final class Load extends Command {
             return new MessageResult(this, "Please select a source before attempting to load.");
         }
 
-        User user = instance.getUsers().get(getUser());
-        user.getPlayer().addQueue(selected.createQueue(), getTimestamp());
+        User callee = getCallee();
+        callee.getPlayer().addQueue(selected.createQueue(), timestamp);
         return new MessageResult(this, "Playback loaded successfully.");
     }
 }

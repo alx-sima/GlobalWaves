@@ -6,7 +6,6 @@ import fileio.output.MessageResult;
 import main.audio.queues.Queue;
 import main.program.User;
 import main.program.commands.Command;
-import main.program.Program;
 
 public final class Forward extends Command {
 
@@ -18,8 +17,7 @@ public final class Forward extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
+        User user = getCallee();
         Queue queue = user.getPlayer().getQueue();
 
         if (queue == null) {

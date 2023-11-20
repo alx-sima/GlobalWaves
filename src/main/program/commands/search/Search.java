@@ -21,7 +21,6 @@ import java.util.stream.Stream;
 
 public final class Search extends Command {
 
-    private static final int MAX_RESULTS = 5;
     private final String type;
     private final List<Filter> filters = new ArrayList<>();
 
@@ -66,36 +65,37 @@ public final class Search extends Command {
         return true;
     }
 
+    private Stream<? extends Searchable> getSearchPlace(final User callee,
+        final String searchType) {
+        Program instance = Program.getInstance();
+
+        return switch (searchType) {
+            case "song" -> instance.getLibrary().getSongs().stream();
+            case "podcast" -> instance.getPodcasts().stream();
+            case "playlist" -> {
+                Stream<Playlist> userPlaylists = callee.getPlaylists().stream();
+                Stream<Playlist> publicPlaylists = instance.getPublicPlaylists().stream().sorted(
+                    Comparator.comparingInt(Playlist::getCreationTimestamp));
+                yield Stream.concat(userPlaylists, publicPlaylists).distinct();
+            }
+            default -> Stream.empty();
+        };
+    }
+
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
+        User callee = getCallee();
 
-        Stream<? extends Searchable> searchPlace;
-        switch (type) {
-            case "song":
-                searchPlace = instance.getLibrary().getSongs().stream();
-                break;
-            case "podcast":
-                searchPlace = instance.getPodcasts().stream();
-                break;
-            case "playlist":
-                Stream<Playlist> userPlaylists = user.getPlaylists().stream();
-                Stream<Playlist> publicPlaylists = instance.getPublicPlaylists().stream().sorted(
-                    Comparator.comparingInt(Playlist::getCreationTimestamp));
-                searchPlace = Stream.concat(userPlaylists, publicPlaylists).distinct();
-                break;
-            default:
-                return null;
-        }
+        Stream<? extends Searchable> searchPlace = getSearchPlace(callee, type);
 
         List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS)
             .collect(Collectors.toList());
         instance.setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
-        Player player = user.getPlayer();
-        player.updateTime(getTimestamp());
+        Player player = callee.getPlayer();
+        player.updateTime(timestamp);
         player.clearQueue();
 
         return new SearchResult(this, "Search returned " + result.size() + " results", result);

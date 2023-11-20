@@ -2,7 +2,7 @@ package main.program.commands.search;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.ShowPreferredSongsResult;
+import fileio.output.StatsResult;
 import java.util.Comparator;
 import java.util.List;
 import main.audio.collections.Library;
@@ -21,9 +21,12 @@ public final class GetTop5Songs extends Command {
         Program instance = Program.getInstance();
         Library library = instance.getLibrary();
 
-        List<String> top = library.getSongs().stream().sorted(Comparator.comparingInt(Song::getLikes).reversed())
-            .limit(5).map(Song::getName).toList();
+        // Compare by number of likes.
+        Comparator<Song> comparator = Comparator.comparingInt(Song::getLikes).reversed();
 
-        return new ShowPreferredSongsResult(this, top);
+        List<String> top = library.getSongs().stream().sorted(comparator).limit(MAX_RESULTS)
+            .map(Song::getName).toList();
+
+        return new StatsResult(this, top);
     }
 }

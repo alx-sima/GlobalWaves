@@ -1,14 +1,13 @@
 package main.program.commands.player;
 
 import fileio.input.CommandInput;
+import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.queues.Queue;
 import main.audio.queues.ShuffleVisitor;
-import main.program.Program;
 import main.program.Player;
 import main.program.User;
 import main.program.commands.Command;
-import fileio.output.CommandResult;
 
 public final class Shuffle extends Command {
 
@@ -21,10 +20,9 @@ public final class Shuffle extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
-        Player player = user.getPlayer();
-        player.updateTime(getTimestamp());
+        User callee = getCallee();
+        Player player = callee.getPlayer();
+        player.updateTime(timestamp);
         Queue queue = player.getQueue();
 
         if (queue == null) {
@@ -38,7 +36,7 @@ public final class Shuffle extends Command {
 
         if (queue.isShuffled()) {
             queue.disableShuffle();
-            player.updateTime(getTimestamp());
+            player.updateTime(timestamp);
             return new MessageResult(this, "Shuffle function deactivated successfully.");
         }
         ShuffleVisitor visitor = new ShuffleVisitor(seed);

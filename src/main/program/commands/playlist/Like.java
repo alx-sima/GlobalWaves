@@ -6,7 +6,6 @@ import fileio.output.MessageResult;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
 import main.audio.queues.SongVisitor;
-import main.program.Program;
 import main.program.User;
 import main.program.commands.Command;
 
@@ -18,10 +17,9 @@ public final class Like extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
-        Queue queue = user.getPlayer().getQueue();
-        user.getPlayer().updateTime(getTimestamp());
+        User callee = getCallee();
+        Queue queue = callee.getPlayer().getQueue();
+        callee.getPlayer().updateTime(timestamp);
 
         if (queue == null) {
             return new MessageResult(this, "Please load a source before liking or unliking.");
@@ -35,7 +33,7 @@ public final class Like extends Command {
             return new MessageResult(this, "Loaded source is not a song.");
         }
 
-        if (user.like(song)) {
+        if (callee.like(song)) {
             return new MessageResult(this, "Like registered successfully.");
         }
         return new MessageResult(this, "Unlike registered successfully.");

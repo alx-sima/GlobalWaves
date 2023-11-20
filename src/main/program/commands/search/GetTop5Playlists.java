@@ -2,7 +2,7 @@ package main.program.commands.search;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.ShowPreferredSongsResult;
+import fileio.output.StatsResult;
 import java.util.Comparator;
 import java.util.List;
 import main.audio.collections.Playlist;
@@ -11,7 +11,7 @@ import main.program.commands.Command;
 
 public final class GetTop5Playlists extends Command {
 
-    public GetTop5Playlists(CommandInput input) {
+    public GetTop5Playlists(final CommandInput input) {
         super(input);
     }
 
@@ -20,11 +20,13 @@ public final class GetTop5Playlists extends Command {
         Program instance = Program.getInstance();
         List<Playlist> publicPlaylists = instance.getPublicPlaylists();
 
-        List<String> top = publicPlaylists.stream().sorted(
-                Comparator.comparingInt(Playlist::getFollowers).reversed()
-                    .thenComparingInt(Playlist::getCreationTimestamp)).limit(5).map(Playlist::getName)
-            .toList();
+        // Compare first by number of followers, then by age (timestamp of creation).
+        Comparator<Playlist> comparator = Comparator.comparingInt(Playlist::getFollowers).reversed()
+            .thenComparingInt(Playlist::getCreationTimestamp);
 
-        return new ShowPreferredSongsResult(this, top);
+        List<String> top = publicPlaylists.stream().sorted(comparator).limit(MAX_RESULTS)
+            .map(Playlist::getName).toList();
+
+        return new StatsResult(this, top);
     }
 }

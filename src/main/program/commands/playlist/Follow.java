@@ -11,14 +11,14 @@ import main.program.commands.Command;
 
 public final class Follow extends Command {
 
-    public Follow(CommandInput input) {
+    public Follow(final CommandInput input) {
         super(input);
     }
 
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
+        User callee = getCallee();
         Searchable selected = instance.getSelectedResult();
 
         if (selected == null) {
@@ -36,7 +36,7 @@ public final class Follow extends Command {
             return new MessageResult(this, "You cannot follow or unfollow your own playlist.");
         }
 
-        if (user.follow(playlist)) {
+        if (callee.follow(playlist)) {
             return new MessageResult(this, "Playlist followed successfully.");
         }
 

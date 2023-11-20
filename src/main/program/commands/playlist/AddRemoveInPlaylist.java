@@ -3,11 +3,9 @@ package main.program.commands.playlist;
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
-import java.util.ArrayList;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
 import main.audio.queues.SongVisitor;
-import main.program.Program;
 import main.program.User;
 import main.program.commands.Command;
 
@@ -22,9 +20,8 @@ public final class AddRemoveInPlaylist extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
-        Queue queue = user.getPlayer().getQueue();
+        User callee = getCallee();
+        Queue queue = callee.getPlayer().getQueue();
 
         if (queue == null) {
             return new MessageResult(this,
@@ -40,7 +37,7 @@ public final class AddRemoveInPlaylist extends Command {
         }
 
         try {
-            if (user.addRemoveSongInPlaylist(currentSong, playlistId - 1)) {
+            if (callee.addRemoveSongInPlaylist(currentSong, playlistId - 1)) {
                 return new MessageResult(this, "Successfully added to playlist.");
             }
             return new MessageResult(this, "Successfully removed from playlist.");

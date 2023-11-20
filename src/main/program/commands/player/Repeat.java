@@ -3,10 +3,9 @@ package main.program.commands.player;
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
-import main.audio.queues.Queue;
-import main.program.Program;
-import main.program.Player;
 import main.audio.collections.RepeatMode;
+import main.audio.queues.Queue;
+import main.program.Player;
 import main.program.User;
 import main.program.commands.Command;
 
@@ -18,9 +17,8 @@ public final class Repeat extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
-        Player player = user.getPlayer();
+        User callee = getCallee();
+        Player player = callee.getPlayer();
         Queue queue = player.getQueue();
 
         if (queue == null) {
@@ -28,7 +26,7 @@ public final class Repeat extends Command {
                 "Please load a source before setting the repeat status.");
         }
 
-        player.updateTime(getTimestamp());
+        player.updateTime(timestamp);
         RepeatMode newMode = queue.changeRepeatMode();
         return new MessageResult(this,
             "Repeat mode changed to " + newMode.toString().toLowerCase() + ".");

@@ -1,12 +1,10 @@
 package main.program.commands.playlist;
 
 import fileio.input.CommandInput;
+import fileio.output.CommandResult;
 import fileio.output.ShowPlaylistsResult;
-import main.program.Program;
 import main.program.User;
 import main.program.commands.Command;
-import fileio.output.CommandResult;
-
 
 public final class ShowPlaylists extends Command {
 
@@ -16,10 +14,8 @@ public final class ShowPlaylists extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
-
-        return new ShowPlaylistsResult(this, user.getPlaylists());
+        User callee = getCallee();
+        return new ShowPlaylistsResult(this, callee.getPlaylists());
     }
 }
 

@@ -13,7 +13,7 @@ public final class SwitchVisibility extends Command {
 
     private final int playlistId;
 
-    public SwitchVisibility(CommandInput input) {
+    public SwitchVisibility(final CommandInput input) {
         super(input);
         this.playlistId = input.getPlaylistId();
     }
@@ -21,8 +21,8 @@ public final class SwitchVisibility extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
-        List<Playlist> playlists = user.getPlaylists();
+        User callee = getCallee();
+        List<Playlist> playlists = callee.getPlaylists();
 
         if (playlistId > playlists.size()) {
             return new MessageResult(this, "The specified playlist ID is too high.");

@@ -4,7 +4,6 @@ import fileio.input.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.queues.Queue;
-import main.program.Program;
 import main.program.User;
 import main.program.commands.Command;
 
@@ -18,9 +17,8 @@ public final class Backward extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User user = instance.getUsers().get(getUser());
-        Queue queue = user.getPlayer().getQueue();
+        User callee = getCallee();
+        Queue queue = callee.getPlayer().getQueue();
 
         if (queue == null) {
             return new MessageResult(this, "Please load a source before rewinding.");

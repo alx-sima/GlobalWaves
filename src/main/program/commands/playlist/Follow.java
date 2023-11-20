@@ -19,7 +19,7 @@ public final class Follow extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         User callee = getCallee();
-        Searchable selected = instance.getSelectedResult();
+        Searchable selected = instance.getSearchbar().consumeSelectedResult();
 
         if (selected == null) {
             return new MessageResult(this,
@@ -27,7 +27,6 @@ public final class Follow extends Command {
         }
 
         Playlist playlist = selected.getPlaylist();
-        instance.setSelectedResult(null);
         if (playlist == null) {
             return new MessageResult(this, "The selected source is not a playlist.");
         }

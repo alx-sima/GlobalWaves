@@ -64,7 +64,7 @@ public final class Search extends Command {
 
         List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS)
             .collect(Collectors.toList());
-        instance.setSearchResults(valid);
+        instance.getSearchbar().setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
         Player player = callee.getPlayer();

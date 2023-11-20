@@ -7,6 +7,7 @@ import fileio.input.CommandInput;
 import fileio.input.LibraryInput;
 import fileio.input.PodcastInput;
 import fileio.input.UserInput;
+import fileio.output.CommandResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -14,8 +15,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
-import lombok.Setter;
-import main.audio.Searchable;
 import main.audio.collections.Library;
 import main.audio.collections.Playlist;
 import main.audio.collections.Podcast;
@@ -28,12 +27,9 @@ public final class Program {
     private final Map<String, User> users = new HashMap<>();
     @Getter
     private final List<Playlist> publicPlaylists = new ArrayList<>();
+    private final Searchbar searchbar = new Searchbar();
     private List<Podcast> podcasts = new ArrayList<>();
     private Library library;
-    @Setter
-    private List<Searchable> searchResults;
-    @Setter
-    private Searchable selectedResult = null;
 
     private Program() {
     }

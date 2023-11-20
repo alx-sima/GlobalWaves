@@ -18,10 +18,10 @@ public abstract class Command {
      * The maximum number of results to be displayed.
      */
     protected static final int MAX_RESULTS = 5;
-    protected final int timestamp;
-    private final String command;
+    protected final String command;
     @JsonInclude(Include.NON_NULL)
-    private final String user;
+    protected final String user;
+    protected final int timestamp;
 
     protected Command(final CommandInput input) {
         command = input.getCommand();

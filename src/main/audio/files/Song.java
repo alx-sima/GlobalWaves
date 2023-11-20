@@ -30,6 +30,7 @@ public final class Song extends AudioFile implements Searchable, SongSource {
         genre = song.genre;
         releaseYear = song.releaseYear;
         artist = song.artist;
+        likes = song.likes;
     }
 
     public Song(final SongInput input) {

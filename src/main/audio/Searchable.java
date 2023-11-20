@@ -11,8 +11,8 @@ public interface Searchable {
     /**
      * Check if the entity (song, podcast, playlist) matches the filter and its parameter.
      *
-     * @param filter    The search filter.
-     * @param parameter The filter's parameter.
+     * @param filter    the search filter.
+     * @param parameter the filter's parameter.
      * @return true if the entity matches the search.
      */
     boolean matchFilter(String filter, String parameter);
@@ -30,9 +30,9 @@ public interface Searchable {
     String getName();
 
     /**
-     * Try to follow the playlist as a user.
+     * Get the playlist that contains this item.
      *
-     * @return true if this action succeeded.
+     * @return null if this item isn't a playlist.
      */
     default Playlist getPlaylist() {
         return null;

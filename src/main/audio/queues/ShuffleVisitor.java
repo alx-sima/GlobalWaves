@@ -10,6 +10,6 @@ public final class ShuffleVisitor implements QueueVisitor {
 
     @Override
     public void visit(final SongQueue queue) {
-        queue.enableShuffle(seed, queue.getSize());
+        queue.enableShuffle(seed);
     }
 }

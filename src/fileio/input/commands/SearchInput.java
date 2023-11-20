@@ -12,7 +12,7 @@ import main.program.commands.search.SearchFilter;
 
 @Getter
 @Setter
-public class SearchInput extends CommandInput {
+public final class SearchInput extends CommandInput {
 
     @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
     private Map<String, List<String>> filters;

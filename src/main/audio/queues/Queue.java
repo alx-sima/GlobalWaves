@@ -16,7 +16,7 @@ class Shuffler {
      */
     private final List<Integer> indexes;
 
-    public Shuffler(final int seed, final int size) {
+    Shuffler(final int seed, final int size) {
         indexes = new ArrayList<>(size);
         for (int i = 0; i < size; i++) {
             indexes.add(i);
@@ -43,7 +43,7 @@ class Shuffler {
      * @return the index of the song in the shuffled queue or -1 if this failed.
      * @see Shuffler#getIndexMapping
      */
-    public int getIndexOf(int songIndex) {
+    public int getIndexOf(final int songIndex) {
         for (int i = 0; i < indexes.size(); i++) {
             if (indexes.get(i) == songIndex) {
                 return i;
@@ -110,9 +110,8 @@ public abstract class Queue {
      * Try to enable shuffling (if this queue supports it).
      *
      * @param seed the seed of the shuffler.
-     * @param size this queue's number of songs.
      */
-    public void enableShuffle(final int seed, final int size) {
+    public void enableShuffle(final int seed) {
     }
 
     /**
@@ -141,8 +140,18 @@ public abstract class Queue {
      */
     public abstract void accept(QueueVisitor visitor);
 
+    /**
+     * Skip `deltaTime` seconds (if the queue supports it).
+     *
+     * @return true if the skip succeeded.
+     */
     public abstract boolean skip(int deltaTime);
 
+    /**
+     * Advance to the next file.
+     *
+     * @return the next file, or null if the queue has ended.
+     */
     public AudioFile next() {
         AudioFile nextFile = getNext();
         currentlyPlaying = nextFile;
@@ -151,5 +160,10 @@ public abstract class Queue {
         return nextFile;
     }
 
+    /**
+     * Go back to the previous file, or to the beginning of the current file if this is the first.
+     *
+     * @return the previous file.
+     */
     public abstract AudioFile prev();
 }

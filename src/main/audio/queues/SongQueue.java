@@ -102,7 +102,7 @@ public final class SongQueue extends Queue {
     }
 
     @Override
-    public void enableShuffle(int seed, int size) {
+    public void enableShuffle(final int seed) {
         if (super.isShuffle()) {
             shuffler = new Shuffler(seed, size);
             // Get the current song's index in the newly shuffled order.

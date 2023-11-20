@@ -10,6 +10,7 @@ public final class Player {
 
     @Getter
     private Queue queue;
+    @Getter
     @Setter
     private boolean isPaused = true;
     /**
@@ -35,10 +36,6 @@ public final class Player {
     public void clearQueue() {
         this.queue = null;
         isPaused = true;
-    }
-
-    public boolean isPaused() {
-        return isPaused;
     }
 
     /**
@@ -72,6 +69,12 @@ public final class Player {
         return isPaused;
     }
 
+    /**
+     * Set the `paused` state of the player.
+     *
+     * @param paused    The new state.
+     * @param timestamp The timestamp of 'now'.
+     */
     public void setPaused(final boolean paused, final int timestamp) {
         updateTime(timestamp);
         isPaused = paused;

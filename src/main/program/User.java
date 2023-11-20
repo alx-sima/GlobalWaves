@@ -93,6 +93,12 @@ public final class User {
         return playlist.addRemoveSong(song);
     }
 
+    /**
+     * Follow or unfollow a playlist.
+     *
+     * @param playlist the playlist to be followed.
+     * @return true if the playlist was followed after the operation.
+     */
     public boolean follow(final Playlist playlist) {
         if (followedPlaylists.contains(playlist)) {
             followedPlaylists.remove(playlist);

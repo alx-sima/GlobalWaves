@@ -20,7 +20,8 @@ public final class Like extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         User user = instance.getUsers().get(getUser());
-        Queue queue = instance.getPlayer().getQueue();
+        Queue queue = user.getPlayer().getQueue();
+        user.getPlayer().updateTime(getTimestamp());
 
         if (queue == null) {
             return new MessageResult(this, "Please load a source before liking or unliking.");

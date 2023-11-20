@@ -10,9 +10,9 @@ import main.audio.files.Song;
 import main.program.Program;
 import main.program.commands.Command;
 
-public class GetTop5Songs extends Command {
+public final class GetTop5Songs extends Command {
 
-    public GetTop5Songs(CommandInput input) {
+    public GetTop5Songs(final CommandInput input) {
         super(input);
     }
 

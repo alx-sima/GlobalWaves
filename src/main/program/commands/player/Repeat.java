@@ -7,6 +7,7 @@ import main.audio.queues.Queue;
 import main.program.Program;
 import main.program.Player;
 import main.audio.collections.RepeatMode;
+import main.program.User;
 import main.program.commands.Command;
 
 public final class Repeat extends Command {
@@ -18,7 +19,8 @@ public final class Repeat extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        Player player = instance.getPlayer();
+        User user = instance.getUsers().get(getUser());
+        Player player = user.getPlayer();
         Queue queue = player.getQueue();
 
         if (queue == null) {

@@ -6,6 +6,7 @@ import main.audio.queues.Queue;
 import main.audio.queues.ShuffleVisitor;
 import main.program.Program;
 import main.program.Player;
+import main.program.User;
 import main.program.commands.Command;
 import fileio.output.CommandResult;
 
@@ -21,7 +22,8 @@ public final class Shuffle extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        Player player = instance.getPlayer();
+        User user = instance.getUsers().get(getUser());
+        Player player = user.getPlayer();
         player.updateTime(getTimestamp());
         Queue queue = player.getQueue();
 

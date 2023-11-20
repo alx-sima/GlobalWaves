@@ -2,6 +2,7 @@ package main.program.commands.search;
 
 import fileio.input.CommandInput;
 import fileio.output.CommandResult;
+import java.util.Comparator;
 import main.audio.collections.Playlist;
 import main.program.Program;
 import main.program.User;
@@ -68,6 +69,7 @@ public final class Search extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
+        User user = instance.getUsers().get(getUser());
 
         Stream<? extends Searchable> searchPlace;
         switch (type) {
@@ -78,9 +80,9 @@ public final class Search extends Command {
                 searchPlace = instance.getPodcasts().stream();
                 break;
             case "playlist":
-                User user = instance.getUsers().get(getUser());
                 Stream<Playlist> userPlaylists = user.getPlaylists().stream();
-                Stream<Playlist> publicPlaylists = instance.getPublicPlaylists().stream();
+                Stream<Playlist> publicPlaylists = instance.getPublicPlaylists().stream().sorted(
+                    Comparator.comparingInt(Playlist::getCreationTimestamp));
                 searchPlace = Stream.concat(userPlaylists, publicPlaylists).distinct();
                 break;
             default:
@@ -92,9 +94,9 @@ public final class Search extends Command {
         instance.setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
-        Player player = instance.getPlayer();
+        Player player = user.getPlayer();
         player.updateTime(getTimestamp());
-        instance.getPlayer().clearQueue();
+        player.clearQueue();
 
         return new SearchResult(this, "Search returned " + result.size() + " results", result);
     }

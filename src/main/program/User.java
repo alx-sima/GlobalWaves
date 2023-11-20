@@ -16,6 +16,8 @@ public final class User {
     private final int age;
     private final String city;
     @Getter
+    private final Player player = new Player();
+    @Getter
     private final List<Playlist> playlists = new ArrayList<>();
     @Getter
     private final List<AudioFile> likedSongs = new ArrayList<>();

@@ -86,7 +86,7 @@ public final class Playlist implements Searchable, SongSource {
 
     @Override
     public Song get(final int index) {
-        if (index < songs.size()) {
+        if (index >= 0 && index < songs.size()) {
             return songs.get(index);
         }
 

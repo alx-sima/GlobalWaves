@@ -4,6 +4,7 @@ import fileio.input.CommandInput;
 import fileio.output.MessageResult;
 import main.program.Program;
 import main.program.Player;
+import main.program.User;
 import main.program.commands.Command;
 import fileio.output.CommandResult;
 
@@ -16,7 +17,8 @@ public final class PlayPause extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        Player player = instance.getPlayer();
+        User user = instance.getUsers().get(getUser());
+        Player player = user.getPlayer();
         if (player.getQueue() == null) {
             return new MessageResult(this,
                 "Please load a source before attempting to pause or resume playback.");

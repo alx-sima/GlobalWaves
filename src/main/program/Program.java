@@ -28,7 +28,6 @@ public final class Program {
     private final Map<String, User> users = new HashMap<>();
     @Getter
     private final List<Playlist> publicPlaylists = new ArrayList<>();
-    private final Player player = new Player();
     private List<Podcast> podcasts = new ArrayList<>();
     private Library library;
     @Setter

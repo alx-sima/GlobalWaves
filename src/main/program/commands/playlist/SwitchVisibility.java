@@ -25,7 +25,7 @@ public final class SwitchVisibility extends Command {
         List<Playlist> playlists = user.getPlaylists();
 
         if (playlistId > playlists.size()) {
-            return new MessageResult(this, "The specified playlist is too high.");
+            return new MessageResult(this, "The specified playlist ID is too high.");
         }
 
         List<Playlist> publicPlaylists = instance.getPublicPlaylists();

@@ -5,6 +5,7 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.queues.Queue;
 import main.program.Program;
+import main.program.User;
 import main.program.commands.Command;
 import main.audio.files.AudioFile;
 
@@ -17,8 +18,9 @@ public final class Prev extends Command {
     @Override
     public CommandResult execute() {
         Program instance = Program.getInstance();
-        Queue queue = instance.getPlayer().getQueue();
-        instance.getPlayer().updateTime(getTimestamp());
+        User user = instance.getUsers().get(getUser());
+        Queue queue = user.getPlayer().getQueue();
+        user.getPlayer().updateTime(getTimestamp());
 
         if (queue == null) {
             return new MessageResult(this,
@@ -26,6 +28,7 @@ public final class Prev extends Command {
         }
 
         AudioFile prevFile = queue.prev();
+        user.getPlayer().setPaused(false, getTimestamp());
         return new MessageResult(this,
             "Returned to previous track successfully. The current track is " + prevFile.getName()
                 + ".");

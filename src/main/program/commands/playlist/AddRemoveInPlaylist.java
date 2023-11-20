@@ -24,7 +24,7 @@ public final class AddRemoveInPlaylist extends Command {
     public CommandResult execute() {
         Program instance = Program.getInstance();
         User user = instance.getUsers().get(getUser());
-        Queue queue = instance.getPlayer().getQueue();
+        Queue queue = user.getPlayer().getQueue();
 
         if (queue == null) {
             return new MessageResult(this,

@@ -76,11 +76,12 @@ public final class Program {
         for (CommandInput cmd : commands) {
             Command command = cmd.createCommand();
             if (command == null) {
-                // TODO: unimplemented command!
-                continue;
+                System.err.println("Invalid command: " + cmd.getCommand());
+                System.exit(-1);
             }
 
-            outputs.addPOJO(command.execute());
+            CommandResult output = command.execute();
+            outputs.addPOJO(output);
         }
 
         publicPlaylists.clear();

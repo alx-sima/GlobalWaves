@@ -1,6 +1,6 @@
 package main.program.commands.player;
 
-import fileio.input.CommandInput;
+import fileio.input.commands.ShuffleInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.queues.Queue;
@@ -13,7 +13,7 @@ public final class Shuffle extends Command {
 
     private final int seed;
 
-    public Shuffle(final CommandInput input) {
+    public Shuffle(final ShuffleInput input) {
         super(input);
         seed = input.getSeed();
     }

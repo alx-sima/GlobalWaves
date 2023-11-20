@@ -1,6 +1,6 @@
 package main.program.commands.playlist;
 
-import fileio.input.CommandInput;
+import fileio.input.commands.PlaylistCreateInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.program.User;
@@ -10,7 +10,7 @@ public final class CreatePlaylist extends Command {
 
     private final String playListName;
 
-    public CreatePlaylist(final CommandInput input) {
+    public CreatePlaylist(final PlaylistCreateInput input) {
         super(input);
         playListName = input.getPlaylistName();
     }

@@ -1,6 +1,6 @@
 package main.program.commands.playlist;
 
-import fileio.input.CommandInput;
+import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.files.Song;
@@ -13,7 +13,7 @@ public final class AddRemoveInPlaylist extends Command {
 
     private final int playlistId;
 
-    public AddRemoveInPlaylist(final CommandInput input) {
+    public AddRemoveInPlaylist(final PlaylistOperationInput input) {
         super(input);
         playlistId = input.getPlaylistId();
     }

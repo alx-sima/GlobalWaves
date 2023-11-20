@@ -1,20 +1,19 @@
 package main.program.commands.search;
 
-import fileio.input.CommandInput;
+import fileio.input.commands.SelectInput;
+import fileio.output.CommandResult;
 import fileio.output.MessageResult;
-import main.program.Program;
+import java.util.List;
 import main.audio.Searchable;
+import main.program.Program;
 import main.program.Searchbar;
 import main.program.commands.Command;
-import fileio.output.CommandResult;
-
-import java.util.List;
 
 public final class Select extends Command {
 
     private final int itemNumber;
 
-    public Select(final CommandInput input) {
+    public Select(final SelectInput input) {
         super(input);
         itemNumber = input.getItemNumber();
     }
@@ -33,7 +32,7 @@ public final class Select extends Command {
             return new MessageResult(this, "The selected ID is too high.");
         }
 
-        Searchable selected = searchbar.SelectResult(itemNumber - 1);
+        Searchable selected = searchbar.selectResult(itemNumber - 1);
         return new MessageResult(this, "Successfully selected " + selected.getName() + ".");
     }
 }

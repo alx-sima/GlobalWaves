@@ -1,6 +1,6 @@
 package main.program.commands.player;
 
-import fileio.input.CommandInput;
+import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.StatusOutput;
 import fileio.output.StatusResult;

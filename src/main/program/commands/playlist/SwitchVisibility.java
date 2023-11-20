@@ -1,6 +1,6 @@
 package main.program.commands.playlist;
 
-import fileio.input.CommandInput;
+import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import java.util.List;
@@ -13,7 +13,7 @@ public final class SwitchVisibility extends Command {
 
     private final int playlistId;
 
-    public SwitchVisibility(final CommandInput input) {
+    public SwitchVisibility(final PlaylistOperationInput input) {
         super(input);
         this.playlistId = input.getPlaylistId();
     }

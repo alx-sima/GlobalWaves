@@ -1,6 +1,6 @@
 package main.program.commands.search;
 
-import fileio.input.SearchInput;
+import fileio.input.commands.SearchInput;
 import fileio.output.CommandResult;
 import fileio.output.SearchResult;
 import java.util.Comparator;

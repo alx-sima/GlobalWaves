@@ -3,7 +3,7 @@ package main.program;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import fileio.input.CommandInput;
+import fileio.input.commands.CommandInput;
 import fileio.input.LibraryInput;
 import fileio.input.PodcastInput;
 import fileio.input.UserInput;

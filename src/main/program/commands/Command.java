@@ -2,7 +2,7 @@ package main.program.commands;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import fileio.input.CommandInput;
+import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import lombok.Getter;
 import main.program.Program;

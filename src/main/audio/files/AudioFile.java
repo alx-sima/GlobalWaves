@@ -2,6 +2,9 @@ package main.audio.files;
 
 import lombok.Getter;
 
+/**
+ * An audio file, which is .
+ */
 @Getter
 public abstract class AudioFile {
 

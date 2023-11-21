@@ -7,9 +7,12 @@ import lombok.Setter;
 import main.audio.Searchable;
 import main.audio.collections.SongSource;
 import main.audio.queues.Queue;
-import main.audio.collections.RepeatMode;
+import main.audio.queues.RepeatMode;
 import main.audio.queues.SongQueue;
 
+/**
+ * A song, which can be searched or played.
+ */
 public final class Song extends AudioFile implements Searchable, SongSource {
 
     private final String album;
@@ -43,22 +46,25 @@ public final class Song extends AudioFile implements Searchable, SongSource {
         artist = input.getArtist();
     }
 
+    private boolean compareReleaseYear(final String parameter) {
+        String yearString = parameter.substring(1);
+        int referenceYear = Integer.parseInt(yearString);
+
+        if (parameter.startsWith("<")) {
+            return releaseYear < referenceYear;
+        }
+        return releaseYear > referenceYear;
+    }
+
     @Override
     public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
             case "name" -> getName().startsWith(parameter);
             case "album" -> album.equals(parameter);
             case "tags" -> tags.contains(parameter);
-            case "lyrics" -> lyrics.contains(parameter) || lyrics.toLowerCase().contains(parameter)
-                || lyrics.contains(parameter.toLowerCase());
+            case "lyrics" -> lyrics.toLowerCase().contains(parameter.toLowerCase());
             case "genre" -> genre.equalsIgnoreCase(parameter);
-            case "releaseYear" -> {
-                int referenceYear = Integer.parseInt(parameter.substring(1));
-                if (parameter.startsWith("<")) {
-                    yield releaseYear < referenceYear;
-                }
-                yield releaseYear > referenceYear;
-            }
+            case "releaseYear" -> compareReleaseYear(parameter);
             case "artist" -> artist.equals(parameter);
             default -> false;
         };

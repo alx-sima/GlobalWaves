@@ -3,6 +3,7 @@ package main.program.commands.playlist;
 import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
+import main.audio.collections.Playlist;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
 import main.program.User;
@@ -32,13 +33,14 @@ public final class AddRemoveInPlaylist extends Command {
             return new MessageResult(this, "The loaded source is not a song.");
         }
 
-        try {
-            if (callee.addRemoveSongInPlaylist(currentSong, playlistId - 1)) {
-                return new MessageResult(this, "Successfully added to playlist.");
-            }
-            return new MessageResult(this, "Successfully removed from playlist.");
-        } catch (IndexOutOfBoundsException e) {
+        Playlist playlist = callee.getPlaylist(playlistId - 1);
+        if (playlist == null) {
             return new MessageResult(this, "The specified playlist does not exist.");
         }
+
+        if (playlist.addRemoveSong(currentSong)) {
+            return new MessageResult(this, "Successfully added to playlist.");
+        }
+        return new MessageResult(this, "Successfully removed from playlist.");
     }
 }

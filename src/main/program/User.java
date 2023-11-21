@@ -9,6 +9,9 @@ import java.util.List;
 import main.audio.files.AudioFile;
 import main.audio.files.Song;
 
+/**
+ * A user of the application, with their own playlists and liked songs.
+ */
 public final class User {
 
     @Getter
@@ -27,6 +30,20 @@ public final class User {
         username = input.getUsername();
         age = input.getAge();
         city = input.getCity();
+    }
+
+    /**
+     * Get the user's playlist with the given `playlistId`.
+     *
+     * @param playlistId the index of the playlist.
+     * @return null if the playlist does not exist.
+     */
+    public Playlist getPlaylist(final int playlistId) {
+        if (playlistId >= playlists.size()) {
+            return null;
+        }
+
+        return playlists.get(playlistId);
     }
 
     private Playlist getPlaylist(final String playListName) {
@@ -63,7 +80,7 @@ public final class User {
      * Add the `song` to the liked list of this user. If it was already liked, remove it instead.
      *
      * @param song The song to be added/removed.
-     * @return true if `song` wasn't liked before.
+     * @return true if `song` was liked after the operation.
      */
     public boolean like(final Song song) {
         if (likedSongs.remove(song)) {
@@ -74,23 +91,6 @@ public final class User {
         likedSongs.add(song);
         song.setLikes(song.getLikes() + 1);
         return true;
-    }
-
-    /**
-     * Try to add or remove the song in the playlist.
-     *
-     * @param song       the song to be added.
-     * @param playlistId the playlist's id.
-     * @return true if the song was added after the operation.
-     */
-    public boolean addRemoveSongInPlaylist(final Song song, final int playlistId)
-        throws IndexOutOfBoundsException {
-        if (playlistId >= playlists.size()) {
-            throw new IndexOutOfBoundsException();
-        }
-        Playlist playlist = playlists.get(playlistId);
-
-        return playlist.addRemoveSong(song);
     }
 
     /**

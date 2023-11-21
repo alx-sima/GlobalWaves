@@ -2,7 +2,7 @@ package main.program;
 
 import lombok.Getter;
 import lombok.Setter;
-import main.audio.collections.RepeatMode;
+import main.audio.queues.RepeatMode;
 import main.audio.queues.Queue;
 import main.audio.files.AudioFile;
 
@@ -95,6 +95,7 @@ public final class Player {
         }
 
         updateTime(timestamp);
+        // The queue might have ended in the meantime.
         if (queue == null) {
             return null;
         }

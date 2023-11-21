@@ -3,7 +3,7 @@ package main.program.commands.player;
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
-import main.audio.collections.RepeatMode;
+import main.audio.queues.RepeatMode;
 import main.audio.queues.Queue;
 import main.program.Player;
 import main.program.User;

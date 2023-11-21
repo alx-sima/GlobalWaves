@@ -1,4 +1,4 @@
-package main.audio.collections;
+package main.audio.queues;
 
 public enum RepeatMode {
     NO_REPEAT, REPEAT_ALL, REPEAT_CURRENT, REPEAT_ONCE, REPEAT_INFINITE;

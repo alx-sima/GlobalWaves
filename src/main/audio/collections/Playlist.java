@@ -1,8 +1,8 @@
 package main.audio.collections;
 
-import static main.audio.collections.RepeatMode.NO_REPEAT;
-import static main.audio.collections.RepeatMode.REPEAT_ALL;
-import static main.audio.collections.RepeatMode.REPEAT_CURRENT;
+import static main.audio.queues.RepeatMode.NO_REPEAT;
+import static main.audio.queues.RepeatMode.REPEAT_ALL;
+import static main.audio.queues.RepeatMode.REPEAT_CURRENT;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +11,7 @@ import lombok.Setter;
 import main.audio.Searchable;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
+import main.audio.queues.RepeatMode;
 import main.audio.queues.SongQueue;
 import main.program.User;
 

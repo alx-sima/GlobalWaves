@@ -1,6 +1,7 @@
 package main.audio.collections;
 
 import main.audio.files.Song;
+import main.audio.queues.RepeatMode;
 
 /**
  * A collection of songs that can be indexed and has different ways to be repeated.

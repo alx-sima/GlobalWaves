@@ -9,6 +9,7 @@ import main.audio.files.Episode;
 
 import java.util.ArrayList;
 import java.util.List;
+import main.audio.queues.RepeatMode;
 
 public final class Podcast extends Queue implements Searchable {
 

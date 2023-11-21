@@ -7,6 +7,7 @@ import java.util.Random;
 import lombok.Getter;
 import main.audio.collections.RepeatMode;
 import main.audio.files.AudioFile;
+import main.audio.files.Song;
 
 class Shuffler {
 
@@ -136,16 +137,13 @@ public abstract class Queue {
     public abstract RepeatMode changeRepeatMode();
 
     /**
-     * Accept a QueueVisitor.
-     */
-    public abstract void accept(QueueVisitor visitor);
-
-    /**
      * Skip `deltaTime` seconds (if the queue supports it).
      *
      * @return true if the skip succeeded.
      */
-    public abstract boolean skip(int deltaTime);
+    public boolean skip(int deltaTime) {
+        return false;
+    }
 
     /**
      * Advance to the next file.
@@ -166,4 +164,8 @@ public abstract class Queue {
      * @return the previous file.
      */
     public abstract AudioFile prev();
+
+    public Song getCurrentSong() {
+        return null;
+    }
 }

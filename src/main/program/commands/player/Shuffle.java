@@ -4,7 +4,6 @@ import fileio.input.commands.ShuffleInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.queues.Queue;
-import main.audio.queues.ShuffleVisitor;
 import main.program.Player;
 import main.program.User;
 import main.program.commands.Command;
@@ -39,8 +38,7 @@ public final class Shuffle extends Command {
             player.updateTime(timestamp);
             return new MessageResult(this, "Shuffle function deactivated successfully.");
         }
-        ShuffleVisitor visitor = new ShuffleVisitor(seed);
-        queue.accept(visitor);
+        queue.enableShuffle(seed);
         return new MessageResult(this, "Shuffle function activated successfully.");
     }
 }

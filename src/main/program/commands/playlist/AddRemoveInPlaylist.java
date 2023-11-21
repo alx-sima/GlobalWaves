@@ -5,7 +5,6 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
-import main.audio.queues.SongVisitor;
 import main.program.User;
 import main.program.commands.Command;
 
@@ -28,10 +27,7 @@ public final class AddRemoveInPlaylist extends Command {
                 "Please load a source before adding to or removing from the playlist.");
         }
 
-        SongVisitor visitor = new SongVisitor();
-        queue.accept(visitor);
-
-        Song currentSong = visitor.getCurrentSong();
+        Song currentSong = queue.getCurrentSong();
         if (currentSong == null) {
             return new MessageResult(this, "The loaded source is not a song.");
         }

@@ -62,16 +62,12 @@ public final class SongQueue extends Queue {
         return null;
     }
 
-    @Override
-    public void accept(final QueueVisitor visitor) {
-        visitor.visit(this);
-    }
-
     /**
      * Get the song currently playing.
      *
      * @return null if the queue ended.
      */
+    @Override
     public Song getCurrentSong() {
         int index = songIndex;
         if (shuffler != null) {
@@ -83,22 +79,13 @@ public final class SongQueue extends Queue {
 
     @Override
     public AudioFile prev() {
-        if (playTime > 0) {
-            playTime = 0;
-            return currentlyPlaying;
-        }
-
-        if (songIndex > 0) {
+        if (playTime == 0 && songIndex != 0) {
             songIndex--;
+            currentlyPlaying = getCurrentSong();
         }
 
-        currentlyPlaying = getCurrentSong();
+        playTime = 0;
         return currentlyPlaying;
-    }
-
-    @Override
-    public boolean skip(final int deltaTime) {
-        return false;
     }
 
     @Override

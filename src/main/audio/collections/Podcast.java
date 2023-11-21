@@ -4,7 +4,6 @@ import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import main.audio.Searchable;
 import main.audio.queues.Queue;
-import main.audio.queues.QueueVisitor;
 import main.audio.files.AudioFile;
 import main.audio.files.Episode;
 
@@ -80,12 +79,6 @@ public final class Podcast extends Queue implements Searchable {
 
         return episodes.get(episodeIndex);
     }
-
-    @Override
-    public void accept(final QueueVisitor visitor) {
-        visitor.visit(this);
-    }
-
 
     @Override
     public AudioFile prev() {

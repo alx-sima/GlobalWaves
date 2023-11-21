@@ -5,7 +5,6 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
-import main.audio.queues.SongVisitor;
 import main.program.User;
 import main.program.commands.Command;
 
@@ -25,10 +24,7 @@ public final class Like extends Command {
             return new MessageResult(this, "Please load a source before liking or unliking.");
         }
 
-        SongVisitor visitor = new SongVisitor();
-        queue.accept(visitor);
-
-        Song song = visitor.getCurrentSong();
+        Song song = queue.getCurrentSong();
         if (song == null) {
             return new MessageResult(this, "Loaded source is not a song.");
         }

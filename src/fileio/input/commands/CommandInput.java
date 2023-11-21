@@ -18,9 +18,9 @@ import main.program.commands.player.Status;
 import main.program.commands.playlist.Follow;
 import main.program.commands.playlist.Like;
 import main.program.commands.playlist.ShowPlaylists;
-import main.program.commands.playlist.ShowPreferredSongs;
-import main.program.commands.search.GetTop5Playlists;
-import main.program.commands.search.GetTop5Songs;
+import main.program.commands.stats.ShowPreferredSongs;
+import main.program.commands.stats.GetTop5Playlists;
+import main.program.commands.stats.GetTop5Songs;
 
 @Getter
 @Setter

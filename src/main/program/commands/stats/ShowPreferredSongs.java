@@ -1,4 +1,4 @@
-package main.program.commands.playlist;
+package main.program.commands.stats;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;

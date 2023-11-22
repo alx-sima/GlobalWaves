@@ -1,5 +1,8 @@
 package main.audio.queues;
 
+/**
+ * The ways of repeating a play queue.
+ */
 public enum RepeatMode {
     NO_REPEAT, REPEAT_ALL, REPEAT_CURRENT, REPEAT_ONCE, REPEAT_INFINITE;
 

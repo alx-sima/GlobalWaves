@@ -1,17 +1,15 @@
 package main.program;
 
 import lombok.Getter;
-import lombok.Setter;
-import main.audio.queues.RepeatMode;
-import main.audio.queues.Queue;
 import main.audio.files.AudioFile;
+import main.audio.queues.Queue;
+import main.audio.queues.RepeatMode;
 
 public final class Player {
 
     @Getter
     private Queue queue;
     @Getter
-    @Setter
     private boolean isPaused = true;
     /**
      * The timestamp when the playlist has been un-paused.
@@ -52,21 +50,6 @@ public final class Player {
                 clearQueue();
             }
         }
-    }
-
-    /**
-     * Toggle the `paused` state of the player.
-     *
-     * @return True if the player is now paused.
-     */
-    public boolean togglePaused(final int timestamp) {
-        updateTime(timestamp);
-
-        isPaused = !isPaused;
-        if (!isPaused) {
-            lastUpdate = timestamp;
-        }
-        return isPaused;
     }
 
     /**

@@ -16,9 +16,9 @@ public final class Prev extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        Queue queue = callee.getPlayer().getQueue();
-        callee.getPlayer().updateTime(timestamp);
+        User caller = getCaller();
+        Queue queue = caller.getPlayer().getQueue();
+        caller.getPlayer().updateTime(timestamp);
 
         if (queue == null) {
             return new MessageResult(this,
@@ -26,7 +26,7 @@ public final class Prev extends Command {
         }
 
         AudioFile prevFile = queue.prev();
-        callee.getPlayer().setPaused(false, timestamp);
+        caller.getPlayer().setPaused(false, timestamp);
         return new MessageResult(this,
             "Returned to previous track successfully. The current track is " + prevFile.getName()
                 + ".");

@@ -17,9 +17,9 @@ public final class Follow extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User callee = getCallee();
-        Searchable selected = instance.getSearchbar().consumeSelectedResult();
+        Program program = Program.getInstance();
+        User caller = getCaller();
+        Searchable selected = program.getSearchbar().consumeSelectedResult();
 
         if (selected == null) {
             return new MessageResult(this,
@@ -31,11 +31,12 @@ public final class Follow extends Command {
             return new MessageResult(this, "The selected source is not a playlist.");
         }
 
-        if (getUser().equals(playlist.getUser().getUsername())) {
+        String playlistOwner = playlist.getUser().getUsername();
+        if (getUser().equals(playlistOwner)) {
             return new MessageResult(this, "You cannot follow or unfollow your own playlist.");
         }
 
-        if (callee.follow(playlist)) {
+        if (caller.follow(playlist)) {
             return new MessageResult(this, "Playlist followed successfully.");
         }
 

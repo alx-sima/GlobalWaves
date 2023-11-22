@@ -17,8 +17,8 @@ public final class Load extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        Searchbar searchbar = instance.getSearchbar();
+        Program program = Program.getInstance();
+        Searchbar searchbar = program.getSearchbar();
 
         Searchable selected = searchbar.consumeSelectedResult();
         if (selected == null) {
@@ -28,8 +28,8 @@ public final class Load extends Command {
         // Clear the search results if the load was successful.
         searchbar.setSearchResults(null);
 
-        User callee = getCallee();
-        callee.getPlayer().addQueue(selected.createQueue(), timestamp);
+        User caller = getCaller();
+        caller.getPlayer().addQueue(selected.createQueue(), timestamp);
         return new MessageResult(this, "Playback loaded successfully.");
     }
 }

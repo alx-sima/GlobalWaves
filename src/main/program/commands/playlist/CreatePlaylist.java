@@ -17,9 +17,9 @@ public final class CreatePlaylist extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
+        User caller = getCaller();
 
-        if (callee.createPlaylist(playListName, timestamp)) {
+        if (caller.createPlaylist(playListName, timestamp)) {
             return new MessageResult(this, "Playlist created successfully.");
         }
         return new MessageResult(this, "A playlist with the same name already exists.");

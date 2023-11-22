@@ -38,7 +38,7 @@ public abstract class Command {
     /**
      * Get the user that executed the command.
      */
-    protected User getCallee() {
+    protected User getCaller() {
         return Program.getInstance().getUsers().get(user);
     }
 

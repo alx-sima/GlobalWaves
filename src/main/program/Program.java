@@ -3,21 +3,17 @@ package main.program;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
-import fileio.input.commands.CommandInput;
 import fileio.input.LibraryInput;
-import fileio.input.PodcastInput;
 import fileio.input.UserInput;
+import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import main.audio.collections.Library;
-import main.audio.collections.Playlist;
-import main.audio.collections.Podcast;
 import main.program.commands.Command;
 
 /**
@@ -28,9 +24,7 @@ public final class Program {
 
     private static Program instance = null;
     private final Map<String, User> users = new HashMap<>();
-    private final List<Playlist> publicPlaylists = new ArrayList<>();
     private final Searchbar searchbar = new Searchbar();
-    private final List<Podcast> podcasts = new ArrayList<>();
     private Library library;
 
     private Program() {
@@ -48,11 +42,7 @@ public final class Program {
     }
 
     private void initializeData(final LibraryInput libraryInput) {
-        library = new Library(libraryInput.getSongs());
-
-        for (PodcastInput podcastInput : libraryInput.getPodcasts()) {
-            podcasts.add(new Podcast(podcastInput));
-        }
+        library = new Library(libraryInput);
 
         for (UserInput userInput : libraryInput.getUsers()) {
             User user = new User(userInput);
@@ -75,9 +65,7 @@ public final class Program {
 
     private void clearData() {
         library = null;
-        podcasts.clear();
         users.clear();
-        publicPlaylists.clear();
     }
 
     /**

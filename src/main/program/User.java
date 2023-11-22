@@ -64,14 +64,14 @@ public final class User {
      * @return whether this operation succeeded or not.
      */
     public boolean createPlaylist(final String playListName, final int timestamp) {
-        Program instance = Program.getInstance();
+        Program program = Program.getInstance();
 
         if (getPlaylist(playListName) != null) {
             return false;
         }
 
         Playlist playlist = new Playlist(playListName, this, timestamp);
-        instance.getPublicPlaylists().add(playlist);
+        program.getLibrary().getPublicPlaylists().add(playlist);
         playlists.add(playlist);
         return true;
     }

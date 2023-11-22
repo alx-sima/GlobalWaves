@@ -17,8 +17,8 @@ public final class GetTop5Playlists extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        List<Playlist> publicPlaylists = instance.getPublicPlaylists();
+        Program program = Program.getInstance();
+        List<Playlist> publicPlaylists = program.getLibrary().getPublicPlaylists();
 
         // Compare first by number of followers, then by age (timestamp of creation).
         Comparator<Playlist> comparator = Comparator.comparingInt(Playlist::getFollowers).reversed()

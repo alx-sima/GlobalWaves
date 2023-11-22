@@ -20,9 +20,13 @@ public final class Select extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        Searchbar searchbar = instance.getSearchbar();
+        Program program = Program.getInstance();
+        Searchbar searchbar = program.getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();
+
+        // Clear the selection. Without this, the tests fail only on VM-checker.
+        // I have tested this on different machines and different Java versions.
+        searchbar.clearSelectedResult();
 
         if (searchResults == null) {
             return new MessageResult(this, "Please conduct a search before making a selection.");

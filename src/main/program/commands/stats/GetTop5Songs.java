@@ -18,8 +18,8 @@ public final class GetTop5Songs extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        Library library = instance.getLibrary();
+        Program program = Program.getInstance();
+        Library library = program.getLibrary();
 
         // Compare by number of likes.
         Comparator<Song> comparator = Comparator.comparingInt(Song::getLikes).reversed();

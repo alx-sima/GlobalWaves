@@ -17,8 +17,8 @@ public final class Forward extends Command {
 
     @Override
     public CommandResult execute() {
-        User user = getCallee();
-        Queue queue = user.getPlayer().getQueue();
+        User caller = getCaller();
+        Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {
             return new MessageResult(this, "Please load a source before attempting to forward.");

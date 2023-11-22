@@ -15,14 +15,18 @@ public final class PlayPause extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        Player player = callee.getPlayer();
+        User caller = getCaller();
+        Player player = caller.getPlayer();
+
         if (player.getQueue() == null) {
             return new MessageResult(this,
                 "Please load a source before attempting to pause or resume playback.");
         }
 
-        if (player.togglePaused(timestamp)) {
+        boolean willPause = !player.isPaused();
+        player.setPaused(willPause, timestamp);
+
+        if (willPause) {
             return new MessageResult(this, "Playback paused successfully.");
         }
         return new MessageResult(this, "Playback resumed successfully.");

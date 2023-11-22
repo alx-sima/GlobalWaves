@@ -20,8 +20,8 @@ public final class AddRemoveInPlaylist extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        Queue queue = callee.getPlayer().getQueue();
+        User caller = getCaller();
+        Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {
             return new MessageResult(this,
@@ -33,7 +33,7 @@ public final class AddRemoveInPlaylist extends Command {
             return new MessageResult(this, "The loaded source is not a song.");
         }
 
-        Playlist playlist = callee.getPlaylist(playlistId - 1);
+        Playlist playlist = caller.getPlaylist(playlistId - 1);
         if (playlist == null) {
             return new MessageResult(this, "The specified playlist does not exist.");
         }

@@ -16,8 +16,8 @@ public final class Status extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        Player player = callee.getPlayer();
+        User caller = getCaller();
+        Player player = caller.getPlayer();
         return new StatusResult(this, new StatusOutput(player, timestamp));
     }
 }

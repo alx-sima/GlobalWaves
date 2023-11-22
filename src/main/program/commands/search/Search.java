@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.audio.Searchable;
+import main.audio.collections.Library;
 import main.audio.collections.Playlist;
 import main.program.Player;
 import main.program.Program;
@@ -35,17 +36,18 @@ public final class Search extends Command {
         return true;
     }
 
-    private Stream<? extends Searchable> getSearchPlace(final User callee,
+    private Stream<? extends Searchable> getSearchPlace(final User caller,
         final String searchType) {
-        Program instance = Program.getInstance();
+        Program program = Program.getInstance();
+        Library library = program.getLibrary();
 
         return switch (searchType) {
-            case "song" -> instance.getLibrary().getSongs().stream();
-            case "podcast" -> instance.getPodcasts().stream();
+            case "song" -> library.getSongs().stream();
+            case "podcast" -> library.getPodcasts().stream();
             case "playlist" -> {
                 // Search in the user's playlists and also in the public playlists.
-                Stream<Playlist> userPlaylists = callee.getPlaylists().stream();
-                Stream<Playlist> publicPlaylists = instance.getPublicPlaylists().stream().sorted(
+                Stream<Playlist> userPlaylists = caller.getPlaylists().stream();
+                Stream<Playlist> publicPlaylists = library.getPublicPlaylists().stream().sorted(
                     Comparator.comparingInt(Playlist::getCreationTimestamp));
 
                 // Remove duplicates before searching.
@@ -57,17 +59,17 @@ public final class Search extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User callee = getCallee();
+        Program program = Program.getInstance();
+        User caller = getCaller();
 
-        Stream<? extends Searchable> searchPlace = getSearchPlace(callee, type);
+        Stream<? extends Searchable> searchPlace = getSearchPlace(caller, type);
 
         List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS)
             .collect(Collectors.toList());
-        instance.getSearchbar().setSearchResults(valid);
+        program.getSearchbar().setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
-        Player player = callee.getPlayer();
+        Player player = caller.getPlayer();
         player.updateTime(timestamp);
         player.clearQueue();
 

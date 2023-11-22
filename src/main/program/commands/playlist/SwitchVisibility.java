@@ -20,16 +20,17 @@ public final class SwitchVisibility extends Command {
 
     @Override
     public CommandResult execute() {
-        Program instance = Program.getInstance();
-        User callee = getCallee();
-        List<Playlist> playlists = callee.getPlaylists();
+        Program program = Program.getInstance();
+        User caller = getCaller();
+        List<Playlist> playlists = caller.getPlaylists();
 
         if (playlistId > playlists.size()) {
             return new MessageResult(this, "The specified playlist ID is too high.");
         }
 
-        List<Playlist> publicPlaylists = instance.getPublicPlaylists();
+        List<Playlist> publicPlaylists = program.getLibrary().getPublicPlaylists();
         Playlist playlist = playlists.get(playlistId - 1);
+
         if (playlist.isPrivate()) {
             playlist.setPrivate(false);
             publicPlaylists.add(playlist);

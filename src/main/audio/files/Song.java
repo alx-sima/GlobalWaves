@@ -76,16 +76,6 @@ public final class Song extends AudioFile implements Searchable, SongSource {
     }
 
     @Override
-    public RepeatMode getNextRepeatMode(final RepeatMode repeatMode) {
-        return switch (repeatMode) {
-            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
-            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
-            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
-            default -> null;
-        };
-    }
-
-    @Override
     public int size() {
         return 1;
     }
@@ -97,5 +87,15 @@ public final class Song extends AudioFile implements Searchable, SongSource {
         }
 
         return null;
+    }
+
+    @Override
+    public RepeatMode getNextRepeatMode(final RepeatMode repeatMode) {
+        return switch (repeatMode) {
+            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
+            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
+            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
+            default -> null;
+        };
     }
 }

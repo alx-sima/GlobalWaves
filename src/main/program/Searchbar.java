@@ -27,11 +27,18 @@ public class Searchbar {
     }
 
     /**
+     * Clear the searchbar's selection.
+     */
+    public void clearSelectedResult() {
+        selectedResult = null;
+    }
+
+    /**
      * Get the selected search result, then clear the selection.
      */
     public Searchable consumeSelectedResult() {
         Searchable result = selectedResult;
-        selectedResult = null;
+        clearSelectedResult();
         return result;
     }
 }

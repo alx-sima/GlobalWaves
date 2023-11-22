@@ -16,9 +16,9 @@ public final class Like extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        Queue queue = callee.getPlayer().getQueue();
-        callee.getPlayer().updateTime(timestamp);
+        User caller = getCaller();
+        Queue queue = caller.getPlayer().getQueue();
+        caller.getPlayer().updateTime(timestamp);
 
         if (queue == null) {
             return new MessageResult(this, "Please load a source before liking or unliking.");
@@ -29,7 +29,7 @@ public final class Like extends Command {
             return new MessageResult(this, "Loaded source is not a song.");
         }
 
-        if (callee.like(song)) {
+        if (caller.like(song)) {
             return new MessageResult(this, "Like registered successfully.");
         }
         return new MessageResult(this, "Unlike registered successfully.");

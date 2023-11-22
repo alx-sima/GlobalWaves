@@ -14,5 +14,4 @@ public final class LibraryInput {
 
     public LibraryInput() {
     }
-
 }

@@ -1,18 +1,20 @@
 package main.audio.collections;
 
-import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
+import java.util.List;
+import lombok.Getter;
 import main.audio.Searchable;
-import main.audio.queues.Queue;
 import main.audio.files.AudioFile;
 import main.audio.files.Episode;
-
-import java.util.ArrayList;
-import java.util.List;
+import main.audio.queues.Queue;
 import main.audio.queues.RepeatMode;
 
+/**
+ * A podcast is a collection of episodes which can be played, and keeps track of play progress.
+ */
 public final class Podcast extends Queue implements Searchable {
 
+    @Getter
     private final String name;
     private final String owner;
     private final List<Episode> episodes;
@@ -22,25 +24,8 @@ public final class Podcast extends Queue implements Searchable {
         super(false);
         name = input.getName();
         owner = input.getOwner();
-
-        List<Episode> episodeList = new ArrayList<>();
-        for (EpisodeInput episodeInput : input.getEpisodes()) {
-            Episode episode = new Episode(episodeInput);
-            episodeList.add(episode);
-        }
-
-        episodes = episodeList;
+        episodes = input.getEpisodes().stream().map(Episode::new).toList();
         currentlyPlaying = episodes.get(0);
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Queue createQueue() {
-        return this;
     }
 
     @Override
@@ -53,17 +38,12 @@ public final class Podcast extends Queue implements Searchable {
     }
 
     @Override
-    public RepeatMode changeRepeatMode() {
-        return switch (repeatMode) {
-            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
-            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
-            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
-            default -> null;
-        };
+    public Queue createQueue() {
+        return this;
     }
 
     @Override
-    public AudioFile getNext() {
+    protected AudioFile getNextFile() {
         if (repeatMode == RepeatMode.REPEAT_INFINITE) {
             return episodes.get(episodeIndex);
         } else if (repeatMode == RepeatMode.REPEAT_ONCE) {
@@ -82,14 +62,13 @@ public final class Podcast extends Queue implements Searchable {
     }
 
     @Override
-    public AudioFile prev() {
-        if (playTime == 0 && episodeIndex != 0) {
-            episodeIndex--;
-            currentlyPlaying = episodes.get(episodeIndex);
-        }
-
-        playTime = 0;
-        return currentlyPlaying;
+    public RepeatMode changeRepeatMode() {
+        return switch (repeatMode) {
+            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
+            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
+            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
+            default -> null;
+        };
     }
 
     @Override
@@ -102,5 +81,16 @@ public final class Podcast extends Queue implements Searchable {
 
         addTimeIncrement(deltaTime);
         return true;
+    }
+
+    @Override
+    public AudioFile prev() {
+        if (playTime == 0 && episodeIndex != 0) {
+            episodeIndex--;
+            currentlyPlaying = episodes.get(episodeIndex);
+        }
+
+        playTime = 0;
+        return currentlyPlaying;
     }
 }

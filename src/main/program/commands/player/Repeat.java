@@ -17,8 +17,8 @@ public final class Repeat extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        Player player = callee.getPlayer();
+        User caller = getCaller();
+        Player player = caller.getPlayer();
         Queue queue = player.getQueue();
 
         if (queue == null) {

@@ -19,8 +19,8 @@ public final class Shuffle extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        Player player = callee.getPlayer();
+        User caller = getCaller();
+        Player player = caller.getPlayer();
         player.updateTime(timestamp);
         Queue queue = player.getQueue();
 

@@ -4,6 +4,9 @@ import lombok.Getter;
 import main.audio.files.AudioFile;
 import main.audio.files.Song;
 
+/**
+ * A play queue, holding the files that will play in the music player.
+ */
 public abstract class Queue {
 
     @Getter
@@ -20,6 +23,13 @@ public abstract class Queue {
     }
 
     /**
+     * Get the next file.
+     *
+     * @return null if the queue ended.
+     */
+    protected abstract AudioFile getNextFile();
+
+    /**
      * Simulate the passing of `increment` seconds.
      *
      * @param increment The time duration that passed.
@@ -31,10 +41,12 @@ public abstract class Queue {
 
         playTime += increment;
 
+        // Skip the files that ended in the meantime.
         while (playTime >= currentlyPlaying.getDuration()) {
             playTime -= currentlyPlaying.getDuration();
-            currentlyPlaying = getNext();
+            currentlyPlaying = getNextFile();
 
+            // Check if queue ended.
             if (currentlyPlaying == null) {
                 playTime = 0;
                 return;
@@ -72,18 +84,20 @@ public abstract class Queue {
     }
 
     /**
-     * Get the next file.
-     *
-     * @return null if the queue ended.
-     */
-    public abstract AudioFile getNext();
-
-    /**
-     * Change to the next repeat mode.
+     * Change to the next repeat mode, based on the queue that is playing.
      *
      * @return the next mode.
      */
     public abstract RepeatMode changeRepeatMode();
+
+    /**
+     * Get the song that is currently playing.
+     *
+     * @return none, if the file playing is not a song.
+     */
+    public Song getCurrentSong() {
+        return null;
+    }
 
     /**
      * Skip `deltaTime` seconds (if the queue supports it).
@@ -100,7 +114,7 @@ public abstract class Queue {
      * @return the next file, or null if the queue has ended.
      */
     public AudioFile next() {
-        AudioFile nextFile = getNext();
+        AudioFile nextFile = getNextFile();
         currentlyPlaying = nextFile;
         playTime = 0;
 
@@ -113,8 +127,4 @@ public abstract class Queue {
      * @return the previous file.
      */
     public abstract AudioFile prev();
-
-    public Song getCurrentSong() {
-        return null;
-    }
 }

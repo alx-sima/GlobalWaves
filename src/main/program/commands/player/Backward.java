@@ -17,8 +17,8 @@ public final class Backward extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        Queue queue = callee.getPlayer().getQueue();
+        User caller = getCaller();
+        Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {
             return new MessageResult(this, "Please load a source before rewinding.");

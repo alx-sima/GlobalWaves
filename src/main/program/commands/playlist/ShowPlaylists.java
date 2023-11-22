@@ -14,8 +14,8 @@ public final class ShowPlaylists extends Command {
 
     @Override
     public CommandResult execute() {
-        User callee = getCallee();
-        return new ShowPlaylistsResult(this, callee.getPlaylists());
+        User caller = getCaller();
+        return new ShowPlaylistsResult(this, caller.getPlaylists());
     }
 }
 

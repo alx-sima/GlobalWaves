@@ -15,20 +15,24 @@ import main.audio.queues.RepeatMode;
 import main.audio.queues.SongQueue;
 import main.program.User;
 
+/**
+ * A collection of songs, that can be played and followed (if public).
+ */
 public final class Playlist implements Searchable, SongSource {
 
+    @Getter
     private final String name;
     @Getter
     private final User user;
     private final List<Song> songs = new ArrayList<>();
+    @Getter
+    private final int creationTimestamp;
     @Getter
     @Setter
     private boolean isPrivate = false;
     @Getter
     @Setter
     private int followers = 0;
-    @Getter
-    private final int creationTimestamp;
 
     public Playlist(final String name, final User user, final int creationTimestamp) {
         this.name = name;
@@ -36,28 +40,11 @@ public final class Playlist implements Searchable, SongSource {
         this.creationTimestamp = creationTimestamp;
     }
 
-    @Override
-    public int size() {
-        return songs.size();
-    }
-
-    @Override
-    public String getName() {
-        return name;
-    }
-
-    @Override
-    public Queue createQueue() {
-        return new SongQueue(this, songs.size(), true);
-    }
-
-    @Override
-    public boolean matchFilter(final String filter, final String parameter) {
-        return switch (filter) {
-            case "name" -> name.startsWith(parameter);
-            case "owner" -> user.getUsername().equals(parameter);
-            default -> false;
-        };
+    /**
+     * Get the names of the songs of the playlist.
+     */
+    public List<String> getSongNames() {
+        return songs.stream().map(Song::getName).toList();
     }
 
     /**
@@ -76,13 +63,27 @@ public final class Playlist implements Searchable, SongSource {
     }
 
     @Override
-    public RepeatMode getNextRepeatMode(final RepeatMode repeatMode) {
-        return switch (repeatMode) {
-            case NO_REPEAT -> REPEAT_ALL;
-            case REPEAT_ALL -> REPEAT_CURRENT;
-            case REPEAT_CURRENT -> NO_REPEAT;
-            default -> null;
+    public boolean matchFilter(final String filter, final String parameter) {
+        return switch (filter) {
+            case "name" -> name.startsWith(parameter);
+            case "owner" -> user.getUsername().equals(parameter);
+            default -> false;
         };
+    }
+
+    @Override
+    public Queue createQueue() {
+        return new SongQueue(this, songs.size(), true);
+    }
+
+    @Override
+    public Playlist getPlaylist() {
+        return this;
+    }
+
+    @Override
+    public int size() {
+        return songs.size();
     }
 
     @Override
@@ -95,14 +96,12 @@ public final class Playlist implements Searchable, SongSource {
     }
 
     @Override
-    public Playlist getPlaylist() {
-        return this;
-    }
-
-    /**
-     * Get the names of the songs of the playlist.
-     */
-    public List<String> getSongNames() {
-        return songs.stream().map(Song::getName).toList();
+    public RepeatMode getNextRepeatMode(final RepeatMode repeatMode) {
+        return switch (repeatMode) {
+            case NO_REPEAT -> REPEAT_ALL;
+            case REPEAT_ALL -> REPEAT_CURRENT;
+            case REPEAT_CURRENT -> NO_REPEAT;
+            default -> null;
+        };
     }
 }

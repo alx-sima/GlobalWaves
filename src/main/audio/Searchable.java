@@ -9,7 +9,7 @@ import main.audio.queues.Queue;
 public interface Searchable {
 
     /**
-     * Check if the entity (song, podcast, playlist) matches the filter and its parameter.
+     * Check if the entity matches the filter and its parameter.
      *
      * @param filter    the search filter.
      * @param parameter the filter's parameter.
@@ -18,16 +18,17 @@ public interface Searchable {
     boolean matchFilter(String filter, String parameter);
 
     /**
+     * Get the name of the search result.
+     */
+    String getName();
+
+    /**
      * Create a queue to be played from this search result.
      *
      * @return a queue based on the internal type.
      */
     Queue createQueue();
 
-    /**
-     * Get the name of the file.
-     */
-    String getName();
 
     /**
      * Get the playlist that contains this item.

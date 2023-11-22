@@ -25,6 +25,7 @@ public final class StatusOutput {
             return;
         }
 
+        // Print default values if nothing is playing.
         name = "";
         remainedTime = 0;
         paused = true;

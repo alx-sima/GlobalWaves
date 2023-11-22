@@ -1,11 +1,12 @@
 # Global Waves - etapa 1
 
 autor: Alexandru Sima
+grupa: 322 CA
 
 ## Descriere
 
 GlobalWaves este un program care simulează un player muzical, care primește de-a lungul duratei de
-funcționare diferite comenzi de la mai multi utilizatori.
+funcționare diferite comenzi de la mai mulți utilizatori.
 
 ## Componente
 
@@ -14,6 +15,8 @@ funcționare diferite comenzi de la mai multi utilizatori.
 `Program`-ul este entitatea care stochează informațiile aplicației. Scopul său este de a încărca
 Biblioteca de melodii (`Library`), utilizatorii (`User`) și `Podcast`urile, de a le elibera după
 execuție și de a citi și executa comenzile (`Command` și subtipurile aferente) primite.
+
+`Library`-ul este o componentă care stochează fișierele și colecțiile de fișiere audio.
 
 `Searchbar`-ul este o componentă a programului care se ocupă de căutări, aceasta stocând rezultatele
 acestora și selecțiile care le urmează.

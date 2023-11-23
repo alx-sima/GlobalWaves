@@ -13,7 +13,6 @@ public final class SongQueue extends Queue {
     private final SongSource songSource;
     @Getter
     private final int size;
-    private int songIndex = 0;
 
     public SongQueue(final SongSource songSource, final int size, final boolean canShuffle) {
         super(canShuffle);
@@ -26,27 +25,22 @@ public final class SongQueue extends Queue {
     protected AudioFile getNextFile() {
         if (repeatMode == RepeatMode.REPEAT_CURRENT || repeatMode == RepeatMode.REPEAT_INFINITE) {
             return getCurrentSong();
-        } else if (repeatMode == RepeatMode.REPEAT_ONCE) {
+        }
+
+        if (repeatMode == RepeatMode.REPEAT_ONCE) {
             repeatMode = RepeatMode.NO_REPEAT;
             return getCurrentSong();
         }
 
-        if (shuffler == null) {
-            songIndex++;
-            if (songIndex < songSource.size()) {
+        if (shuffler == null || shuffler.getIndexMapping(playIndex) != songSource.size() - 1) {
+            playIndex++;
+            if (playIndex < songSource.size()) {
                 return getCurrentSong();
-            }
-        } else {
-            if (shuffler.getIndexMapping(songIndex) != songSource.size() - 1) {
-                songIndex++;
-                if (songIndex < songSource.size()) {
-                    return getCurrentSong();
-                }
             }
         }
 
         if (repeatMode == RepeatMode.REPEAT_ALL) {
-            songIndex = 0;
+            playIndex = 0;
             return getCurrentSong();
         }
 
@@ -59,7 +53,7 @@ public final class SongQueue extends Queue {
             shuffler = new Shuffler(seed, size);
 
             // Get the current song's index in the newly shuffled order.
-            songIndex = shuffler.getIndexOf(songIndex);
+            playIndex = shuffler.getIndexOf(playIndex);
         }
     }
 
@@ -67,7 +61,7 @@ public final class SongQueue extends Queue {
     public void disableShuffle() {
         // Get the current song's index in the original order.
         if (super.isShuffled()) {
-            songIndex = shuffler.getIndexMapping(songIndex);
+            playIndex = shuffler.getIndexMapping(playIndex);
         }
 
         super.disableShuffle();
@@ -79,20 +73,24 @@ public final class SongQueue extends Queue {
         return repeatMode;
     }
 
+    private int getSongIndex(final int index) {
+        return shuffler != null ? shuffler.getIndexMapping(index) : index;
+    }
+
+    @Override
+    protected AudioFile getFilePlaying() {
+        return getCurrentSong();
+    }
+
     @Override
     public Song getCurrentSong() {
-        int index = songIndex;
-        if (shuffler != null) {
-            index = shuffler.getIndexMapping(index);
-        }
-
-        return songSource.get(index);
+        return songSource.get(getSongIndex(playIndex));
     }
 
     @Override
     public AudioFile prev() {
-        if (playTime == 0 && songIndex != 0) {
-            songIndex--;
+        if (playTime == 0 && playIndex != 0) {
+            playIndex--;
             currentlyPlaying = getCurrentSong();
         }
 

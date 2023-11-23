@@ -17,6 +17,7 @@ public abstract class Queue {
     protected AudioFile currentlyPlaying = null;
     protected int playTime = 0;
     protected Shuffler shuffler = null;
+    protected int playIndex = 0;
 
     public Queue(final boolean isShuffle) {
         this.isShuffle = isShuffle;
@@ -90,6 +91,8 @@ public abstract class Queue {
      */
     public abstract RepeatMode changeRepeatMode();
 
+    protected abstract AudioFile getFilePlaying();
+
     /**
      * Get the song that is currently playing.
      *
@@ -126,5 +129,13 @@ public abstract class Queue {
      *
      * @return the previous file.
      */
-    public abstract AudioFile prev();
+    public AudioFile prev() {
+        if (playTime == 0 && playIndex != 0) {
+            playIndex--;
+            currentlyPlaying = getFilePlaying();
+        }
+
+        playTime = 0;
+        return currentlyPlaying;
+    }
 }

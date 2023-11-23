@@ -18,7 +18,6 @@ public final class Podcast extends Queue implements Searchable {
     private final String name;
     private final String owner;
     private final List<Episode> episodes;
-    private int episodeIndex = 0;
 
     public Podcast(final PodcastInput input) {
         super(false);
@@ -45,20 +44,20 @@ public final class Podcast extends Queue implements Searchable {
     @Override
     protected AudioFile getNextFile() {
         if (repeatMode == RepeatMode.REPEAT_INFINITE) {
-            return episodes.get(episodeIndex);
+            return episodes.get(playIndex);
         } else if (repeatMode == RepeatMode.REPEAT_ONCE) {
             repeatMode = RepeatMode.NO_REPEAT;
-            return episodes.get(episodeIndex);
+            return getFilePlaying();
         }
 
-        episodeIndex++;
-        if (episodeIndex >= episodes.size()) {
+        playIndex++;
+        if (playIndex >= episodes.size()) {
             if (repeatMode == RepeatMode.NO_REPEAT) {
                 return null;
             }
         }
 
-        return episodes.get(episodeIndex);
+        return getFilePlaying();
     }
 
     @Override
@@ -72,6 +71,11 @@ public final class Podcast extends Queue implements Searchable {
     }
 
     @Override
+    protected AudioFile getFilePlaying() {
+        return episodes.get(playIndex);
+    }
+
+    @Override
     public boolean skip(final int deltaTime) {
         if (playTime + deltaTime < 0) {
             playTime = 0;
@@ -81,16 +85,5 @@ public final class Podcast extends Queue implements Searchable {
 
         addTimeIncrement(deltaTime);
         return true;
-    }
-
-    @Override
-    public AudioFile prev() {
-        if (playTime == 0 && episodeIndex != 0) {
-            episodeIndex--;
-            currentlyPlaying = episodes.get(episodeIndex);
-        }
-
-        playTime = 0;
-        return currentlyPlaying;
     }
 }

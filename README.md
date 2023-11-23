@@ -13,12 +13,12 @@ funcționare diferite comenzi de la mai mulți utilizatori.
 ### Program
 
 `Program`-ul este entitatea care stochează informațiile aplicației. Scopul său este de a încărca
-Biblioteca de melodii (`Library`), utilizatorii (`User`) și `Podcast`urile, de a le elibera după
-execuție și de a citi și executa comenzile (`Command` și subtipurile aferente) primite.
+biblioteca de melodii (`Library`) și utilizatorii (`User`), de a le elibera după execuție și de a 
+citi și executa comenzile (`Command` și subtipurile aferente) primite.
 
 `Library`-ul este o componentă care stochează fișierele și colecțiile de fișiere audio.
 
-`Searchbar`-ul este o componentă a programului care se ocupă de căutări, aceasta stocând rezultatele
+`Searchbar`-ul este o componentă a programului care se ocupă de căutări, stocând rezultatele
 acestora și selecțiile care le urmează.
 
 ### User
@@ -53,9 +53,9 @@ Un `SongSource` este o abstractizare peste o colecție de melodii (playlist sau 
 
 ---
 
-O coadă poate conține un `Shuffler` (doar când aceasta este creată dintr-un playlist), care, atunci
-când există, multiplexează indicii melodiilor din playlist, pentru a randomiza ordinea acestora,
-folosind seed-ul dat la creare.
+O coadă poate conține un `Shuffler` (doar când este creată dintr-un playlist), care, atunci când 
+există, transformând indicii melodiilor din playlist, pentru a randomiza ordinea acestora, folosind
+seed-ul dat la creare.
 
 ### Searchable
 

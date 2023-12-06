@@ -26,6 +26,12 @@ public final class User {
     private final List<AudioFile> likedSongs = new ArrayList<>();
     private final List<Playlist> followedPlaylists = new ArrayList<>();
 
+    public User(final String type, final String username, final int age, final String city) {
+        this.username = username;
+        this.age = age;
+        this.city = city;
+    }
+
     public User(final UserInput input) {
         username = input.getUsername();
         age = input.getAge();

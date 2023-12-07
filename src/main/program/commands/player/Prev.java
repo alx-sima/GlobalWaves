@@ -6,16 +6,16 @@ import fileio.output.MessageResult;
 import main.audio.files.AudioFile;
 import main.audio.queues.Queue;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class Prev extends Command {
+public final class Prev extends OnlineCommand {
 
     public Prev(final CommandInput input) {
         super(input);
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         User caller = getCaller();
         Queue queue = caller.getPlayer().getQueue();
         caller.getPlayer().updateTime(timestamp);

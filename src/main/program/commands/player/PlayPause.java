@@ -5,16 +5,16 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.program.Player;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class PlayPause extends Command {
+public final class PlayPause extends OnlineCommand {
 
     public PlayPause(final CommandInput input) {
         super(input);
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         User caller = getCaller();
         Player player = caller.getPlayer();
 

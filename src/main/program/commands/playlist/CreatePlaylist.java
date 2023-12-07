@@ -4,9 +4,9 @@ import fileio.input.commands.PlaylistCreateInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class CreatePlaylist extends Command {
+public final class CreatePlaylist extends OnlineCommand {
 
     private final String playListName;
 
@@ -16,7 +16,7 @@ public final class CreatePlaylist extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         User caller = getCaller();
 
         if (caller.createPlaylist(playListName, timestamp)) {

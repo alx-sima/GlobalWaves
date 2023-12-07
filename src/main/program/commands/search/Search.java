@@ -13,9 +13,9 @@ import main.audio.collections.Playlist;
 import main.program.Player;
 import main.program.Program;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class Search extends Command {
+public final class Search extends OnlineCommand {
 
     private final String type;
     private final List<SearchFilter> filters;
@@ -58,7 +58,7 @@ public final class Search extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         Program program = Program.getInstance();
         User caller = getCaller();
 

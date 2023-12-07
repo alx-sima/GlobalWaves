@@ -5,9 +5,9 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import main.audio.queues.Queue;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class Backward extends Command {
+public final class Backward extends OnlineCommand {
 
     private static final int BACKWARD_TIME = -90;
 
@@ -16,7 +16,7 @@ public final class Backward extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         User caller = getCaller();
         Queue queue = caller.getPlayer().getQueue();
 

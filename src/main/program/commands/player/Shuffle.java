@@ -6,9 +6,9 @@ import fileio.output.MessageResult;
 import main.audio.queues.Queue;
 import main.program.Player;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class Shuffle extends Command {
+public final class Shuffle extends OnlineCommand {
 
     private final int seed;
 
@@ -18,7 +18,7 @@ public final class Shuffle extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         User caller = getCaller();
         Player player = caller.getPlayer();
         player.updateTime(timestamp);

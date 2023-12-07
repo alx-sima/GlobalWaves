@@ -2,16 +2,16 @@ package main.program.commands.page;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public class PrintCurrentPage extends Command {
+public class PrintCurrentPage extends OnlineCommand {
 
     public PrintCurrentPage(final CommandInput input) {
         super(input);
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         // TODO
         return null;
     }

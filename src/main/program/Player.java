@@ -11,6 +11,7 @@ public final class Player {
     private Queue queue;
     @Getter
     private boolean isPaused = true;
+    private boolean isOnline = true;
     /**
      * The timestamp when the playlist has been un-paused.
      */
@@ -42,7 +43,7 @@ public final class Player {
      * @param timestamp The timestamp of 'now'.
      */
     public void updateTime(final int timestamp) {
-        if (!isPaused) {
+        if (isOnline && !isPaused) {
             queue.addTimeIncrement(timestamp - lastUpdate);
             lastUpdate = timestamp;
 
@@ -55,13 +56,27 @@ public final class Player {
     /**
      * Set the `paused` state of the player.
      *
-     * @param paused    The new state.
-     * @param timestamp The timestamp of 'now'.
+     * @param paused  the new state.
+     * @param timestamp the timestamp when this action occurs.
      */
     public void setPaused(final boolean paused, final int timestamp) {
         updateTime(timestamp);
         isPaused = paused;
         if (!isPaused) {
+            lastUpdate = timestamp;
+        }
+    }
+
+    /**
+     * Set the online status of the user that owns the player.
+     *
+     * @param online  the new online status.
+     * @param timestamp the timestamp when this action occurs.
+     */
+    public void setOnline(final boolean online, final int timestamp) {
+        updateTime(timestamp);
+        isOnline = online;
+        if (!isOnline) {
             lastUpdate = timestamp;
         }
     }

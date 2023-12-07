@@ -7,9 +7,9 @@ import java.util.List;
 import main.audio.collections.Playlist;
 import main.program.Program;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class SwitchVisibility extends Command {
+public final class SwitchVisibility extends OnlineCommand {
 
     private final int playlistId;
 
@@ -19,7 +19,7 @@ public final class SwitchVisibility extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         Program program = Program.getInstance();
         User caller = getCaller();
         List<Playlist> playlists = caller.getPlaylists();

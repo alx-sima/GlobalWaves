@@ -7,16 +7,16 @@ import main.audio.Searchable;
 import main.audio.collections.Playlist;
 import main.program.Program;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class Follow extends Command {
+public final class Follow extends OnlineCommand {
 
     public Follow(final CommandInput input) {
         super(input);
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         Program program = Program.getInstance();
         User caller = getCaller();
         Searchable selected = program.getSearchbar().consumeSelectedResult();

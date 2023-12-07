@@ -7,16 +7,16 @@ import main.audio.Searchable;
 import main.program.Program;
 import main.program.Searchbar;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class Load extends Command {
+public final class Load extends OnlineCommand {
 
     public Load(final CommandInput input) {
         super(input);
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         Program program = Program.getInstance();
         Searchbar searchbar = program.getSearchbar();
 

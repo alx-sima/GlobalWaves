@@ -7,9 +7,9 @@ import java.util.List;
 import main.audio.Searchable;
 import main.program.Program;
 import main.program.Searchbar;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class Select extends Command {
+public final class Select extends OnlineCommand {
 
     private final int itemNumber;
 
@@ -19,7 +19,7 @@ public final class Select extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         Program program = Program.getInstance();
         Searchbar searchbar = program.getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();

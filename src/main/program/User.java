@@ -14,6 +14,7 @@ import main.audio.files.Song;
  */
 public final class User {
 
+    private final String type;
     @Getter
     private final String username;
     private final int age;
@@ -25,17 +26,32 @@ public final class User {
     @Getter
     private final List<AudioFile> likedSongs = new ArrayList<>();
     private final List<Playlist> followedPlaylists = new ArrayList<>();
+    @Getter
+    private boolean isOnline = true;
 
     public User(final String type, final String username, final int age, final String city) {
+        this.type = type;
         this.username = username;
         this.age = age;
         this.city = city;
     }
 
     public User(final UserInput input) {
+        type = "user";
         username = input.getUsername();
         age = input.getAge();
         city = input.getCity();
+    }
+
+    /**
+     * Set the user's online state.
+     *
+     * @param online    the new online state.
+     * @param timestamp the timestamp of 'now'.
+     */
+    public void setOnline(final boolean online, final int timestamp) {
+        isOnline = online;
+        player.setOnline(isOnline, timestamp);
     }
 
     /**
@@ -85,7 +101,7 @@ public final class User {
     /**
      * Add the `song` to the liked list of this user. If it was already liked, remove it instead.
      *
-     * @param song The song to be added/removed.
+     * @param song the song to be added/removed.
      * @return true if `song` was liked after the operation.
      */
     public boolean like(final Song song) {

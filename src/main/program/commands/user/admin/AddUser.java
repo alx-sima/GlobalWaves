@@ -2,6 +2,10 @@ package main.program.commands.user.admin;
 
 import fileio.input.commands.AddUserInput;
 import fileio.output.CommandResult;
+import fileio.output.MessageResult;
+import java.util.Map;
+import main.program.Program;
+import main.program.User;
 import main.program.commands.Command;
 
 public final class AddUser extends Command {
@@ -19,7 +23,16 @@ public final class AddUser extends Command {
 
     @Override
     public CommandResult execute() {
-        // TODO
-        return null;
+
+        Program program = Program.getInstance();
+        Map<String, User> users = program.getUsers();
+
+        if (users.containsKey(user)) {
+            return new MessageResult(this, "The username " + user + " already exists.");
+        }
+
+        User newUser = new User(type, user, age, city);
+        users.put(user, newUser);
+        return new MessageResult(this, "The username " + user + " has been added successfully.");
     }
 }

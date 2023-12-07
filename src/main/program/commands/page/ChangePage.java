@@ -2,9 +2,9 @@ package main.program.commands.page;
 
 import fileio.input.commands.ChangePageInput;
 import fileio.output.CommandResult;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class ChangePage extends Command {
+public final class ChangePage extends OnlineCommand {
 
     private final String nextPage;
 
@@ -14,7 +14,7 @@ public final class ChangePage extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         // TODO
         return null;
     }

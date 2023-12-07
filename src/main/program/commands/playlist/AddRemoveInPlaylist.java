@@ -7,9 +7,9 @@ import main.audio.collections.Playlist;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
 import main.program.User;
-import main.program.commands.Command;
+import main.program.commands.OnlineCommand;
 
-public final class AddRemoveInPlaylist extends Command {
+public final class AddRemoveInPlaylist extends OnlineCommand {
 
     private final int playlistId;
 
@@ -19,7 +19,7 @@ public final class AddRemoveInPlaylist extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    protected CommandResult executeWhenOnline() {
         User caller = getCaller();
         Queue queue = caller.getPlayer().getQueue();
 

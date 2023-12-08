@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 import main.audio.Searchable;
 import main.audio.collections.Library;
 import main.audio.collections.Playlist;
+import main.audio.files.Song;
 import main.program.Player;
 import main.program.Program;
 import main.program.User;
@@ -42,7 +43,14 @@ public final class Search extends OnlineCommand {
         Library library = program.getLibrary();
 
         return switch (searchType) {
-            case "song" -> library.getSongs().stream();
+            case "song" -> {
+                Stream<Song> publicSongs = library.getSongs().stream();
+                Stream<Song> albumSongs =
+                    library.getAlbums().values().stream()
+                        .flatMap(album -> album.getSongs().stream());
+
+                yield Stream.concat(publicSongs, albumSongs);
+            }
             case "podcast" -> library.getPodcasts().stream();
             case "playlist" -> {
                 // Search in the user's playlists and also in the public playlists.
@@ -53,6 +61,7 @@ public final class Search extends OnlineCommand {
                 // Remove duplicates before searching.
                 yield Stream.concat(userPlaylists, publicPlaylists).distinct();
             }
+            case "album" -> library.getAlbums().values().stream();
             default -> Stream.empty();
         };
     }

@@ -1,7 +1,14 @@
 package main.program.commands.user.admin;
 
 import fileio.input.commands.CommandInput;
+import fileio.output.AlbumResult;
 import fileio.output.CommandResult;
+import fileio.output.SearchResult;
+import java.util.List;
+import java.util.stream.Stream;
+import main.audio.collections.Album;
+import main.audio.collections.Library;
+import main.program.Program;
 import main.program.commands.Command;
 
 public final class ShowAlbums extends Command {
@@ -12,7 +19,11 @@ public final class ShowAlbums extends Command {
 
     @Override
     public CommandResult execute() {
-        // TODO
-        return null;
+        Program program = Program.getInstance();
+        Library library = program.getLibrary();
+        List<Album> albums = library.getAlbums().values().stream()
+            .filter(album -> album.getOwner().equals(user)).toList();
+
+        return new AlbumResult(this, albums);
     }
 }

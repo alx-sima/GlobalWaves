@@ -28,7 +28,7 @@ public final class AddUser extends Command {
         Map<String, User> users = program.getUsers();
 
         if (users.containsKey(user)) {
-            return new MessageResult(this, "The username " + user + " already exists.");
+            return new MessageResult(this, "The username " + user + " is already taken.");
         }
 
         User newUser = new User(type, user, age, city);

@@ -6,6 +6,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
+import main.Event;
+import main.Merch;
 import main.audio.files.Song;
 
 /**
@@ -18,6 +20,8 @@ public final class Library {
     private final List<Podcast> podcasts;
     private final List<Playlist> publicPlaylists = new ArrayList<>();
     private final Map<String, Album> albums = new HashMap<>();
+    private final Map<String, Event> events = new HashMap<>();
+    private final Map<String, Merch> merch = new HashMap<>();
 
     public Library(final LibraryInput input) {
         songs = input.getSongs().stream().map(Song::new).toList();

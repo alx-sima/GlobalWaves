@@ -6,7 +6,6 @@ import lombok.Getter;
 import main.audio.Searchable;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
-import main.audio.queues.SongQueue;
 
 /**
  * An album, created by an artist, which contains a list of songs.

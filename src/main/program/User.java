@@ -12,8 +12,9 @@ import main.audio.files.Song;
 /**
  * A user of the application, with their own playlists and liked songs.
  */
-public final class User {
+public class User {
 
+    @Getter
     private final String type;
     @Getter
     private final String username;

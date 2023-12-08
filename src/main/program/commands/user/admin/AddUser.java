@@ -3,9 +3,9 @@ package main.program.commands.user.admin;
 import fileio.input.commands.AddUserInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
-import java.util.Map;
 import main.program.Program;
 import main.program.User;
+import main.program.UserDatabase;
 import main.program.commands.Command;
 
 public final class AddUser extends Command {
@@ -26,15 +26,14 @@ public final class AddUser extends Command {
         MessageResultBuilder resultBuilder = new MessageResultBuilder(this);
 
         Program program = Program.getInstance();
-        Map<String, User> users = program.getUsers();
+        UserDatabase database = program.getDatabase();
 
-        if (users.containsKey(user)) {
+        if (database.existsUser(user)) {
             resultBuilder.withMessage("The username " + user + " is already taken.");
             return resultBuilder.build();
         }
 
-        User newUser = new User(type, user, age, city);
-        users.put(user, newUser);
+        database.addUser(new User(type, user, age, city));
         resultBuilder.withMessage("The username " + user + " has been added successfully.");
         return resultBuilder.build();
     }

@@ -9,9 +9,7 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import java.io.File;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import main.audio.collections.Library;
 import main.program.commands.Command;
@@ -23,7 +21,7 @@ import main.program.commands.Command;
 public final class Program {
 
     private static Program instance = null;
-    private final Map<String, User> users = new HashMap<>();
+    private final UserDatabase database = new UserDatabase();
     private final Searchbar searchbar = new Searchbar();
     private Library library;
 
@@ -46,7 +44,7 @@ public final class Program {
 
         for (UserInput userInput : libraryInput.getUsers()) {
             User user = new User(userInput);
-            users.put(user.getUsername(), user);
+            database.getUsers().put(user.getUsername(), user);
         }
     }
 
@@ -65,7 +63,7 @@ public final class Program {
 
     private void clearData() {
         library = null;
-        users.clear();
+        database.clear();
     }
 
     /**

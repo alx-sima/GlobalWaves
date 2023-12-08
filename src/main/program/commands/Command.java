@@ -39,7 +39,7 @@ public abstract class Command {
      * Get the user that executed the command.
      */
     protected User getCaller() {
-        return Program.getInstance().getUsers().get(user);
+        return Program.getInstance().getDatabase().getUsers().get(user);
     }
 
     /**

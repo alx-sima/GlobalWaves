@@ -19,7 +19,8 @@ public final class GetOnlineUsers extends Command {
     @Override
     public CommandResult execute() {
         Program program = Program.getInstance();
-        Stream<User> onlineUsers = program.getUsers().values().stream().filter(User::isOnline)
+        Stream<User> onlineUsers = program.getDatabase().getUsers().values().stream()
+            .filter(User::isOnline)
             .sorted(
                 Comparator.comparing(User::getUsername));
         List<String> commandResult = onlineUsers.map(User::getUsername).toList();

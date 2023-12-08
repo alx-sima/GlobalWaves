@@ -2,7 +2,7 @@ package main.program.commands.player;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import main.audio.queues.Queue;
 import main.audio.queues.RepeatMode;
 import main.program.Player;
@@ -16,19 +16,27 @@ public final class Repeat extends OnlineCommand {
     }
 
     @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
+    }
+
+    @Override
     protected CommandResult executeWhenOnline() {
+        MessageResultBuilder resultBuilder = createResultBuilder();
+
         User caller = getCaller();
         Player player = caller.getPlayer();
         Queue queue = player.getQueue();
 
         if (queue == null) {
-            return new MessageResult(this,
-                "Please load a source before setting the repeat status.");
+            resultBuilder.withMessage("Please load a source before setting the repeat status.");
+            return resultBuilder.build();
         }
 
         player.updateTime(timestamp);
         RepeatMode newMode = queue.changeRepeatMode();
-        return new MessageResult(this,
+        resultBuilder.withMessage(
             "Repeat mode changed to " + newMode.toString().toLowerCase() + ".");
+        return resultBuilder.build();
     }
 }

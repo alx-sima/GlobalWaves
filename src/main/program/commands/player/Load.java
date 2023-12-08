@@ -2,7 +2,7 @@ package main.program.commands.player;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import main.audio.Searchable;
 import main.program.Program;
 import main.program.Searchbar;
@@ -16,13 +16,21 @@ public final class Load extends OnlineCommand {
     }
 
     @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
+    }
+
+    @Override
     protected CommandResult executeWhenOnline() {
+        MessageResultBuilder resultBuilder = createResultBuilder();
+
         Program program = Program.getInstance();
         Searchbar searchbar = program.getSearchbar();
 
         Searchable selected = searchbar.consumeSelectedResult();
         if (selected == null) {
-            return new MessageResult(this, "Please select a source before attempting to load.");
+            resultBuilder.withMessage("Please select a source before attempting to load.");
+            return resultBuilder.build();
         }
 
         // Clear the search results if the load was successful.
@@ -30,6 +38,8 @@ public final class Load extends OnlineCommand {
 
         User caller = getCaller();
         caller.getPlayer().addQueue(selected.createQueue(), timestamp);
-        return new MessageResult(this, "Playback loaded successfully.");
+
+        resultBuilder.withMessage("Playback loaded successfully.");
+        return resultBuilder.build();
     }
 }

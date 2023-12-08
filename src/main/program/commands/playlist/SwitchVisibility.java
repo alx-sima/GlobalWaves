@@ -2,7 +2,7 @@ package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import java.util.List;
 import main.audio.collections.Playlist;
 import main.program.Program;
@@ -19,13 +19,21 @@ public final class SwitchVisibility extends OnlineCommand {
     }
 
     @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
+    }
+
+    @Override
     protected CommandResult executeWhenOnline() {
+        MessageResultBuilder resultBuilder = createResultBuilder();
+
         Program program = Program.getInstance();
         User caller = getCaller();
         List<Playlist> playlists = caller.getPlaylists();
 
         if (playlistId > playlists.size()) {
-            return new MessageResult(this, "The specified playlist ID is too high.");
+            resultBuilder.withMessage("The specified playlist ID is too high.");
+            return resultBuilder.build();
         }
 
         List<Playlist> publicPlaylists = program.getLibrary().getPublicPlaylists();
@@ -40,7 +48,8 @@ public final class SwitchVisibility extends OnlineCommand {
         }
 
         String visibilityStatus = playlist.isPrivate() ? "private" : "public";
-        return new MessageResult(this,
+        resultBuilder.withMessage(
             "Visibility status updated successfully to " + visibilityStatus + ".");
+        return resultBuilder.build();
     }
 }

@@ -2,7 +2,7 @@ package main.program.commands.player;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import main.audio.files.AudioFile;
 import main.audio.queues.Queue;
 import main.program.User;
@@ -15,7 +15,14 @@ public final class Next extends OnlineCommand {
     }
 
     @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
+    }
+
+    @Override
     protected CommandResult executeWhenOnline() {
+        MessageResultBuilder resultBuilder = createResultBuilder();
+
         User caller = getCaller();
         Queue queue = caller.getPlayer().getQueue();
         caller.getPlayer().updateTime(timestamp);
@@ -25,14 +32,16 @@ public final class Next extends OnlineCommand {
 
             if (nextFile != null) {
                 caller.getPlayer().setPaused(false, timestamp);
-                return new MessageResult(this,
+                resultBuilder.withMessage(
                     "Skipped to next track successfully. The current track is "
                         + nextFile.getName() + ".");
+                return resultBuilder.build();
             }
 
             caller.getPlayer().clearQueue();
         }
 
-        return new MessageResult(this, "Please load a source before skipping to the next track.");
+        resultBuilder.withMessage("Please load a source before skipping to the next track.");
+        return resultBuilder.build();
     }
 }

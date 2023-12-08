@@ -2,9 +2,12 @@ package fileio.output;
 
 import main.program.commands.Command;
 
+/**
+ * A result of a command execution
+ */
 public abstract class CommandResult extends Command {
 
-    public CommandResult(final Command command) {
+    protected CommandResult(final Command command) {
         super(command);
     }
 

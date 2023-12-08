@@ -2,6 +2,7 @@ package main.program.commands.page;
 
 import fileio.input.commands.ChangePageInput;
 import fileio.output.CommandResult;
+import fileio.output.MessageResultBuilder;
 import main.program.commands.OnlineCommand;
 
 public final class ChangePage extends OnlineCommand {
@@ -11,6 +12,11 @@ public final class ChangePage extends OnlineCommand {
     public ChangePage(final ChangePageInput input) {
         super(input);
         nextPage = input.getNextPage();
+    }
+
+    @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
     }
 
     @Override

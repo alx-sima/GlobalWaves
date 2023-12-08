@@ -2,7 +2,7 @@ package main.program.commands.playlist;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import main.audio.Searchable;
 import main.audio.collections.Playlist;
 import main.program.Program;
@@ -16,30 +16,40 @@ public final class Follow extends OnlineCommand {
     }
 
     @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
+    }
+
+    @Override
     protected CommandResult executeWhenOnline() {
+        MessageResultBuilder resultBuilder = createResultBuilder();
+
         Program program = Program.getInstance();
         User caller = getCaller();
         Searchable selected = program.getSearchbar().consumeSelectedResult();
 
         if (selected == null) {
-            return new MessageResult(this,
-                "Please select a source before following or unfollowing.");
+            resultBuilder.withMessage("Please select a source before following or unfollowing.");
+            return resultBuilder.build();
         }
 
         Playlist playlist = selected.getPlaylist();
         if (playlist == null) {
-            return new MessageResult(this, "The selected source is not a playlist.");
+            resultBuilder.withMessage("The selected source is not a playlist.");
+            return resultBuilder.build();
         }
 
         String playlistOwner = playlist.getUser().getUsername();
         if (getUser().equals(playlistOwner)) {
-            return new MessageResult(this, "You cannot follow or unfollow your own playlist.");
+            resultBuilder.withMessage("You cannot follow or unfollow your own playlist.");
+            return resultBuilder.build();
         }
 
         if (caller.follow(playlist)) {
-            return new MessageResult(this, "Playlist followed successfully.");
+            resultBuilder.withMessage("Playlist followed successfully.");
+        } else {
+            resultBuilder.withMessage("Playlist unfollowed successfully.");
         }
-
-        return new MessageResult(this, "Playlist unfollowed successfully.");
+        return resultBuilder.build();
     }
 }

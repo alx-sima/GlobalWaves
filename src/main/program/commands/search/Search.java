@@ -2,7 +2,7 @@ package main.program.commands.search;
 
 import fileio.input.commands.SearchInput;
 import fileio.output.CommandResult;
-import fileio.output.SearchResult;
+import fileio.output.SearchResultBuilder;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -67,6 +67,11 @@ public final class Search extends OnlineCommand {
     }
 
     @Override
+    protected SearchResultBuilder createResultBuilder() {
+        return new SearchResultBuilder(this);
+    }
+
+    @Override
     protected CommandResult executeWhenOnline() {
         Program program = Program.getInstance();
         User caller = getCaller();
@@ -82,6 +87,9 @@ public final class Search extends OnlineCommand {
         player.updateTime(timestamp);
         player.clearQueue();
 
-        return new SearchResult(this, "Search returned " + result.size() + " results", result);
+        SearchResultBuilder resultBuilder = createResultBuilder();
+        resultBuilder.withMessage("Search returned " + result.size() + " results");
+        resultBuilder.withResult(result);
+        return resultBuilder.build();
     }
 }

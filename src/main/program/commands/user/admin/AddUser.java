@@ -2,7 +2,7 @@ package main.program.commands.user.admin;
 
 import fileio.input.commands.AddUserInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import java.util.Map;
 import main.program.Program;
 import main.program.User;
@@ -23,16 +23,19 @@ public final class AddUser extends Command {
 
     @Override
     public CommandResult execute() {
+        MessageResultBuilder resultBuilder = new MessageResultBuilder(this);
 
         Program program = Program.getInstance();
         Map<String, User> users = program.getUsers();
 
         if (users.containsKey(user)) {
-            return new MessageResult(this, "The username " + user + " is already taken.");
+            resultBuilder.withMessage("The username " + user + " is already taken.");
+            return resultBuilder.build();
         }
 
         User newUser = new User(type, user, age, city);
         users.put(user, newUser);
-        return new MessageResult(this, "The username " + user + " has been added successfully.");
+        resultBuilder.withMessage("The username " + user + " has been added successfully.");
+        return resultBuilder.build();
     }
 }

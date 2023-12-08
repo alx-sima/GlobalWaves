@@ -2,7 +2,7 @@ package main.program.commands.search;
 
 import fileio.input.commands.SelectInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import java.util.List;
 import main.audio.Searchable;
 import main.program.Program;
@@ -18,8 +18,16 @@ public final class Select extends OnlineCommand {
         itemNumber = input.getItemNumber();
     }
 
+
+    @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
+    }
+
     @Override
     protected CommandResult executeWhenOnline() {
+        MessageResultBuilder resultBuilder = createResultBuilder();
+
         Program program = Program.getInstance();
         Searchbar searchbar = program.getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();
@@ -29,14 +37,17 @@ public final class Select extends OnlineCommand {
         searchbar.clearSelectedResult();
 
         if (searchResults == null) {
-            return new MessageResult(this, "Please conduct a search before making a selection.");
+            resultBuilder.withMessage("Please conduct a search before making a selection.");
+            return resultBuilder.build();
         }
 
         if (itemNumber > searchResults.size()) {
-            return new MessageResult(this, "The selected ID is too high.");
+            resultBuilder.withMessage("The selected ID is too high.");
+            return resultBuilder.build();
         }
 
         Searchable selected = searchbar.selectResult(itemNumber - 1);
-        return new MessageResult(this, "Successfully selected " + selected.getName() + ".");
+        resultBuilder.withMessage("Successfully selected " + selected.getName() + ".");
+        return resultBuilder.build();
     }
 }

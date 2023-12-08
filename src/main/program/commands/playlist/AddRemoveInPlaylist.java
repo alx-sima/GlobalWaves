@@ -2,7 +2,7 @@ package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import main.audio.collections.Playlist;
 import main.audio.files.Song;
 import main.audio.queues.Queue;
@@ -19,28 +19,40 @@ public final class AddRemoveInPlaylist extends OnlineCommand {
     }
 
     @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
+    }
+
+    @Override
     protected CommandResult executeWhenOnline() {
+        MessageResultBuilder resultBuilder = createResultBuilder();
+
         User caller = getCaller();
         Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {
-            return new MessageResult(this,
+            resultBuilder.withMessage(
                 "Please load a source before adding to or removing from the playlist.");
+            return resultBuilder.build();
         }
 
         Song currentSong = queue.getCurrentSong();
         if (currentSong == null) {
-            return new MessageResult(this, "The loaded source is not a song.");
+            resultBuilder.withMessage("The loaded source is not a song");
+            return resultBuilder.build();
         }
 
         Playlist playlist = caller.getPlaylist(playlistId - 1);
         if (playlist == null) {
-            return new MessageResult(this, "The specified playlist does not exist.");
+            resultBuilder.withMessage("The specified playlist does not exist.");
+            return resultBuilder.build();
         }
 
         if (playlist.addRemoveSong(currentSong)) {
-            return new MessageResult(this, "Successfully added to playlist.");
+            resultBuilder.withMessage("Successfully added to playlist.");
+        } else {
+            resultBuilder.withMessage("Successfully removed from playlist.");
         }
-        return new MessageResult(this, "Successfully removed from playlist.");
+        return resultBuilder.build();
     }
 }

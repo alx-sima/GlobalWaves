@@ -2,7 +2,7 @@ package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistCreateInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResult;
+import fileio.output.MessageResultBuilder;
 import main.program.User;
 import main.program.commands.OnlineCommand;
 
@@ -16,12 +16,21 @@ public final class CreatePlaylist extends OnlineCommand {
     }
 
     @Override
+    protected MessageResultBuilder createResultBuilder() {
+        return new MessageResultBuilder(this);
+    }
+
+    @Override
     protected CommandResult executeWhenOnline() {
+        MessageResultBuilder resultBuilder = createResultBuilder();
+
         User caller = getCaller();
 
         if (caller.createPlaylist(playListName, timestamp)) {
-            return new MessageResult(this, "Playlist created successfully.");
+            resultBuilder.withMessage("Playlist created successfully.");
+        } else {
+            resultBuilder.withMessage("A playlist with the same name already exists.");
         }
-        return new MessageResult(this, "A playlist with the same name already exists.");
+        return resultBuilder.build();
     }
 }

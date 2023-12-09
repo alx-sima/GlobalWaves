@@ -1,8 +1,8 @@
-package main.audio.queues;
+package main.entities.audio.queues;
 
 import lombok.Getter;
-import main.audio.files.AudioFile;
-import main.audio.files.Song;
+import main.entities.audio.files.AudioFile;
+import main.entities.audio.files.Song;
 
 /**
  * A play queue, holding the files that will play in the music player.

@@ -5,7 +5,7 @@ import fileio.output.CommandResult;
 import fileio.output.StatsResult;
 import java.util.Comparator;
 import java.util.List;
-import main.audio.collections.Playlist;
+import main.entities.audio.collections.Playlist;
 import main.program.Program;
 import main.program.commands.Command;
 

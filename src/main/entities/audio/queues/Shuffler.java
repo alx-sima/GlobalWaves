@@ -1,4 +1,4 @@
-package main.audio.queues;
+package main.entities.audio.queues;
 
 import java.util.ArrayList;
 import java.util.Collections;

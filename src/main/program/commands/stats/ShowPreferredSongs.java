@@ -4,8 +4,8 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.StatsResult;
 import java.util.List;
-import main.audio.files.AudioFile;
-import main.program.User;
+import main.entities.audio.files.AudioFile;
+import main.entities.users.User;
 import main.program.commands.Command;
 
 public final class ShowPreferredSongs extends Command {

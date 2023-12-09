@@ -1,9 +1,9 @@
 package main.program;
 
 import lombok.Getter;
-import main.audio.files.AudioFile;
-import main.audio.queues.Queue;
-import main.audio.queues.RepeatMode;
+import main.entities.audio.files.AudioFile;
+import main.entities.audio.queues.Queue;
+import main.entities.audio.queues.RepeatMode;
 
 public final class Player {
 
@@ -43,7 +43,7 @@ public final class Player {
      * @param timestamp The timestamp of 'now'.
      */
     public void updateTime(final int timestamp) {
-        if (isOnline && !isPaused) {
+        if (queue != null && isOnline && !isPaused) {
             queue.addTimeIncrement(timestamp - lastUpdate);
             lastUpdate = timestamp;
 

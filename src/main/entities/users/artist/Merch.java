@@ -1,4 +1,4 @@
-package main;
+package main.entities.users.artist;
 
 public final class Merch {
 

@@ -1,18 +1,18 @@
-package main.audio.collections;
+package main.entities.audio.collections;
 
 import fileio.input.PodcastInput;
 import java.util.List;
 import lombok.Getter;
-import main.audio.Searchable;
-import main.audio.files.AudioFile;
-import main.audio.files.Episode;
-import main.audio.queues.Queue;
-import main.audio.queues.RepeatMode;
+import main.entities.audio.SearchableAudio;
+import main.entities.audio.files.AudioFile;
+import main.entities.audio.files.Episode;
+import main.entities.audio.queues.Queue;
+import main.entities.audio.queues.RepeatMode;
 
 /**
  * A podcast is a collection of episodes which can be played, and keeps track of play progress.
  */
-public final class Podcast extends Queue implements Searchable {
+public final class Podcast extends Queue implements SearchableAudio {
 
     @Getter
     private final String name;

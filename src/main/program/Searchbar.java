@@ -3,7 +3,8 @@ package main.program;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import main.audio.Searchable;
+import main.entities.Searchable;
+import main.entities.audio.SearchableAudio;
 
 /**
  * The search bar, used to search and select playlists, songs and podcasts.
@@ -14,6 +15,7 @@ public class Searchbar {
     @Setter
     private List<Searchable> searchResults;
     private Searchable selectedResult;
+    private SearchableAudio selectedAudioSource;
 
     /**
      * Select a result from the search results.
@@ -27,17 +29,28 @@ public class Searchbar {
     }
 
     /**
+     * Select an audio source, while clearing other selections.
+     *
+     * @param source the selected source.
+     */
+    public void selectAudioSource(final SearchableAudio source) {
+        selectedAudioSource = source;
+        selectedResult = null;
+    }
+
+    /**
      * Clear the searchbar's selection.
      */
     public void clearSelectedResult() {
+        selectedAudioSource = null;
         selectedResult = null;
     }
 
     /**
      * Get the selected search result, then clear the selection.
      */
-    public Searchable consumeSelectedResult() {
-        Searchable result = selectedResult;
+    public SearchableAudio consumeSelectedResult() {
+        SearchableAudio result = selectedAudioSource;
         clearSelectedResult();
         return result;
     }

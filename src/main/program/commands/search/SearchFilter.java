@@ -1,6 +1,6 @@
 package main.program.commands.search;
 
-import main.audio.Searchable;
+import main.entities.Searchable;
 
 import java.util.List;
 

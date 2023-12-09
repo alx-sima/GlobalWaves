@@ -4,10 +4,10 @@ import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
-import main.audio.collections.Playlist;
-import main.audio.files.Song;
-import main.audio.queues.Queue;
-import main.program.User;
+import main.entities.audio.collections.Playlist;
+import main.entities.audio.files.Song;
+import main.entities.audio.queues.Queue;
+import main.entities.users.User;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 

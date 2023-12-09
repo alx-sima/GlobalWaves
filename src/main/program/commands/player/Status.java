@@ -5,7 +5,7 @@ import fileio.output.CommandResult;
 import fileio.output.StatusOutput;
 import fileio.output.StatusResult;
 import main.program.Player;
-import main.program.User;
+import main.entities.users.User;
 import main.program.commands.Command;
 
 public final class Status extends Command {

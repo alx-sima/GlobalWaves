@@ -1,24 +1,24 @@
-package main.audio.collections;
+package main.entities.audio.collections;
 
-import static main.audio.queues.RepeatMode.NO_REPEAT;
-import static main.audio.queues.RepeatMode.REPEAT_ALL;
-import static main.audio.queues.RepeatMode.REPEAT_CURRENT;
+import static main.entities.audio.queues.RepeatMode.NO_REPEAT;
+import static main.entities.audio.queues.RepeatMode.REPEAT_ALL;
+import static main.entities.audio.queues.RepeatMode.REPEAT_CURRENT;
 
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import main.audio.Searchable;
-import main.audio.files.Song;
-import main.audio.queues.Queue;
-import main.audio.queues.RepeatMode;
-import main.audio.queues.SongQueue;
-import main.program.User;
+import main.entities.audio.SearchableAudio;
+import main.entities.audio.files.Song;
+import main.entities.audio.queues.Queue;
+import main.entities.audio.queues.RepeatMode;
+import main.entities.audio.queues.SongQueue;
+import main.entities.users.User;
 
 /**
  * A collection of songs, that can be played and followed (if public).
  */
-public final class Playlist implements Searchable, SongSource {
+public final class Playlist implements SearchableAudio, SongSource {
 
     @Getter
     private final String name;

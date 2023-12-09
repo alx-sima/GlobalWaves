@@ -3,7 +3,7 @@ package main.program.commands.playlist;
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.ShowPlaylistsResult;
-import main.program.User;
+import main.entities.users.User;
 import main.program.commands.Command;
 
 public final class ShowPlaylists extends Command {

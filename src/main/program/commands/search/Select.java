@@ -5,7 +5,7 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
 import java.util.List;
-import main.audio.Searchable;
+import main.entities.Searchable;
 import main.program.Program;
 import main.program.Searchbar;
 import main.program.commands.DependentCommand;
@@ -33,9 +33,6 @@ public final class Select extends DependentCommand {
         Program program = Program.getInstance();
         Searchbar searchbar = program.getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();
-
-        // Clear the selection. Without this, the tests fail only on VM-checker.
-        // I have tested this on different machines and different Java versions.
         searchbar.clearSelectedResult();
 
         if (searchResults == null) {
@@ -47,6 +44,7 @@ public final class Select extends DependentCommand {
         }
 
         Searchable selected = searchbar.selectResult(itemNumber - 1);
+        selected.selectResultBy(getCaller());
         return resultBuilder.withMessage("Successfully selected " + selected.getName() + ".");
     }
 }

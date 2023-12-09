@@ -1,4 +1,4 @@
-package main.audio.files;
+package main.entities.audio.files;
 
 import lombok.Getter;
 

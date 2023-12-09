@@ -1,19 +1,19 @@
-package main.audio.files;
+package main.entities.audio.files;
 
 import fileio.input.SongInput;
 import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
-import main.audio.Searchable;
-import main.audio.collections.SongSource;
-import main.audio.queues.Queue;
-import main.audio.queues.RepeatMode;
-import main.audio.queues.SongQueue;
+import main.entities.audio.SearchableAudio;
+import main.entities.audio.collections.SongSource;
+import main.entities.audio.queues.Queue;
+import main.entities.audio.queues.RepeatMode;
+import main.entities.audio.queues.SongQueue;
 
 /**
  * A song, which can be searched or played.
  */
-public final class Song extends AudioFile implements Searchable, SongSource {
+public final class Song extends AudioFile implements SearchableAudio, SongSource {
 
     private final String album;
     private final List<String> tags;

@@ -1,22 +1,26 @@
-package main.program;
+package main.entities.users;
 
 import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
+import main.entities.users.artist.Artist;
 
 @Getter
 public final class UserDatabase {
 
     private final Map<String, User> users = new HashMap<>();
-    private final Map<String, User> artists = new HashMap<>();
+    private final Map<String, Artist> artists = new HashMap<>();
+    private final Map<String, Host> hosts = new HashMap<>();
 
     /**
      * Add a new user to the database.
      */
-    public void addUser(final User user) {
-        switch (user.getType()) {
-            case "user" -> users.put(user.getUsername(), user);
-            case "artist" -> artists.put(user.getUsername(), user);
+    public void addUser(final String type, final String username, final int age,
+        final String city) {
+        switch (type) {
+            case "user" -> users.put(username, new User(type, username, age, city));
+            case "artist" -> artists.put(username, new Artist(type, username, age, city));
+            case "hosts" -> hosts.put(username, new Host(type, username, age, city));
         }
     }
 

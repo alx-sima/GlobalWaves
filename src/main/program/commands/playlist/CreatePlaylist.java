@@ -4,7 +4,7 @@ import fileio.input.commands.PlaylistCreateInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
-import main.program.User;
+import main.entities.users.User;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 

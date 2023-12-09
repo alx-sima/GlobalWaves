@@ -11,8 +11,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import lombok.Getter;
-import main.audio.collections.Library;
+import main.entities.audio.collections.Library;
 import main.program.commands.Command;
+import main.entities.users.User;
+import main.entities.users.UserDatabase;
 
 /**
  * The actual program, storing all the data and parsing commands.

@@ -4,8 +4,8 @@ import fileio.input.commands.CommandInput;
 import fileio.output.AlbumResult;
 import fileio.output.CommandResult;
 import java.util.List;
-import main.audio.collections.Album;
-import main.audio.collections.Library;
+import main.entities.audio.collections.Album;
+import main.entities.audio.collections.Library;
 import main.program.Program;
 import main.program.commands.Command;
 

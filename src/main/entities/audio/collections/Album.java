@@ -1,16 +1,16 @@
-package main.audio.collections;
+package main.entities.audio.collections;
 
 import fileio.input.SongInput;
 import java.util.List;
 import lombok.Getter;
-import main.audio.Searchable;
-import main.audio.files.Song;
-import main.audio.queues.Queue;
+import main.entities.audio.SearchableAudio;
+import main.entities.audio.files.Song;
+import main.entities.audio.queues.Queue;
 
 /**
  * An album, created by an artist, which contains a list of songs.
  */
-public final class Album implements Searchable {
+public final class Album implements SearchableAudio {
 
     @Getter
     private final String owner;

@@ -2,7 +2,7 @@ package fileio.output;
 
 import lombok.Getter;
 import main.program.Player;
-import main.audio.files.AudioFile;
+import main.entities.audio.files.AudioFile;
 
 @Getter
 public final class StatusOutput {

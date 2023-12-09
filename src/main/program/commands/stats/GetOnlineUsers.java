@@ -7,7 +7,7 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 import main.program.Program;
-import main.program.User;
+import main.entities.users.User;
 import main.program.commands.Command;
 
 public final class GetOnlineUsers extends Command {

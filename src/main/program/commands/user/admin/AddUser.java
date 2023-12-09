@@ -4,8 +4,7 @@ import fileio.input.commands.AddUserInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import main.program.Program;
-import main.program.User;
-import main.program.UserDatabase;
+import main.entities.users.UserDatabase;
 import main.program.commands.Command;
 
 public final class AddUser extends Command {
@@ -33,7 +32,7 @@ public final class AddUser extends Command {
             return resultBuilder.build();
         }
 
-        database.addUser(new User(type, user, age, city));
+        database.addUser(type, user, age, city);
         resultBuilder.withMessage("The username " + user + " has been added successfully.");
         return resultBuilder.build();
     }

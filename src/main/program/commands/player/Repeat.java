@@ -4,10 +4,10 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
-import main.audio.queues.Queue;
-import main.audio.queues.RepeatMode;
+import main.entities.audio.queues.Queue;
+import main.entities.audio.queues.RepeatMode;
 import main.program.Player;
-import main.program.User;
+import main.entities.users.User;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 

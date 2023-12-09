@@ -8,13 +8,13 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import main.audio.Searchable;
-import main.audio.collections.Library;
-import main.audio.collections.Playlist;
-import main.audio.files.Song;
+import main.entities.Searchable;
+import main.entities.audio.collections.Library;
+import main.entities.audio.collections.Playlist;
+import main.entities.audio.files.Song;
 import main.program.Player;
 import main.program.Program;
-import main.program.User;
+import main.entities.users.User;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 
@@ -66,6 +66,8 @@ public final class Search extends DependentCommand {
                 yield Stream.concat(userPlaylists, publicPlaylists).distinct();
             }
             case "album" -> library.getAlbums().values().stream();
+            case "artist" -> program.getDatabase().getArtists().values().stream();
+            case "host" -> program.getDatabase().getHosts().values().stream();
             default -> Stream.empty();
         };
     }
@@ -89,6 +91,7 @@ public final class Search extends DependentCommand {
         program.getSearchbar().setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
+
         Player player = caller.getPlayer();
         player.updateTime(timestamp);
         player.clearQueue();

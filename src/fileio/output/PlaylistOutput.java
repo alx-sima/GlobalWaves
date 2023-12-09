@@ -2,7 +2,7 @@ package fileio.output;
 
 import java.util.List;
 import lombok.Getter;
-import main.audio.collections.Playlist;
+import main.entities.audio.collections.Playlist;
 
 @Getter
 public final class PlaylistOutput {

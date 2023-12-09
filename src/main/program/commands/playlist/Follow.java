@@ -4,10 +4,10 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
-import main.audio.Searchable;
-import main.audio.collections.Playlist;
+import main.entities.audio.SearchableAudio;
+import main.entities.audio.collections.Playlist;
 import main.program.Program;
-import main.program.User;
+import main.entities.users.User;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 
@@ -30,7 +30,7 @@ public final class Follow extends DependentCommand {
     public ResultBuilder executeIfDependenciesMet() {
         Program program = Program.getInstance();
         User caller = getCaller();
-        Searchable selected = program.getSearchbar().consumeSelectedResult();
+        SearchableAudio selected = program.getSearchbar().consumeSelectedResult();
 
         if (selected == null) {
             return resultBuilder.withMessage(

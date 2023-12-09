@@ -4,10 +4,10 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
-import main.audio.Searchable;
+import main.entities.audio.SearchableAudio;
 import main.program.Program;
 import main.program.Searchbar;
-import main.program.User;
+import main.entities.users.User;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 
@@ -30,7 +30,7 @@ public final class Load extends DependentCommand {
         Program program = Program.getInstance();
         Searchbar searchbar = program.getSearchbar();
 
-        Searchable selected = searchbar.consumeSelectedResult();
+        SearchableAudio selected = searchbar.consumeSelectedResult();
         if (selected == null) {
             return resultBuilder.withMessage("Please select a source before attempting to load.");
         }

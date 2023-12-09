@@ -6,7 +6,7 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import lombok.Getter;
 import main.program.Program;
-import main.program.User;
+import main.entities.users.User;
 
 /**
  * A command that can be executed by a user, returning a result.

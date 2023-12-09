@@ -1,4 +1,4 @@
-package main.audio.collections;
+package main.entities.audio.collections;
 
 import fileio.input.LibraryInput;
 import java.util.ArrayList;
@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import lombok.Getter;
-import main.Event;
-import main.Merch;
-import main.audio.files.Song;
+import main.entities.users.artist.Event;
+import main.entities.users.artist.Merch;
+import main.entities.audio.files.Song;
 
 /**
  * The program's database of songs.

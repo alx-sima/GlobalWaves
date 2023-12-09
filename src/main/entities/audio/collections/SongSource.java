@@ -1,7 +1,7 @@
-package main.audio.collections;
+package main.entities.audio.collections;
 
-import main.audio.files.Song;
-import main.audio.queues.RepeatMode;
+import main.entities.audio.files.Song;
+import main.entities.audio.queues.RepeatMode;
 
 /**
  * A collection of songs that can be indexed and has different ways to be repeated.

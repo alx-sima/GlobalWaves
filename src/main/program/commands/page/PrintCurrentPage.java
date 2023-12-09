@@ -5,10 +5,12 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
 import main.program.commands.DependentCommand;
+import main.program.commands.dependencies.OnlineUserDependency;
 
 public final class PrintCurrentPage extends DependentCommand {
 
     private final MessageResultBuilder resultBuilder;
+
     public PrintCurrentPage(final CommandInput input) {
         super(input);
         resultBuilder = new MessageResultBuilder(this);
@@ -16,13 +18,12 @@ public final class PrintCurrentPage extends DependentCommand {
 
     @Override
     public CommandResult checkDependencies() {
-        // TODO
-        return null;
+        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
+        return dependency.checkDependencies();
     }
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        // TODO
-        return null;
+        return resultBuilder.withMessage(getCaller().getCurrentPage().printPageOfUser(getCaller()));
     }
 }

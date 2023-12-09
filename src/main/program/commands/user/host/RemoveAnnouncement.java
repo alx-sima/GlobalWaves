@@ -2,9 +2,10 @@ package main.program.commands.user.host;
 
 import fileio.input.commands.CommandInputWithName;
 import fileio.output.CommandResult;
-import main.program.commands.Command;
+import fileio.output.ResultBuilder;
+import main.program.commands.DependentCommand;
 
-public final class RemoveAnnouncement extends Command {
+public final class RemoveAnnouncement extends DependentCommand {
 
     private final String name;
 
@@ -14,7 +15,13 @@ public final class RemoveAnnouncement extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    public CommandResult checkDependencies() {
+        // TODO
+        return null;
+    }
+
+    @Override
+    public ResultBuilder executeIfDependenciesMet() {
         // TODO
         return null;
     }

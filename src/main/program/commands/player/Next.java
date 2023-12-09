@@ -3,26 +3,29 @@ package main.program.commands.player;
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
+import fileio.output.ResultBuilder;
 import main.audio.files.AudioFile;
 import main.audio.queues.Queue;
 import main.program.User;
-import main.program.commands.OnlineCommand;
+import main.program.commands.DependentCommand;
+import main.program.commands.dependencies.OnlineUserDependency;
 
-public final class Next extends OnlineCommand {
+public final class Next extends DependentCommand {
 
+    private final MessageResultBuilder resultBuilder;
     public Next(final CommandInput input) {
         super(input);
+        resultBuilder = new MessageResultBuilder(this);
     }
 
     @Override
-    protected MessageResultBuilder createResultBuilder() {
-        return new MessageResultBuilder(this);
+    public CommandResult checkDependencies() {
+        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
+        return dependency.execute();
     }
 
     @Override
-    protected CommandResult executeWhenOnline() {
-        MessageResultBuilder resultBuilder = createResultBuilder();
-
+    public ResultBuilder executeIfDependenciesMet() {
         User caller = getCaller();
         Queue queue = caller.getPlayer().getQueue();
         caller.getPlayer().updateTime(timestamp);
@@ -32,16 +35,14 @@ public final class Next extends OnlineCommand {
 
             if (nextFile != null) {
                 caller.getPlayer().setPaused(false, timestamp);
-                resultBuilder.withMessage(
+                return resultBuilder.withMessage(
                     "Skipped to next track successfully. The current track is "
                         + nextFile.getName() + ".");
-                return resultBuilder.build();
             }
 
             caller.getPlayer().clearQueue();
         }
 
-        resultBuilder.withMessage("Please load a source before skipping to the next track.");
-        return resultBuilder.build();
+        return resultBuilder.withMessage("Please load a source before skipping to the next track.");
     }
 }

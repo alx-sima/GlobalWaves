@@ -3,24 +3,28 @@ package main.program.commands.page;
 import fileio.input.commands.ChangePageInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
-import main.program.commands.OnlineCommand;
+import fileio.output.ResultBuilder;
+import main.program.commands.DependentCommand;
 
-public final class ChangePage extends OnlineCommand {
+public final class ChangePage extends DependentCommand {
 
+    private final MessageResultBuilder resultBuilder;
     private final String nextPage;
 
     public ChangePage(final ChangePageInput input) {
         super(input);
+        resultBuilder = new MessageResultBuilder(this);
         nextPage = input.getNextPage();
     }
 
     @Override
-    protected MessageResultBuilder createResultBuilder() {
-        return new MessageResultBuilder(this);
+    public CommandResult checkDependencies() {
+        // TODO
+        return null;
     }
 
     @Override
-    protected CommandResult executeWhenOnline() {
+    public ResultBuilder executeIfDependenciesMet() {
         // TODO
         return null;
     }

@@ -3,37 +3,39 @@ package main.program.commands.playlist;
 import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
+import fileio.output.ResultBuilder;
 import java.util.List;
 import main.audio.collections.Playlist;
 import main.program.Program;
 import main.program.User;
-import main.program.commands.OnlineCommand;
+import main.program.commands.DependentCommand;
+import main.program.commands.dependencies.OnlineUserDependency;
 
-public final class SwitchVisibility extends OnlineCommand {
+public final class SwitchVisibility extends DependentCommand {
 
+    private final MessageResultBuilder resultBuilder;
     private final int playlistId;
 
     public SwitchVisibility(final PlaylistOperationInput input) {
         super(input);
-        this.playlistId = input.getPlaylistId();
+        resultBuilder = new MessageResultBuilder(this);
+        playlistId = input.getPlaylistId();
     }
 
     @Override
-    protected MessageResultBuilder createResultBuilder() {
-        return new MessageResultBuilder(this);
+    public CommandResult checkDependencies() {
+        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
+        return dependency.execute();
     }
 
     @Override
-    protected CommandResult executeWhenOnline() {
-        MessageResultBuilder resultBuilder = createResultBuilder();
-
+    public ResultBuilder executeIfDependenciesMet() {
         Program program = Program.getInstance();
         User caller = getCaller();
         List<Playlist> playlists = caller.getPlaylists();
 
         if (playlistId > playlists.size()) {
-            resultBuilder.withMessage("The specified playlist ID is too high.");
-            return resultBuilder.build();
+            return resultBuilder.withMessage("The specified playlist ID is too high.");
         }
 
         List<Playlist> publicPlaylists = program.getLibrary().getPublicPlaylists();
@@ -48,8 +50,7 @@ public final class SwitchVisibility extends OnlineCommand {
         }
 
         String visibilityStatus = playlist.isPrivate() ? "private" : "public";
-        resultBuilder.withMessage(
+        return resultBuilder.withMessage(
             "Visibility status updated successfully to " + visibilityStatus + ".");
-        return resultBuilder.build();
     }
 }

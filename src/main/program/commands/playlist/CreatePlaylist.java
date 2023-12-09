@@ -3,27 +3,30 @@ package main.program.commands.playlist;
 import fileio.input.commands.PlaylistCreateInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
+import fileio.output.ResultBuilder;
 import main.program.User;
-import main.program.commands.OnlineCommand;
+import main.program.commands.DependentCommand;
+import main.program.commands.dependencies.OnlineUserDependency;
 
-public final class CreatePlaylist extends OnlineCommand {
+public final class CreatePlaylist extends DependentCommand {
 
+    private final ResultBuilder resultBuilder;
     private final String playListName;
 
     public CreatePlaylist(final PlaylistCreateInput input) {
         super(input);
+        resultBuilder = new MessageResultBuilder(this);
         playListName = input.getPlaylistName();
     }
 
     @Override
-    protected MessageResultBuilder createResultBuilder() {
-        return new MessageResultBuilder(this);
+    public CommandResult checkDependencies() {
+        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
+        return dependency.execute();
     }
 
     @Override
-    protected CommandResult executeWhenOnline() {
-        MessageResultBuilder resultBuilder = createResultBuilder();
-
+    public ResultBuilder executeIfDependenciesMet() {
         User caller = getCaller();
 
         if (caller.createPlaylist(playListName, timestamp)) {
@@ -31,6 +34,6 @@ public final class CreatePlaylist extends OnlineCommand {
         } else {
             resultBuilder.withMessage("A playlist with the same name already exists.");
         }
-        return resultBuilder.build();
+        return resultBuilder;
     }
 }

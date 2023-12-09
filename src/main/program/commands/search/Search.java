@@ -2,6 +2,7 @@ package main.program.commands.search;
 
 import fileio.input.commands.SearchInput;
 import fileio.output.CommandResult;
+import fileio.output.ResultBuilder;
 import fileio.output.SearchResultBuilder;
 import java.util.Comparator;
 import java.util.List;
@@ -14,15 +15,18 @@ import main.audio.files.Song;
 import main.program.Player;
 import main.program.Program;
 import main.program.User;
-import main.program.commands.OnlineCommand;
+import main.program.commands.DependentCommand;
+import main.program.commands.dependencies.OnlineUserDependency;
 
-public final class Search extends OnlineCommand {
+public final class Search extends DependentCommand {
 
+    private final SearchResultBuilder resultBuilder;
     private final String type;
     private final List<SearchFilter> filters;
 
     public Search(final SearchInput input) {
         super(input);
+        resultBuilder = new SearchResultBuilder(this);
         type = input.getType();
         filters = input.createFilters();
     }
@@ -67,12 +71,14 @@ public final class Search extends OnlineCommand {
     }
 
     @Override
-    protected SearchResultBuilder createResultBuilder() {
-        return new SearchResultBuilder(this);
+    public CommandResult checkDependencies() {
+        OnlineUserDependency onlineUserDependency = new OnlineUserDependency(this,
+            resultBuilder);
+        return onlineUserDependency.execute();
     }
 
     @Override
-    protected CommandResult executeWhenOnline() {
+    public ResultBuilder executeIfDependenciesMet() {
         Program program = Program.getInstance();
         User caller = getCaller();
 
@@ -87,9 +93,8 @@ public final class Search extends OnlineCommand {
         player.updateTime(timestamp);
         player.clearQueue();
 
-        SearchResultBuilder resultBuilder = createResultBuilder();
         resultBuilder.withMessage("Search returned " + result.size() + " results");
-        resultBuilder.withResult(result);
-        return resultBuilder.build();
+        return resultBuilder.withResult(result);
+
     }
 }

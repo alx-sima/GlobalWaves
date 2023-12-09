@@ -21,6 +21,19 @@ public final class UserDatabase {
     }
 
     /**
+     * Get a user from the database.
+     *
+     * @param username the searched username.
+     */
+    public User getUser(final String username) {
+        if (users.containsKey(username)) {
+            return users.get(username);
+        } else {
+            return artists.get(username);
+        }
+    }
+
+    /**
      * Check if the user exists.
      *
      * @param username the searched username.

@@ -14,7 +14,7 @@ public final class SearchResultBuilder implements ResultBuilder {
 
     private final SearchResult result;
 
-    public SearchResultBuilder(final Command command) {
+    public SearchResultBuilder(Command command) {
         result = new SearchResult(command);
     }
 
@@ -23,8 +23,9 @@ public final class SearchResultBuilder implements ResultBuilder {
      *
      * @param searchResult list of the names of the results.
      */
-    public void withResult(final List<String> searchResult) {
+    public SearchResultBuilder withResult(final List<String> searchResult) {
         result.setResults(searchResult);
+        return this;
     }
 
     @Override

@@ -3,9 +3,8 @@ package main.entities.audio;
 import main.entities.Searchable;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.queues.Queue;
-import main.program.Program;
-import main.program.Searchbar;
 import main.entities.users.User;
+import main.program.Searchbar;
 
 /**
  * An entry that can be searched and then loaded into the player.
@@ -14,7 +13,7 @@ public interface SearchableAudio extends Searchable {
 
     @Override
     default String selectResultBy(User user) {
-        Searchbar searchbar = Program.getInstance().getSearchbar();
+        Searchbar searchbar = user.getSearchbar();
         searchbar.selectAudioSource(this);
         return getName();
     }

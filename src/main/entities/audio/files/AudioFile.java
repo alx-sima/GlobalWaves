@@ -10,9 +10,11 @@ public abstract class AudioFile {
 
     private final String name;
     private final int duration;
+    private final String owner;
 
-    protected AudioFile(final String name, final int duration) {
+    protected AudioFile(final String name, final int duration, final String owner) {
         this.name = name;
         this.duration = duration;
+        this.owner = owner;
     }
 }

@@ -5,9 +5,8 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
 import main.entities.audio.SearchableAudio;
-import main.program.Program;
-import main.program.Searchbar;
 import main.entities.users.User;
+import main.program.Searchbar;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 
@@ -27,8 +26,7 @@ public final class Load extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
-        Searchbar searchbar = program.getSearchbar();
+        Searchbar searchbar = getCaller().getSearchbar();
 
         SearchableAudio selected = searchbar.consumeSelectedResult();
         if (selected == null) {
@@ -39,7 +37,7 @@ public final class Load extends DependentCommand {
         searchbar.setSearchResults(null);
 
         User caller = getCaller();
-        caller.getPlayer().addQueue(selected.createQueue(), timestamp);
+        caller.getPlayer().addQueue(selected, timestamp);
 
         return resultBuilder.withMessage("Playback loaded successfully.");
     }

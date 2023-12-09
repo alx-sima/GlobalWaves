@@ -79,14 +79,13 @@ public final class Search extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
         User caller = getCaller();
 
         Stream<? extends Searchable> searchPlace = getSearchPlace(caller, type);
 
         List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS)
             .collect(Collectors.toList());
-        program.getSearchbar().setSearchResults(valid);
+        caller.getSearchbar().setSearchResults(valid);
 
         List<String> result = valid.stream().map(Searchable::getName).toList();
 

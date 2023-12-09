@@ -3,11 +3,10 @@ package main.program.commands.stats;
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.StatsResult;
-import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
-import main.program.Program;
 import main.entities.users.User;
+import main.program.Program;
 import main.program.commands.Command;
 
 public final class GetAllUsers extends Command {

@@ -20,13 +20,14 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     private final String lyrics;
     private final String genre;
     private final int releaseYear;
+    @Getter
     private final String artist;
     @Getter
     @Setter
     private int likes = 0;
 
     public Song(final Song song) {
-        super(song.getName(), song.getDuration());
+        super(song.getName(), song.getDuration(), song.artist);
         album = song.album;
         tags = song.tags;
         lyrics = song.lyrics;
@@ -37,7 +38,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     }
 
     public Song(final SongInput input) {
-        super(input.getName(), input.getDuration());
+        super(input.getName(), input.getDuration(), input.getArtist());
         album = input.getAlbum();
         tags = input.getTags();
         lyrics = input.getLyrics();

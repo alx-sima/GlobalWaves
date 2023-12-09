@@ -23,7 +23,6 @@ public final class Program {
 
     private static Program instance = null;
     private final UserDatabase database = new UserDatabase();
-    private final Searchbar searchbar = new Searchbar();
     private Library library;
 
     private Program() {

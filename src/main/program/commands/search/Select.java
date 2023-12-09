@@ -6,7 +6,6 @@ import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
 import java.util.List;
 import main.entities.Searchable;
-import main.program.Program;
 import main.program.Searchbar;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
@@ -30,8 +29,7 @@ public final class Select extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
-        Searchbar searchbar = program.getSearchbar();
+        Searchbar searchbar = getCaller().getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();
         searchbar.clearSelectedResult();
 

@@ -1,6 +1,7 @@
 package main.program;
 
 import lombok.Getter;
+import main.entities.audio.SearchableAudio;
 import main.entities.audio.files.AudioFile;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
@@ -20,11 +21,11 @@ public final class Player {
     /**
      * Add a new queue to the playlist and start playing it.
      *
-     * @param list      the list to be added.
+     * @param audio     the loaded audio source.
      * @param timestamp the moment the playlist starts.
      */
-    public void addQueue(final Queue list, final int timestamp) {
-        this.queue = list;
+    public void addQueue(final SearchableAudio audio, final int timestamp) {
+        this.queue = audio.createQueue();
         lastUpdate = timestamp;
         isPaused = false;
     }

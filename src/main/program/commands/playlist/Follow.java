@@ -6,7 +6,6 @@ import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
 import main.entities.audio.SearchableAudio;
 import main.entities.audio.collections.Playlist;
-import main.program.Program;
 import main.entities.users.User;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
@@ -28,9 +27,8 @@ public final class Follow extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
         User caller = getCaller();
-        SearchableAudio selected = program.getSearchbar().consumeSelectedResult();
+        SearchableAudio selected = caller.getSearchbar().consumeSelectedResult();
 
         if (selected == null) {
             return resultBuilder.withMessage(

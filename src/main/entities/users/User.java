@@ -1,18 +1,17 @@
 package main.entities.users;
 
 import fileio.input.UserInput;
+import java.util.ArrayList;
+import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import main.entities.audio.collections.Playlist;
-
-import java.util.ArrayList;
-import java.util.List;
-import main.entities.audio.files.AudioFile;
 import main.entities.audio.files.Song;
 import main.entities.pages.HomePage;
 import main.entities.pages.Page;
 import main.program.Player;
 import main.program.Program;
+import main.program.Searchbar;
 
 /**
  * A user of the application, with their own playlists and liked songs.
@@ -28,9 +27,11 @@ public class User {
     @Getter
     private final Player player = new Player();
     @Getter
+    private final Searchbar searchbar = new Searchbar();
+    @Getter
     private final List<Playlist> playlists = new ArrayList<>();
     @Getter
-    private final List<AudioFile> likedSongs = new ArrayList<>();
+    private final List<Song> likedSongs = new ArrayList<>();
     private final List<Playlist> followedPlaylists = new ArrayList<>();
     @Getter
     @Setter

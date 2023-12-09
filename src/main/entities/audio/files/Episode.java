@@ -9,8 +9,8 @@ public class Episode extends AudioFile {
 
     private final String description;
 
-    public Episode(final EpisodeInput input) {
-        super(input.getName(), input.getDuration());
+    public Episode(final EpisodeInput input, final String owner) {
+        super(input.getName(), input.getDuration(), owner);
         description = input.getDescription();
     }
 }

@@ -23,7 +23,8 @@ public final class Podcast extends Queue implements SearchableAudio {
         super(false);
         name = input.getName();
         owner = input.getOwner();
-        episodes = input.getEpisodes().stream().map(Episode::new).toList();
+        episodes = input.getEpisodes().stream()
+            .map(episodeInput -> new Episode(episodeInput, owner)).toList();
         currentlyPlaying = episodes.get(0);
     }
 

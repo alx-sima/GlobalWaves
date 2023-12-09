@@ -4,12 +4,13 @@ import java.util.List;
 import java.util.stream.Stream;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.AudioFile;
+import main.entities.audio.files.Song;
 import main.entities.users.User;
 
 public class LikedContentPage implements Page {
 
     protected List<String> getLikedSongs(User user) {
-        Stream<AudioFile> songs = user.getLikedSongs().stream();
+        Stream<Song> songs = user.getLikedSongs().stream();
         return songs.map(AudioFile::getName).toList();
     }
 

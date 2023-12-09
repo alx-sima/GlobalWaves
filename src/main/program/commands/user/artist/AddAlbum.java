@@ -50,7 +50,7 @@ public final class AddAlbum extends DependentCommand {
         }
 
         Album album = new Album(user, name, releaseYear, description, songs);
-        library.getAlbums().add( album);
+        library.getAlbums().add(album);
         return resultBuilder.withMessage(user + " has added new album successfully.");
     }
 }

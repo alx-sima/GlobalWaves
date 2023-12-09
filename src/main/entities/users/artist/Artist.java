@@ -8,7 +8,7 @@ import main.entities.pages.ArtistPage;
 import main.entities.users.User;
 
 @Getter
-public class Artist extends User implements Searchable {
+public final class Artist extends User implements Searchable {
 
     private final List<Event> events = new ArrayList<>();
     private final List<Merch> merch = new ArrayList<>();

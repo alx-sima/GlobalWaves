@@ -1,7 +1,6 @@
 package main.entities.users;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Stream;
 import lombok.Getter;
@@ -13,6 +12,7 @@ public final class UserDatabase {
     private final List<User> users = new ArrayList<>();
     private final List<Artist> artists = new ArrayList<>();
     private final List<Host> hosts = new ArrayList<>();
+    private final List<String> busyUsers = new ArrayList<>();
 
     /**
      * Add a new user to the database.

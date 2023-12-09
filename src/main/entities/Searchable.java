@@ -25,6 +25,7 @@ public interface Searchable {
      * Select this search result.
      *
      * @param user the user that selected the entity.
+     * @return the message to be displayed after selection.
      */
-    void selectResultBy(User user);
+    String selectResultBy(User user);
 }

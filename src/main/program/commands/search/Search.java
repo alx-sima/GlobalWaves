@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.entities.Searchable;
-import main.entities.audio.collections.Library;
+import main.program.Library;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
 import main.program.Player;
@@ -49,9 +49,8 @@ public final class Search extends DependentCommand {
         return switch (searchType) {
             case "song" -> {
                 Stream<Song> publicSongs = library.getSongs().stream();
-                Stream<Song> albumSongs =
-                    library.getAlbums().values().stream()
-                        .flatMap(album -> album.getSongs().stream());
+                Stream<Song> albumSongs = library.getAlbums().stream()
+                    .flatMap(album -> album.getSongs().stream());
 
                 yield Stream.concat(publicSongs, albumSongs);
             }
@@ -59,23 +58,22 @@ public final class Search extends DependentCommand {
             case "playlist" -> {
                 // Search in the user's playlists and also in the public playlists.
                 Stream<Playlist> userPlaylists = caller.getPlaylists().stream();
-                Stream<Playlist> publicPlaylists = library.getPublicPlaylists().stream().sorted(
-                    Comparator.comparingInt(Playlist::getCreationTimestamp));
+                Stream<Playlist> publicPlaylists = library.getPublicPlaylists().stream()
+                    .sorted(Comparator.comparingInt(Playlist::getCreationTimestamp));
 
                 // Remove duplicates before searching.
                 yield Stream.concat(userPlaylists, publicPlaylists).distinct();
             }
-            case "album" -> library.getAlbums().values().stream();
-            case "artist" -> program.getDatabase().getArtists().values().stream();
-            case "host" -> program.getDatabase().getHosts().values().stream();
+            case "album" -> library.getAlbums().stream();
+            case "artist" -> program.getDatabase().getArtists().stream();
+            case "host" -> program.getDatabase().getHosts().stream();
             default -> Stream.empty();
         };
     }
 
     @Override
     public CommandResult checkDependencies() {
-        OnlineUserDependency onlineUserDependency = new OnlineUserDependency(this,
-            resultBuilder);
+        OnlineUserDependency onlineUserDependency = new OnlineUserDependency(this, resultBuilder);
         return onlineUserDependency.execute();
     }
 

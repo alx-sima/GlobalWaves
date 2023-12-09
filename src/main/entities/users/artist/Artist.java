@@ -1,9 +1,17 @@
 package main.entities.users.artist;
 
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
 import main.entities.Searchable;
+import main.entities.pages.ArtistPage;
 import main.entities.users.User;
 
+@Getter
 public class Artist extends User implements Searchable {
+
+    private final List<Event> events = new ArrayList<>();
+    private final List<Merch> merch = new ArrayList<>();
 
     public Artist(final String type, final String username, final int age, final String city) {
         super(type, username, age, city);
@@ -23,8 +31,8 @@ public class Artist extends User implements Searchable {
     }
 
     @Override
-    public void selectResultBy(final User user) {
-        // TODO
+    public String selectResultBy(final User user) {
+        user.setCurrentPage(new ArtistPage(this));
+        return username + "'s page";
     }
-
 }

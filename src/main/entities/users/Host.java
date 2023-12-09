@@ -22,7 +22,8 @@ public final class Host extends User implements Searchable {
     }
 
     @Override
-    public void selectResultBy(final User user) {
+    public String selectResultBy(final User user) {
         // TODO
+        return null;
     }
 }

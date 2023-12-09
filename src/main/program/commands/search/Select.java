@@ -44,7 +44,7 @@ public final class Select extends DependentCommand {
         }
 
         Searchable selected = searchbar.selectResult(itemNumber - 1);
-        selected.selectResultBy(getCaller());
-        return resultBuilder.withMessage("Successfully selected " + selected.getName() + ".");
+        String selectionOutput = selected.selectResultBy(getCaller());
+        return resultBuilder.withMessage("Successfully selected " + selectionOutput + ".");
     }
 }

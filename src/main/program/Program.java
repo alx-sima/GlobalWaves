@@ -11,7 +11,6 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import lombok.Getter;
-import main.entities.audio.collections.Library;
 import main.program.commands.Command;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
@@ -46,7 +45,7 @@ public final class Program {
 
         for (UserInput userInput : libraryInput.getUsers()) {
             User user = new User(userInput);
-            database.getUsers().put(user.getUsername(), user);
+            database.getUsers().add(user);
         }
     }
 

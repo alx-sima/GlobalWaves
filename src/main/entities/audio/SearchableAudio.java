@@ -13,9 +13,10 @@ import main.entities.users.User;
 public interface SearchableAudio extends Searchable {
 
     @Override
-    default void selectResultBy(User user) {
+    default String selectResultBy(User user) {
         Searchbar searchbar = Program.getInstance().getSearchbar();
         searchbar.selectAudioSource(this);
+        return getName();
     }
 
     /**

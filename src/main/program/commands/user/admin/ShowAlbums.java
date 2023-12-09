@@ -5,7 +5,7 @@ import fileio.output.AlbumResult;
 import fileio.output.CommandResult;
 import java.util.List;
 import main.entities.audio.collections.Album;
-import main.entities.audio.collections.Library;
+import main.program.Library;
 import main.program.Program;
 import main.program.commands.Command;
 
@@ -19,7 +19,7 @@ public final class ShowAlbums extends Command {
     public CommandResult execute() {
         Program program = Program.getInstance();
         Library library = program.getLibrary();
-        List<Album> albums = library.getAlbums().values().stream()
+        List<Album> albums = library.getAlbums().stream()
             .filter(album -> album.getOwner().equals(user)).toList();
 
         return new AlbumResult(this, albums);

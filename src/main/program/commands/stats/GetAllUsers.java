@@ -19,8 +19,7 @@ public final class GetAllUsers extends Command {
     @Override
     public CommandResult execute() {
         Program program = Program.getInstance();
-        Stream<User> users = program.getDatabase().getUsers().values().stream().sorted(
-            Comparator.comparing(User::getUsername));
+        Stream<User> users = program.getDatabase().getAllUsers();
         List<String> commandResult = users.map(User::getUsername).toList();
 
         return new StatsResult(this, commandResult);

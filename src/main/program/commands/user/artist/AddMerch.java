@@ -4,9 +4,9 @@ import fileio.input.commands.AddMerchInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
-import java.util.Map;
+import java.util.List;
 import main.entities.users.artist.Merch;
-import main.entities.audio.collections.Library;
+import main.program.Library;
 import main.program.Program;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.IsArtistDependency;
@@ -36,9 +36,9 @@ public final class AddMerch extends DependentCommand {
     public ResultBuilder executeIfDependenciesMet() {
         Program program = Program.getInstance();
         Library library = program.getLibrary();
-        Map<String, Merch> merchMap = library.getMerch();
+        List<Merch> merchList = library.getMerch();
 
-        if (merchMap.containsKey(name)) {
+        if (merchList.stream().anyMatch(merch -> merch.getName().equals(name))) {
             return resultBuilder.withMessage(user + " has merchandise with the same name.");
         }
 
@@ -46,8 +46,8 @@ public final class AddMerch extends DependentCommand {
             return resultBuilder.withMessage("Price for merchandise can not be negative.");
         }
 
-        Merch merch = new Merch(name, description, price);
-        merchMap.put(name, merch);
+        Merch merch = new Merch(user, name, description, price);
+        merchList.add(merch);
 
         return resultBuilder.withMessage(user + " has added new merchandise successfully.");
     }

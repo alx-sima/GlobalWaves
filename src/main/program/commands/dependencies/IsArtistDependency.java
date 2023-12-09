@@ -20,7 +20,7 @@ public final class IsArtistDependency extends CommandDependency {
     @Override
     public ResultBuilder executeIfDependenciesMet() {
         Program program = Program.getInstance();
-        if (!program.getDatabase().getArtists().containsKey(user)) {
+        if (!program.getDatabase().getArtists().contains(getCaller())) {
             return resultBuilder.withMessage(user + " is not an artist.");
         }
         return chainedCommand.executeIfDependenciesMet();

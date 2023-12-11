@@ -73,6 +73,8 @@ public final class DeleteUser extends DependentCommand {
         library.getMerch().removeIf(merch -> merch.getOwner().equals(user));
         library.getEvents().removeIf(event -> event.getOwner().equals(user));
         library.getSongs().removeIf(song -> song.getOwner().equals(user));
+        caller.getFollowedPlaylists()
+            .forEach(playlist -> playlist.setFollowers(playlist.getFollowers() - 1));
         for (User u : database.getUsers()) {
             u.getLikedSongs().removeIf(song -> song.getOwner().equals(user));
 

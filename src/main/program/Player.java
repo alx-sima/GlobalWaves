@@ -1,5 +1,7 @@
 package main.program;
 
+import java.util.HashMap;
+import java.util.Map;
 import lombok.Getter;
 import main.entities.audio.SearchableAudio;
 import main.entities.audio.files.AudioFile;
@@ -7,6 +9,8 @@ import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 
 public final class Player {
+
+    private final Map<String, Queue> playHistory = new HashMap<>();
 
     @Getter
     private Queue queue;
@@ -25,7 +29,7 @@ public final class Player {
      * @param timestamp the moment the playlist starts.
      */
     public void addQueue(final SearchableAudio audio, final int timestamp) {
-        this.queue = audio.createQueue();
+        queue = audio.createQueue(playHistory);
         lastUpdate = timestamp;
         isPaused = false;
     }

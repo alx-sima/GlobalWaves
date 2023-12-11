@@ -1,5 +1,6 @@
 package main.entities.audio;
 
+import java.util.Map;
 import main.entities.Searchable;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.queues.Queue;
@@ -21,9 +22,10 @@ public interface SearchableAudio extends Searchable {
     /**
      * Create a queue to be played from this search result.
      *
+     * @param playHistory the saved history of queues played by the same user.
      * @return a queue based on the internal type.
      */
-    Queue createQueue();
+    Queue createQueue(Map<String, Queue> playHistory);
 
     /**
      * Get the playlist that contains this item.

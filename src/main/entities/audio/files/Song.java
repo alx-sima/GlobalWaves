@@ -2,6 +2,7 @@ package main.entities.audio.files;
 
 import fileio.input.SongInput;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import main.entities.audio.SearchableAudio;
@@ -73,7 +74,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     }
 
     @Override
-    public Queue createQueue() {
+    public Queue createQueue(Map<String, Queue> playHistory) {
         return new SongQueue(this, 1, false);
     }
 

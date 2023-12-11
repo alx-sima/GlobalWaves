@@ -3,6 +3,7 @@ package main.entities.audio.collections;
 import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import main.entities.audio.SearchableAudio;
 import main.entities.audio.files.AudioFile;
@@ -39,6 +40,14 @@ public final class Podcast extends Queue implements SearchableAudio {
         currentlyPlaying = this.episodes.get(0);
     }
 
+    public Podcast(final Podcast podcast) {
+        super(false);
+        owner = podcast.owner;
+        name = podcast.name;
+        episodes = podcast.episodes;
+        currentlyPlaying = podcast.currentlyPlaying;
+    }
+
     @Override
     public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
@@ -49,8 +58,15 @@ public final class Podcast extends Queue implements SearchableAudio {
     }
 
     @Override
-    public Queue createQueue() {
-        return this;
+    public Queue createQueue(final Map<String, Queue> playHistory) {
+        Queue previousPlay = playHistory.get(name);
+        if (previousPlay != null) {
+            return previousPlay;
+        }
+
+        Podcast podcast = new Podcast(this);
+        playHistory.put(name, podcast);
+        return podcast;
     }
 
     @Override
@@ -63,10 +79,9 @@ public final class Podcast extends Queue implements SearchableAudio {
         }
 
         playIndex++;
-        if (playIndex >= episodes.size()) {
-            if (repeatMode == RepeatMode.NO_REPEAT) {
-                return null;
-            }
+        if (playIndex >= episodes.size() && (repeatMode == RepeatMode.NO_REPEAT)) {
+            return null;
+
         }
 
         return getFilePlaying();

@@ -6,6 +6,7 @@ import static main.entities.audio.queues.RepeatMode.REPEAT_CURRENT;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import main.entities.audio.SearchableAudio;
@@ -69,7 +70,7 @@ public final class Playlist implements SearchableAudio, SongSource {
     }
 
     @Override
-    public Queue createQueue() {
+    public Queue createQueue(final Map<String, Queue> playHistory) {
         return new SongQueue(this, songs.size(), true);
     }
 

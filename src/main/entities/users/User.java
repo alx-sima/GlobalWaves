@@ -6,6 +6,7 @@ import java.util.List;
 import lombok.Getter;
 import lombok.Setter;
 import main.entities.audio.collections.Playlist;
+import main.entities.audio.files.Episode;
 import main.entities.audio.files.Song;
 import main.entities.pages.HomePage;
 import main.entities.pages.Page;
@@ -19,9 +20,9 @@ import main.program.Searchbar;
 public class User {
 
     @Getter
-    private final String type;
-    @Getter
     protected final String username;
+    @Getter
+    private final String type;
     private final int age;
     private final String city;
     @Getter
@@ -37,6 +38,7 @@ public class User {
     @Getter
     @Setter
     private Page currentPage = new HomePage();
+    private final List<Episode> podcastWatchHistory = new ArrayList<>();
     @Getter
     private boolean isOnline = true;
 

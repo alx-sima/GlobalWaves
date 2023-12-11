@@ -8,7 +8,6 @@ import java.util.Objects;
 import main.entities.audio.collections.Podcast;
 import main.entities.users.UserDatabase;
 import main.program.Library;
-import main.program.Program;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.IsHostDependency;
 
@@ -31,15 +30,15 @@ public final class RemovePodcast extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
+        UserDatabase database = UserDatabase.getInstance();
+
         Podcast podcast = library.getPodcasts().stream()
             .filter(p -> p.getName().equals(name)).findFirst().orElse(null);
 
         if (podcast == null) {
             return resultBuilder.withMessage(user + " doesn't have a podcast with the given name.");
         }
-
-        UserDatabase database = Program.getInstance().getDatabase();
 
         if (database.getUsers().stream().map(user -> user.getPlayer().getPlayingAt(timestamp))
             .filter(Objects::nonNull)

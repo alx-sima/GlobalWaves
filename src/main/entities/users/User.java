@@ -9,8 +9,8 @@ import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
 import main.entities.pages.HomePage;
 import main.entities.pages.Page;
+import main.program.Library;
 import main.program.Player;
-import main.program.Program;
 import main.program.Searchbar;
 
 /**
@@ -97,14 +97,14 @@ public class User {
      * @return whether this operation succeeded or not.
      */
     public boolean createPlaylist(final String playListName, final int timestamp) {
-        Program program = Program.getInstance();
+        Library library = Library.getInstance();
 
         if (getPlaylist(playListName) != null) {
             return false;
         }
 
         Playlist playlist = new Playlist(playListName, this, timestamp);
-        program.getLibrary().getPublicPlaylists().add(playlist);
+        library.getPublicPlaylists().add(playlist);
         playlists.add(playlist);
         return true;
     }

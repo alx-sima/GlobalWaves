@@ -4,9 +4,9 @@ import fileio.input.commands.AddAnnouncementInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
+import java.util.List;
 import main.entities.users.host.Announcement;
 import main.program.Library;
-import main.program.Program;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.IsHostDependency;
 
@@ -31,8 +31,8 @@ public final class AddAnnouncement extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Library library = Program.getInstance().getLibrary();
-        library.getAnnouncements().add(new Announcement(user, name, description));
+        List<Announcement> announcements = Library.getInstance().getAnnouncements();
+        announcements.add(new Announcement(user, name, description));
         return resultBuilder.withMessage(user + " has successfully added new announcement.");
     }
 }

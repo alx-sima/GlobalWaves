@@ -4,16 +4,14 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.node.ArrayNode;
 import fileio.input.LibraryInput;
-import fileio.input.UserInput;
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import lombok.Getter;
-import main.program.commands.Command;
-import main.entities.users.User;
 import main.entities.users.UserDatabase;
+import main.program.commands.Command;
 
 /**
  * The actual program, storing all the data and parsing commands.
@@ -21,31 +19,17 @@ import main.entities.users.UserDatabase;
 @Getter
 public final class Program {
 
-    private static Program instance = null;
-    private final UserDatabase database = new UserDatabase();
-    private Library library;
+    private final LibraryInput libraryInput;
+    private final String inputFile;
+    private final ObjectMapper objectMapper;
+    private final ArrayNode outputs;
 
-    private Program() {
-    }
-
-    /**
-     * Get the instance of the program (creates it if it isn't running).
-     */
-    public static Program getInstance() {
-        if (instance == null) {
-            instance = new Program();
-        }
-
-        return instance;
-    }
-
-    private void initializeData(final LibraryInput libraryInput) {
-        library = new Library(libraryInput);
-
-        for (UserInput userInput : libraryInput.getUsers()) {
-            User user = new User(userInput);
-            database.getUsers().add(user);
-        }
+    public Program(LibraryInput libraryInput, String inputFile, ObjectMapper objectMapper,
+        ArrayNode outputs) {
+        this.libraryInput = libraryInput;
+        this.inputFile = inputFile;
+        this.objectMapper = objectMapper;
+        this.outputs = outputs;
     }
 
     private void executeCommands(final List<CommandInput> commands, final ArrayNode outputs) {
@@ -61,30 +45,19 @@ public final class Program {
         }
     }
 
-    private void clearData() {
-        library = null;
-        database.clear();
-    }
-
     /**
      * Run the program.
      *
-     * @param libraryInput Parsed JSON of the libraries.
-     * @param inputFile    File containing the commands for the program.
-     * @param objectMapper The object mapper.
-     * @param outputs      ArrayNode that will contain the outputs of the commands.
-     * @throws IOException If the parser encounters an error.
+     * @throws IOException if a JSON parsing error occurs.
      */
-    public void run(final LibraryInput libraryInput, final String inputFile,
-        final ObjectMapper objectMapper, final ArrayNode outputs) throws IOException {
+    public void run() throws IOException {
 
-        initializeData(libraryInput);
+        Library.getInstance().initializeLibrary(libraryInput);
+        UserDatabase.getInstance().initializeDatabase(libraryInput);
 
         List<CommandInput> commands = objectMapper.readValue(new File(inputFile),
             new TypeReference<>() {
             });
         executeCommands(commands, outputs);
-
-        clearData();
     }
 }

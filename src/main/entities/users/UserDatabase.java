@@ -1,7 +1,9 @@
 package main.entities.users;
 
+import fileio.input.LibraryInput;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
 import main.entities.users.artist.Artist;
@@ -10,9 +12,19 @@ import main.entities.users.host.Host;
 @Getter
 public final class UserDatabase {
 
-    private final List<User> users = new ArrayList<>();
-    private final List<Artist> artists = new ArrayList<>();
-    private final List<Host> hosts = new ArrayList<>();
+    private static UserDatabase instance;
+
+    private List<User> users;
+    private List<Artist> artists;
+    private List<Host> hosts;
+
+    public static UserDatabase getInstance() {
+        if (instance == null) {
+            instance = new UserDatabase();
+        }
+
+        return instance;
+    }
 
     /**
      * Add a new user to the database.
@@ -45,16 +57,13 @@ public final class UserDatabase {
         return getUser(username) != null;
     }
 
-    /**
-     * Clear the database.
-     */
-    public void clear() {
-        users.clear();
-        artists.clear();
-        hosts.clear();
-    }
-
     public Stream<User> getAllUsers() {
         return Stream.concat(Stream.concat(users.stream(), artists.stream()), hosts.stream());
+    }
+
+    public void initializeDatabase(final LibraryInput input) {
+        users = input.getUsers().stream().map(User::new).collect(Collectors.toList());
+        artists = new ArrayList<>();
+        hosts = new ArrayList<>();
     }
 }

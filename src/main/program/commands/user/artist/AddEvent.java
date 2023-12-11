@@ -65,8 +65,7 @@ public final class AddEvent extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
-        Library library = program.getLibrary();
+        Library library = Library.getInstance();
         if (!isValidDate(date)) {
             return resultBuilder.withMessage("Event for " + user + " does not have a valid date.");
         }

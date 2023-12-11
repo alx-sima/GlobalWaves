@@ -5,8 +5,8 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
 import main.entities.audio.collections.Album;
+import main.entities.users.UserDatabase;
 import main.program.Library;
-import main.program.Program;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.IsArtistDependency;
 
@@ -29,7 +29,7 @@ public final class RemoveAlbum extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
         Album album = library.getAlbums().stream()
             .filter(a -> a.getName().equals(name)).findFirst().orElse(null);
 
@@ -37,7 +37,7 @@ public final class RemoveAlbum extends DependentCommand {
             return resultBuilder.withMessage(user + " doesn't have an album with the given name.");
         }
 
-        if (Program.getInstance().getDatabase().getUsers().stream().flatMap(
+        if (UserDatabase.getInstance().getUsers().stream().flatMap(
                 user -> user.getPlaylists().stream()
                     .flatMap(playlist -> playlist.getSongs().stream()))
             .anyMatch(song -> album.getSongs().contains(song))) {

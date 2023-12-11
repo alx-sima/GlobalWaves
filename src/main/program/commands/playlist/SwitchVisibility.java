@@ -6,8 +6,8 @@ import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
 import java.util.List;
 import main.entities.audio.collections.Playlist;
-import main.program.Program;
 import main.entities.users.User;
+import main.program.Library;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 
@@ -30,7 +30,6 @@ public final class SwitchVisibility extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
         User caller = getCaller();
         List<Playlist> playlists = caller.getPlaylists();
 
@@ -38,7 +37,7 @@ public final class SwitchVisibility extends DependentCommand {
             return resultBuilder.withMessage("The specified playlist ID is too high.");
         }
 
-        List<Playlist> publicPlaylists = program.getLibrary().getPublicPlaylists();
+        List<Playlist> publicPlaylists = Library.getInstance().getPublicPlaylists();
         Playlist playlist = playlists.get(playlistId - 1);
 
         if (playlist.isPrivate()) {

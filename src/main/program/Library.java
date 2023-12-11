@@ -19,16 +19,34 @@ import main.entities.users.host.Announcement;
 @Getter
 public final class Library {
 
-    private final List<Song> songs;
-    private List<Podcast> podcasts;
-    private final List<Playlist> publicPlaylists = new ArrayList<>();
-    private final List<Album> albums = new ArrayList<>();
-    private final List<Event> events = new ArrayList<>();
-    private final List<Merch> merch = new ArrayList<>();
-    private final List<Announcement> announcements = new ArrayList<>();
+    private static Library instance;
 
-    public Library(final LibraryInput input) {
+    private List<Song> songs;
+    private List<Podcast> podcasts;
+    private List<Playlist> publicPlaylists;
+    private List<Announcement> announcements;
+    private List<Album> albums;
+    private List<Event> events;
+    private List<Merch> merch;
+
+    private Library() {
+    }
+
+    public static Library getInstance() {
+        if (instance == null) {
+            instance = new Library();
+        }
+
+        return instance;
+    }
+
+    public void initializeLibrary(final LibraryInput input) {
         songs = input.getSongs().stream().map(Song::new).collect(Collectors.toList());
         podcasts = input.getPodcasts().stream().map(Podcast::new).collect(Collectors.toList());
+        publicPlaylists = new ArrayList<>();
+        announcements = new ArrayList<>();
+        albums = new ArrayList<>();
+        events = new ArrayList<>();
+        merch = new ArrayList<>();
     }
 }

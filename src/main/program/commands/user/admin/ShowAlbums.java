@@ -17,8 +17,7 @@ public final class ShowAlbums extends Command {
 
     @Override
     public CommandResult execute() {
-        Program program = Program.getInstance();
-        Library library = program.getLibrary();
+        Library library = Library.getInstance();
         List<Album> albums = library.getAlbums().stream()
             .filter(album -> album.getOwner().equals(user)).toList();
 

@@ -8,7 +8,6 @@ import fileio.output.ResultBuilder;
 import java.util.List;
 import main.entities.audio.collections.Album;
 import main.program.Library;
-import main.program.Program;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.IsArtistDependency;
 
@@ -37,9 +36,9 @@ public final class AddAlbum extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
-        Library library = program.getLibrary();
-        if (library.getAlbums().stream().anyMatch(album -> album.getName().equals(name))) {
+        List<Album> albums = Library.getInstance().getAlbums();
+
+        if (albums.stream().anyMatch(album -> album.getName().equals(name))) {
             return resultBuilder.withMessage(user + " has another album with the same name.");
         }
 
@@ -50,7 +49,7 @@ public final class AddAlbum extends DependentCommand {
         }
 
         Album album = new Album(user, name, releaseYear, description, songs);
-        library.getAlbums().add(album);
+        albums.add(album);
         return resultBuilder.withMessage(user + " has added new album successfully.");
     }
 }

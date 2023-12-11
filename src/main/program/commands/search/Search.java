@@ -9,12 +9,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import main.entities.Searchable;
-import main.program.Library;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
-import main.program.Player;
-import main.program.Program;
 import main.entities.users.User;
+import main.entities.users.UserDatabase;
+import main.program.Library;
+import main.program.Player;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 
@@ -43,8 +43,8 @@ public final class Search extends DependentCommand {
 
     private Stream<? extends Searchable> getSearchPlace(final User caller,
         final String searchType) {
-        Program program = Program.getInstance();
-        Library library = program.getLibrary();
+        Library library = Library.getInstance();
+        UserDatabase database = UserDatabase.getInstance();
 
         return switch (searchType) {
             case "song" -> {
@@ -65,8 +65,8 @@ public final class Search extends DependentCommand {
                 yield Stream.concat(userPlaylists, publicPlaylists).distinct();
             }
             case "album" -> library.getAlbums().stream();
-            case "artist" -> program.getDatabase().getArtists().stream();
-            case "host" -> program.getDatabase().getHosts().stream();
+            case "artist" -> database.getArtists().stream();
+            case "host" -> database.getHosts().stream();
             default -> Stream.empty();
         };
     }

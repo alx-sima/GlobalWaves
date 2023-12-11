@@ -19,8 +19,7 @@ public final class ExistsUserDependency extends CommandDependency {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
-        UserDatabase database = program.getDatabase();
+        UserDatabase database = UserDatabase.getInstance();
 
         if (!database.existsUser(user)) {
             return resultBuilder.withMessage("The username " + user + " doesn't exist.");

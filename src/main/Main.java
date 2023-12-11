@@ -76,8 +76,8 @@ public final class Main {
         ArrayNode outputs = objectMapper.createArrayNode();
 
         String inputFile = CheckerConstants.TESTS_PATH + filePathInput;
-        Program program = Program.getInstance();
-        program.run(library, inputFile, objectMapper, outputs);
+        Program program = new Program(library, inputFile, objectMapper, outputs);
+        program.run();
 
         ObjectWriter objectWriter = objectMapper.writerWithDefaultPrettyPrinter();
         objectWriter.writeValue(new File(filePathOutput), outputs);

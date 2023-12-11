@@ -5,9 +5,8 @@ import fileio.output.CommandResult;
 import fileio.output.StatsResult;
 import java.util.Comparator;
 import java.util.List;
-import main.program.Library;
 import main.entities.audio.files.Song;
-import main.program.Program;
+import main.program.Library;
 import main.program.commands.Command;
 
 public final class GetTop5Songs extends Command {
@@ -18,8 +17,7 @@ public final class GetTop5Songs extends Command {
 
     @Override
     public CommandResult execute() {
-        Program program = Program.getInstance();
-        Library library = program.getLibrary();
+        Library library = Library.getInstance();
 
         // Compare by number of likes.
         Comparator<Song> comparator = Comparator.comparingInt(Song::getLikes).reversed();

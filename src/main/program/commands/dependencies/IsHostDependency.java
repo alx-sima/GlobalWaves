@@ -2,7 +2,7 @@ package main.program.commands.dependencies;
 
 import fileio.output.CommandResult;
 import fileio.output.ResultBuilder;
-import main.program.Program;
+import main.entities.users.UserDatabase;
 import main.program.commands.DependentCommand;
 
 public final class IsHostDependency extends CommandDependency {
@@ -20,8 +20,7 @@ public final class IsHostDependency extends CommandDependency {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
-        if (!program.getDatabase().getHosts().contains(getCaller())) {
+        if (!UserDatabase.getInstance().getHosts().contains(getCaller())) {
             return resultBuilder.withMessage(user + " is not a host.");
         }
         return chainedCommand.executeIfDependenciesMet();

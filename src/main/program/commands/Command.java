@@ -5,6 +5,7 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import lombok.Getter;
+import main.entities.users.UserDatabase;
 import main.program.Program;
 import main.entities.users.User;
 
@@ -39,7 +40,7 @@ public abstract class Command {
      * Get the user that executed the command.
      */
     protected User getCaller() {
-        return Program.getInstance().getDatabase().getUser(user);
+        return UserDatabase.getInstance().getUser(user);
     }
 
     /**

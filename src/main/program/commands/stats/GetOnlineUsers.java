@@ -6,7 +6,7 @@ import fileio.output.StatsResult;
 import java.util.List;
 import java.util.stream.Stream;
 import main.entities.users.User;
-import main.program.Program;
+import main.entities.users.UserDatabase;
 import main.program.commands.Command;
 
 public final class GetOnlineUsers extends Command {
@@ -17,8 +17,7 @@ public final class GetOnlineUsers extends Command {
 
     @Override
     public CommandResult execute() {
-        Program program = Program.getInstance();
-        Stream<User> onlineUsers = program.getDatabase().getUsers().stream()
+        Stream<User> onlineUsers = UserDatabase.getInstance().getUsers().stream()
             .filter(User::isOnline);
         List<String> commandResult = onlineUsers.map(User::getUsername).toList();
 

@@ -3,7 +3,6 @@ package main.program.commands.user.admin;
 import fileio.input.commands.AddUserInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
-import main.program.Program;
 import main.entities.users.UserDatabase;
 import main.program.commands.Command;
 
@@ -24,8 +23,7 @@ public final class AddUser extends Command {
     public CommandResult execute() {
         MessageResultBuilder resultBuilder = new MessageResultBuilder(this);
 
-        Program program = Program.getInstance();
-        UserDatabase database = program.getDatabase();
+        UserDatabase database = UserDatabase.getInstance();
 
         if (database.existsUser(user)) {
             resultBuilder.withMessage("The username " + user + " is already taken.");

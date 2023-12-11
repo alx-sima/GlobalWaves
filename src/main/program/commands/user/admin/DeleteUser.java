@@ -4,13 +4,12 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
-import java.util.Objects;
 import java.util.List;
+import java.util.Objects;
 import main.entities.audio.collections.Playlist;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
 import main.program.Library;
-import main.program.Program;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.ExistsUserDependency;
 
@@ -24,7 +23,7 @@ public final class DeleteUser extends DependentCommand {
     }
 
     private boolean isBusyUser() {
-        UserDatabase database = Program.getInstance().getDatabase();
+        UserDatabase database = UserDatabase.getInstance();
 
         if (database.getUsers().stream().map(user -> user.getPlayer().getPlayingAt(timestamp))
             .filter(Objects::nonNull).anyMatch(song -> song.getOwner().equals(user))) {
@@ -44,8 +43,8 @@ public final class DeleteUser extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        UserDatabase database = Program.getInstance().getDatabase();
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
+        UserDatabase database = UserDatabase.getInstance();
 
         for (User user : database.getUsers()) {
             user.getPlayer().updateTime(timestamp);

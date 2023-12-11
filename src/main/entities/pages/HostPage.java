@@ -6,7 +6,6 @@ import main.entities.users.User;
 import main.entities.users.host.Announcement;
 import main.entities.users.host.Host;
 import main.program.Library;
-import main.program.Program;
 
 public final class HostPage implements Page {
 
@@ -17,7 +16,7 @@ public final class HostPage implements Page {
     }
 
     private List<Podcast> getPodcasts() {
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
         return library.getPodcasts().stream()
             .filter(podcast -> podcast.getOwner().equals(host.getUsername()))
             .toList();
@@ -25,7 +24,7 @@ public final class HostPage implements Page {
     }
 
     private List<Announcement> getAnnouncements() {
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
         return library.getAnnouncements().stream()
             .filter(announcement -> announcement.getOwner().equals(host.getUsername())).toList();
     }

@@ -2,7 +2,7 @@ package main.program.commands.dependencies;
 
 import fileio.output.CommandResult;
 import fileio.output.ResultBuilder;
-import main.program.Program;
+import main.entities.users.UserDatabase;
 import main.program.commands.DependentCommand;
 
 public final class IsArtistDependency extends CommandDependency {
@@ -19,8 +19,7 @@ public final class IsArtistDependency extends CommandDependency {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
-        if (!program.getDatabase().getArtists().contains(getCaller())) {
+        if (!UserDatabase.getInstance().getArtists().contains(getCaller())) {
             return resultBuilder.withMessage(user + " is not an artist.");
         }
         return chainedCommand.executeIfDependenciesMet();

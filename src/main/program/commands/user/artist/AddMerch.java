@@ -7,7 +7,6 @@ import fileio.output.ResultBuilder;
 import java.util.List;
 import main.entities.users.artist.Merch;
 import main.program.Library;
-import main.program.Program;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.IsArtistDependency;
 
@@ -34,9 +33,7 @@ public final class AddMerch extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Program program = Program.getInstance();
-        Library library = program.getLibrary();
-        List<Merch> merchList = library.getMerch();
+        List<Merch> merchList = Library.getInstance().getMerch();
 
         if (merchList.stream().anyMatch(merch -> merch.getName().equals(name))) {
             return resultBuilder.withMessage(user + " has merchandise with the same name.");

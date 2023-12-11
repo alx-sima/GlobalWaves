@@ -2,12 +2,11 @@ package main.entities.pages;
 
 import java.util.List;
 import main.entities.audio.collections.Album;
-import main.program.Library;
 import main.entities.users.User;
 import main.entities.users.artist.Artist;
 import main.entities.users.artist.Event;
 import main.entities.users.artist.Merch;
-import main.program.Program;
+import main.program.Library;
 
 public final class ArtistPage implements Page {
 
@@ -18,20 +17,20 @@ public final class ArtistPage implements Page {
     }
 
     private List<String> getAlbums() {
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
         return library.getAlbums().stream()
             .filter(album -> album.getOwner().equals(artist.getUsername())).map(Album::getName)
             .toList();
     }
 
     private List<Merch> getMerch() {
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
         return library.getMerch().stream()
             .filter(merch -> merch.getOwner().equals(artist.getUsername())).toList();
     }
 
     private List<Event> getEvents() {
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
         return library.getEvents().stream()
             .filter(event -> event.getOwner().equals(artist.getUsername())).toList();
     }

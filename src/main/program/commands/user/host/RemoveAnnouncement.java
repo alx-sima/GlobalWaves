@@ -29,7 +29,7 @@ public final class RemoveAnnouncement extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Library library = Program.getInstance().getLibrary();
+        Library library = Library.getInstance();
         Announcement announcement = library.getAnnouncements().stream()
             .filter(a -> a.getName().equals(name)).findFirst().orElse(null);
         if (announcement == null) {

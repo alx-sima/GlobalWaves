@@ -8,7 +8,6 @@ import fileio.output.ResultBuilder;
 import java.util.List;
 import main.entities.audio.collections.Podcast;
 import main.program.Library;
-import main.program.Program;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.IsHostDependency;
 
@@ -33,9 +32,9 @@ public final class AddPodcast extends DependentCommand {
 
     @Override
     public ResultBuilder executeIfDependenciesMet() {
-        Library library = Program.getInstance().getLibrary();
+        List<Podcast> podcasts = Library.getInstance().getPodcasts();
 
-        if (library.getPodcasts().stream().anyMatch(podcast -> podcast.getName().equals(name))) {
+        if (podcasts.stream().anyMatch(podcast -> podcast.getName().equals(name))) {
             return resultBuilder.withMessage(user + " has another podcast with the same name.");
         }
 
@@ -45,7 +44,7 @@ public final class AddPodcast extends DependentCommand {
                 user + " has the same song at least twice in this album.");
         }
 
-        library.getPodcasts().add(new Podcast(user, name, episodes));
+        podcasts.add(new Podcast(user, name, episodes));
         return resultBuilder.withMessage(user + " has added new podcast successfully.");
     }
 }

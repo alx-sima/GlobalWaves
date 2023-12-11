@@ -31,7 +31,7 @@ public final class Select extends DependentCommand {
     public ResultBuilder executeIfDependenciesMet() {
         Searchbar searchbar = getCaller().getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();
-        searchbar.clearSelectedResult();
+        searchbar.clearSelection();
 
         if (searchResults == null) {
             return resultBuilder.withMessage("Please conduct a search before making a selection.");

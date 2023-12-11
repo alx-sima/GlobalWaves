@@ -2,6 +2,7 @@ package main.entities.audio.collections;
 
 import main.entities.audio.files.Song;
 import main.entities.audio.queues.RepeatMode;
+import main.entities.audio.queues.visitors.SongQueueVisitor;
 
 /**
  * A collection of songs that can be indexed and has different ways to be repeated.
@@ -26,4 +27,6 @@ public interface SongSource {
      * @param repeatMode the current repeat mode.
      */
     RepeatMode getNextRepeatMode(RepeatMode repeatMode);
+
+    void accept(SongQueueVisitor visitor);
 }

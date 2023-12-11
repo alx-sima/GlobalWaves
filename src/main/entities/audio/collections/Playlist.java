@@ -13,6 +13,7 @@ import main.entities.audio.files.Song;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
+import main.entities.audio.queues.visitors.SongQueueVisitor;
 import main.entities.users.User;
 
 /**
@@ -99,5 +100,10 @@ public final class Playlist implements SearchableAudio, SongSource {
             case REPEAT_CURRENT -> NO_REPEAT;
             default -> null;
         };
+    }
+
+    @Override
+    public void accept(final SongQueueVisitor visitor) {
+        visitor.visit(this);
     }
 }

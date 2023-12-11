@@ -9,6 +9,7 @@ import main.entities.audio.collections.SongSource;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
+import main.entities.audio.queues.visitors.SongQueueVisitor;
 
 /**
  * A song, which can be searched or played.
@@ -98,5 +99,10 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
             case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
             default -> null;
         };
+    }
+
+    @Override
+    public void accept(SongQueueVisitor visitor) {
+        visitor.visit(this);
     }
 }

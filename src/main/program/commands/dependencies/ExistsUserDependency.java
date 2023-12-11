@@ -2,7 +2,6 @@ package main.program.commands.dependencies;
 
 import fileio.output.CommandResult;
 import fileio.output.ResultBuilder;
-import main.program.Program;
 import main.entities.users.UserDatabase;
 import main.program.commands.DependentCommand;
 

@@ -28,7 +28,7 @@ public final class Load extends DependentCommand {
     public ResultBuilder executeIfDependenciesMet() {
         Searchbar searchbar = getCaller().getSearchbar();
 
-        SearchableAudio selected = searchbar.consumeSelectedResult();
+        SearchableAudio selected = searchbar.consumeSelectedAudioSource();
         if (selected == null) {
             return resultBuilder.withMessage("Please select a source before attempting to load.");
         }

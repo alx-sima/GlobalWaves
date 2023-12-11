@@ -5,9 +5,8 @@ import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import lombok.Getter;
-import main.entities.users.UserDatabase;
-import main.program.Program;
 import main.entities.users.User;
+import main.entities.users.UserDatabase;
 
 /**
  * A command that can be executed by a user, returning a result.

@@ -8,6 +8,7 @@ import main.entities.audio.SearchableAudio;
 import main.entities.audio.files.AudioFile;
 import main.entities.audio.files.Episode;
 import main.entities.audio.queues.Queue;
+import main.entities.audio.queues.visitors.QueueVisitor;
 import main.entities.audio.queues.RepeatMode;
 
 /**
@@ -96,6 +97,11 @@ public final class Podcast extends Queue implements SearchableAudio {
 
         addTimeIncrement(deltaTime);
         return true;
+    }
+
+    @Override
+    public void accept(final QueueVisitor visitor) {
+        visitor.visit(this);
     }
 
     @Override

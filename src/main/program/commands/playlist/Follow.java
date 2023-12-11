@@ -28,7 +28,7 @@ public final class Follow extends DependentCommand {
     @Override
     public ResultBuilder executeIfDependenciesMet() {
         User caller = getCaller();
-        SearchableAudio selected = caller.getSearchbar().consumeSelectedResult();
+        SearchableAudio selected = caller.getSearchbar().getSelectedAudioSource();
 
         if (selected == null) {
             return resultBuilder.withMessage(

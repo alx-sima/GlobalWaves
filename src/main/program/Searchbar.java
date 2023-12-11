@@ -15,6 +15,7 @@ public class Searchbar {
     @Setter
     private List<Searchable> searchResults;
     private Searchable selectedResult;
+    @Getter
     private SearchableAudio selectedAudioSource;
 
     /**
@@ -41,7 +42,7 @@ public class Searchbar {
     /**
      * Clear the searchbar's selection.
      */
-    public void clearSelectedResult() {
+    public void clearSelection() {
         selectedAudioSource = null;
         selectedResult = null;
     }
@@ -49,9 +50,9 @@ public class Searchbar {
     /**
      * Get the selected search result, then clear the selection.
      */
-    public SearchableAudio consumeSelectedResult() {
+    public SearchableAudio consumeSelectedAudioSource() {
         SearchableAudio result = selectedAudioSource;
-        clearSelectedResult();
+        clearSelection();
         return result;
     }
 }

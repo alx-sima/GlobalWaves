@@ -24,8 +24,9 @@ public final class Program {
     private final ObjectMapper objectMapper;
     private final ArrayNode outputs;
 
-    public Program(LibraryInput libraryInput, String inputFile, ObjectMapper objectMapper,
-        ArrayNode outputs) {
+    public Program(final LibraryInput libraryInput, final String inputFile,
+        final ObjectMapper objectMapper,
+        final ArrayNode outputs) {
         this.libraryInput = libraryInput;
         this.inputFile = inputFile;
         this.objectMapper = objectMapper;

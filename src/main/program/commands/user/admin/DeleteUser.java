@@ -7,6 +7,7 @@ import fileio.output.ResultBuilder;
 import java.util.List;
 import java.util.Objects;
 import main.entities.audio.collections.Playlist;
+import main.entities.audio.queues.visitors.QueueVisitor;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
 import main.program.Library;
@@ -23,14 +24,23 @@ public final class DeleteUser extends DependentCommand {
     }
 
     private boolean isBusyUser() {
-        UserDatabase database = UserDatabase.getInstance();
+        List<User> users = UserDatabase.getInstance().getUsers();
 
-        if (database.getUsers().stream().map(user -> user.getPlayer().getPlayingAt(timestamp))
+        if (users.stream().map(user -> user.getPlayer().getPlayingAt(timestamp))
             .filter(Objects::nonNull).anyMatch(song -> song.getOwner().equals(user))) {
             return true;
         }
 
-        return database.getUsers().stream().map(user -> user.getCurrentPage().getPageOwner())
+        QueueVisitor visitor = new QueueVisitor(user);
+        if (users.stream().map(user -> user.getPlayer().getQueue()).filter(Objects::nonNull)
+            .anyMatch(queue -> {
+                queue.accept(visitor);
+                return visitor.isOwned();
+            })) {
+            return true;
+        }
+
+        return users.stream().map(user -> user.getCurrentPage().getPageOwner())
             .filter(Objects::nonNull)
             .anyMatch(owner -> owner.equals(getCaller()));
     }

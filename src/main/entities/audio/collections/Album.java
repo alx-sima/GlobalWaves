@@ -12,6 +12,7 @@ import main.entities.audio.files.Song;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
+import main.entities.audio.queues.visitors.SongQueueVisitor;
 
 /**
  * An album, created by an artist, which contains a list of songs.
@@ -73,5 +74,10 @@ public final class Album implements SearchableAudio, SongSource {
             case REPEAT_CURRENT -> NO_REPEAT;
             default -> null;
         };
+    }
+
+    @Override
+    public void accept(SongQueueVisitor visitor) {
+        visitor.visit(this);
     }
 }

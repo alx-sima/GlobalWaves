@@ -3,8 +3,7 @@ package main.entities.audio.queues;
 import lombok.Getter;
 import main.entities.audio.files.AudioFile;
 import main.entities.audio.files.Song;
-import main.entities.users.UserDatabase;
-import main.program.Program;
+import main.entities.audio.queues.visitors.QueueVisitor;
 
 /**
  * A play queue, holding the files that will play in the music player.
@@ -140,4 +139,9 @@ public abstract class Queue {
         playTime = 0;
         return currentlyPlaying;
     }
+
+    /**
+     * Accept a QueueVisitor.
+     */
+    public abstract void accept(final QueueVisitor visitor);
 }

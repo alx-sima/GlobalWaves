@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public abstract class AudioFile {
 
-    private final String name;
+    protected final String name;
     private final int duration;
     private final String owner;
 

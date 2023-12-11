@@ -1,6 +1,8 @@
-package main.entities.users;
+package main.entities.users.host;
 
 import main.entities.Searchable;
+import main.entities.pages.HostPage;
+import main.entities.users.User;
 
 public final class Host extends User implements Searchable {
 
@@ -23,7 +25,7 @@ public final class Host extends User implements Searchable {
 
     @Override
     public String selectResultBy(final User user) {
-        // TODO
-        return null;
+        user.setCurrentPage(new HostPage(this));
+        return username + "'s page";
     }
 }

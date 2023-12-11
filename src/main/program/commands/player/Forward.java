@@ -6,6 +6,7 @@ import fileio.output.MessageResultBuilder;
 import fileio.output.ResultBuilder;
 import main.entities.audio.queues.Queue;
 import main.entities.users.User;
+import main.program.Player;
 import main.program.commands.DependentCommand;
 import main.program.commands.dependencies.OnlineUserDependency;
 
@@ -28,7 +29,9 @@ public final class Forward extends DependentCommand {
     @Override
     public ResultBuilder executeIfDependenciesMet() {
         User caller = getCaller();
-        Queue queue = caller.getPlayer().getQueue();
+        Player player = caller.getPlayer();
+        player.updateTime(timestamp);
+        Queue queue = player.getQueue();
 
         if (queue == null) {
             return resultBuilder.withMessage("Please load a source before attempting to forward.");

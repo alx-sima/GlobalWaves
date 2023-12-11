@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Stream;
 import lombok.Getter;
 import main.entities.users.artist.Artist;
+import main.entities.users.host.Host;
 
 @Getter
 public final class UserDatabase {
@@ -12,7 +13,6 @@ public final class UserDatabase {
     private final List<User> users = new ArrayList<>();
     private final List<Artist> artists = new ArrayList<>();
     private final List<Host> hosts = new ArrayList<>();
-    private final List<String> busyUsers = new ArrayList<>();
 
     /**
      * Add a new user to the database.
@@ -22,7 +22,7 @@ public final class UserDatabase {
         switch (type) {
             case "user" -> users.add(new User(type, username, age, city));
             case "artist" -> artists.add(new Artist(type, username, age, city));
-            case "hosts" -> hosts.add(new Host(type, username, age, city));
+            case "host" -> hosts.add(new Host(type, username, age, city));
         }
     }
 
@@ -51,6 +51,7 @@ public final class UserDatabase {
     public void clear() {
         users.clear();
         artists.clear();
+        hosts.clear();
     }
 
     public Stream<User> getAllUsers() {

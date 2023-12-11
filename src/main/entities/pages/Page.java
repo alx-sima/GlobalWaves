@@ -11,4 +11,8 @@ public interface Page {
      * @return the page's contents as a string.
      */
     String printPageOfUser(User user);
+
+    default User getPageOwner() {
+        return null;
+    }
 }

@@ -68,11 +68,11 @@ public final class AddEvent extends DependentCommand {
         Program program = Program.getInstance();
         Library library = program.getLibrary();
         if (!isValidDate(date)) {
-            return resultBuilder.withMessage("Invalid date!");
+            return resultBuilder.withMessage("Event for " + user + " does not have a valid date.");
         }
 
         Event event = new Event(user, name, description, date);
-        library.getEvents().add( event);
+        library.getEvents().add(event);
         return resultBuilder.withMessage(user + " has added new event successfully.");
     }
 }

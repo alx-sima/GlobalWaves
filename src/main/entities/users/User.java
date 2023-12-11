@@ -32,6 +32,7 @@ public class User {
     private final List<Playlist> playlists = new ArrayList<>();
     @Getter
     private final List<Song> likedSongs = new ArrayList<>();
+    @Getter
     private final List<Playlist> followedPlaylists = new ArrayList<>();
     @Getter
     @Setter

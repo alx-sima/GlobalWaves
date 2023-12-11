@@ -1,5 +1,6 @@
 package main.entities.audio.collections;
 
+import fileio.input.EpisodeInput;
 import fileio.input.PodcastInput;
 import java.util.List;
 import lombok.Getter;
@@ -12,9 +13,9 @@ import main.entities.audio.queues.RepeatMode;
 /**
  * A podcast is a collection of episodes which can be played, and keeps track of play progress.
  */
+@Getter
 public final class Podcast extends Queue implements SearchableAudio {
 
-    @Getter
     private final String name;
     private final String owner;
     private final List<Episode> episodes;
@@ -26,6 +27,15 @@ public final class Podcast extends Queue implements SearchableAudio {
         episodes = input.getEpisodes().stream()
             .map(episodeInput -> new Episode(episodeInput, owner)).toList();
         currentlyPlaying = episodes.get(0);
+    }
+
+    public Podcast(final String owner, final String name, final List<EpisodeInput> episodes) {
+        super(false);
+        this.owner = owner;
+        this.name = name;
+        this.episodes = episodes.stream().map(episodeInput -> new Episode(episodeInput, owner))
+            .toList();
+        currentlyPlaying = this.episodes.get(0);
     }
 
     @Override
@@ -86,5 +96,10 @@ public final class Podcast extends Queue implements SearchableAudio {
 
         addTimeIncrement(deltaTime);
         return true;
+    }
+
+    @Override
+    public String toString() {
+        return name + ":\n\t" + episodes + "\n";
     }
 }

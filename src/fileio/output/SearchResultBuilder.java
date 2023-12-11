@@ -14,7 +14,7 @@ public final class SearchResultBuilder implements ResultBuilder {
 
     private final SearchResult result;
 
-    public SearchResultBuilder(Command command) {
+    public SearchResultBuilder(final Command command) {
         result = new SearchResult(command);
     }
 

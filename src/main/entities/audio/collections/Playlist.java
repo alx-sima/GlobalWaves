@@ -18,19 +18,15 @@ import main.entities.users.User;
 /**
  * A collection of songs, that can be played and followed (if public).
  */
+@Getter
 public final class Playlist implements SearchableAudio, SongSource {
 
-    @Getter
     private final String name;
-    @Getter
     private final User user;
     private final List<Song> songs = new ArrayList<>();
-    @Getter
     private final int creationTimestamp;
-    @Getter
     @Setter
     private boolean isPrivate = false;
-    @Getter
     @Setter
     private int followers = 0;
 

@@ -13,15 +13,15 @@ public final class ArtistPage implements Page {
 
     private final Artist artist;
 
-    public ArtistPage(Artist artist) {
+    public ArtistPage(final Artist artist) {
         this.artist = artist;
     }
 
-    private String getAlbums() {
+    private List<String> getAlbums() {
         Library library = Program.getInstance().getLibrary();
         return library.getAlbums().stream()
             .filter(album -> album.getOwner().equals(artist.getUsername())).map(Album::getName)
-            .toList().toString();
+            .toList();
     }
 
     private List<Merch> getMerch() {
@@ -37,8 +37,13 @@ public final class ArtistPage implements Page {
     }
 
     @Override
-    public String printPageOfUser(User user) {
+    public String printPageOfUser(final User user) {
         return "Albums:\n\t" + getAlbums() + "\n\nMerch:\n\t" + getMerch()
             + "\n\nEvents:\n\t" + getEvents();
+    }
+
+    @Override
+    public User getPageOwner() {
+        return artist;
     }
 }

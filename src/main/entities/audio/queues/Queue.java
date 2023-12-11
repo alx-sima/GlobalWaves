@@ -21,24 +21,8 @@ public abstract class Queue {
     protected Shuffler shuffler = null;
     protected int playIndex = 0;
 
-    public Queue(final boolean isShuffle) {
+    protected Queue(final boolean isShuffle) {
         this.isShuffle = isShuffle;
-    }
-
-    /**
-     * Set the file that is currently playing.
-     */
-    protected void setCurrentlyPlaying(final AudioFile currentlyPlaying) {
-        UserDatabase database = Program.getInstance().getDatabase();
-
-        if (this.currentlyPlaying != null) {
-            database.getBusyUsers().remove(this.currentlyPlaying.getOwner());
-        }
-
-        this.currentlyPlaying = currentlyPlaying;
-        if (currentlyPlaying != null) {
-            database.getBusyUsers().add(currentlyPlaying.getOwner());
-        }
     }
 
     /**
@@ -63,7 +47,7 @@ public abstract class Queue {
         // Skip the files that ended in the meantime.
         while (playTime >= currentlyPlaying.getDuration()) {
             playTime -= currentlyPlaying.getDuration();
-            setCurrentlyPlaying(getNextFile());
+            currentlyPlaying = getNextFile();
 
             // Check if queue ended.
             if (currentlyPlaying == null) {
@@ -136,7 +120,7 @@ public abstract class Queue {
      */
     public AudioFile next() {
         AudioFile nextFile = getNextFile();
-        setCurrentlyPlaying(nextFile);
+        currentlyPlaying = nextFile;
         playTime = 0;
 
         return nextFile;
@@ -150,7 +134,7 @@ public abstract class Queue {
     public AudioFile prev() {
         if (playTime == 0 && playIndex != 0) {
             playIndex--;
-            setCurrentlyPlaying(getFilePlaying());
+            currentlyPlaying = getFilePlaying();
         }
 
         playTime = 0;

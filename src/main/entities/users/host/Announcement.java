@@ -1,26 +1,23 @@
-package main.entities.users.artist;
+package main.entities.users.host;
 
 import lombok.Getter;
 
-public final class Event {
+public final class Announcement {
 
     @Getter
     private final String owner;
     @Getter
     private final String name;
     private final String description;
-    private final String date;
 
-    public Event(final String owner, final String name, final String description,
-        final String date) {
+    public Announcement(final String owner, final String name, final String description) {
         this.owner = owner;
         this.name = name;
         this.description = description;
-        this.date = date;
     }
 
     @Override
     public String toString() {
-        return name + " - " + date + ":\n\t" + description;
+        return name + ":\n\t" + description + "\n";
     }
 }

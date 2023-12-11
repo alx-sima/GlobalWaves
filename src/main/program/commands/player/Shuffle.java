@@ -40,7 +40,7 @@ public final class Shuffle extends DependentCommand {
         }
 
         if (!queue.isShuffle()) {
-            return resultBuilder.withMessage("The loaded source is not a playlist.");
+            return resultBuilder.withMessage("The loaded source is not a playlist or an album.");
         }
 
         if (queue.isShuffled()) {

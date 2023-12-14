@@ -12,8 +12,8 @@ public final class Host extends User implements Searchable {
 
     private final List<Announcement> announcements = new ArrayList<>();
 
-    public Host(final String type, final String username, final int age, final String city) {
-        super(type, username, age, city);
+    public Host(final String username, final int age, final String city) {
+        super(username, age, city);
     }
 
     @Override

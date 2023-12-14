@@ -20,8 +20,6 @@ public class User {
 
     @Getter
     protected final String username;
-    @Getter
-    private final String type;
     private final int age;
     private final String city;
     @Getter
@@ -40,15 +38,13 @@ public class User {
     @Getter
     private boolean isOnline = true;
 
-    public User(final String type, final String username, final int age, final String city) {
-        this.type = type;
+    public User(final String username, final int age, final String city) {
         this.username = username;
         this.age = age;
         this.city = city;
     }
 
     public User(final UserInput input) {
-        type = "user";
         username = input.getUsername();
         age = input.getAge();
         city = input.getCity();

@@ -15,8 +15,8 @@ public final class Artist extends User implements Searchable {
     private final List<Event> events = new ArrayList<>();
     private final List<Merch> merch = new ArrayList<>();
 
-    public Artist(final String type, final String username, final int age, final String city) {
-        super(type, username, age, city);
+    public Artist(final String username, final int age, final String city) {
+        super(username, age, city);
     }
 
     @Override

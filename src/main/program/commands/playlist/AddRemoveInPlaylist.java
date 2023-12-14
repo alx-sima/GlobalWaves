@@ -1,36 +1,27 @@
 package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistOperationInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import lombok.Getter;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
 import main.entities.audio.queues.Queue;
 import main.entities.users.User;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.OnlineUserDependency;
+import main.program.commands.user.OnlineUserCommand;
 
-public final class AddRemoveInPlaylist extends DependentCommand {
+public final class AddRemoveInPlaylist extends OnlineUserCommand {
 
-    private final MessageResultBuilder resultBuilder;
+    @Getter
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
     private final int playlistId;
 
     public AddRemoveInPlaylist(final PlaylistOperationInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         playlistId = input.getPlaylistId();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
-        return dependency.execute();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        User caller = getCaller();
+    protected ResultBuilder execute(final User caller) {
         Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {

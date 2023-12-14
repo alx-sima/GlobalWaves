@@ -1,13 +1,13 @@
 package main.program.commands.search;
 
 import fileio.input.commands.SearchInput;
-import fileio.output.CommandResult;
-import fileio.output.ResultBuilder;
-import fileio.output.SearchResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import fileio.output.builders.SearchResultBuilder;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import lombok.Getter;
 import main.entities.Searchable;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
@@ -15,18 +15,17 @@ import main.entities.users.User;
 import main.entities.users.UserDatabase;
 import main.program.Library;
 import main.program.Player;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.OnlineUserDependency;
+import main.program.commands.user.OnlineUserCommand;
 
-public final class Search extends DependentCommand {
+public final class Search extends OnlineUserCommand {
 
-    private final SearchResultBuilder resultBuilder;
+    @Getter
+    private final SearchResultBuilder resultBuilder = new SearchResultBuilder().withCommand(this);
     private final String type;
     private final List<SearchFilter> filters;
 
     public Search(final SearchInput input) {
         super(input);
-        resultBuilder = new SearchResultBuilder(this);
         type = input.getType();
         filters = input.createFilters();
     }
@@ -49,7 +48,7 @@ public final class Search extends DependentCommand {
         return switch (searchType) {
             case "song" -> {
                 Stream<Song> publicSongs = library.getSongs().stream();
-                Stream<Song> albumSongs = library.getAlbums().stream()
+                Stream<Song> albumSongs = database.getAlbums().stream()
                     .flatMap(album -> album.getSongs().stream());
 
                 yield Stream.concat(publicSongs, albumSongs);
@@ -64,7 +63,7 @@ public final class Search extends DependentCommand {
                 // Remove duplicates before searching.
                 yield Stream.concat(userPlaylists, publicPlaylists).distinct();
             }
-            case "album" -> library.getAlbums().stream();
+            case "album" -> database.getAlbums().stream();
             case "artist" -> database.getArtists().stream();
             case "host" -> database.getHosts().stream();
             default -> Stream.empty();
@@ -72,14 +71,7 @@ public final class Search extends DependentCommand {
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        OnlineUserDependency onlineUserDependency = new OnlineUserDependency(this, resultBuilder);
-        return onlineUserDependency.execute();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        User caller = getCaller();
+    protected ResultBuilder execute(final User caller) {
 
         Stream<? extends Searchable> searchPlace = getSearchPlace(caller, type);
 
@@ -95,6 +87,5 @@ public final class Search extends DependentCommand {
 
         resultBuilder.withMessage("Search returned " + result.size() + " results");
         return resultBuilder.withResult(result);
-
     }
 }

@@ -1,32 +1,25 @@
 package main.program.commands.player;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import lombok.Getter;
 import main.entities.audio.SearchableAudio;
 import main.entities.users.User;
 import main.program.Searchbar;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.OnlineUserDependency;
+import main.program.commands.user.OnlineUserCommand;
 
-public final class Load extends DependentCommand {
+@Getter
+public final class Load extends OnlineUserCommand {
 
-    private final ResultBuilder resultBuilder;
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+
     public Load(final CommandInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
-        return dependency.execute();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        Searchbar searchbar = getCaller().getSearchbar();
+    public ResultBuilder execute(final User caller) {
+        Searchbar searchbar = caller.getSearchbar();
 
         SearchableAudio selected = searchbar.consumeSelectedAudioSource();
         if (selected == null) {
@@ -35,10 +28,7 @@ public final class Load extends DependentCommand {
 
         // Clear the search results if the load was successful.
         searchbar.setSearchResults(null);
-
-        User caller = getCaller();
         caller.getPlayer().addQueue(selected, timestamp);
-
         return resultBuilder.withMessage("Playback loaded successfully.");
     }
 }

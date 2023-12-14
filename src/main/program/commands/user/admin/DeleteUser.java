@@ -1,26 +1,24 @@
 package main.program.commands.user.admin;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
 import java.util.List;
 import java.util.Objects;
+import lombok.Getter;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.queues.visitors.QueueVisitor;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
 import main.program.Library;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.ExistsUserDependency;
+import main.program.commands.user.UserCommand;
 
-public final class DeleteUser extends DependentCommand {
+@Getter
+public final class DeleteUser extends UserCommand {
 
-    private final MessageResultBuilder resultBuilder;
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
 
     public DeleteUser(final CommandInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
     }
 
     private boolean isBusyUser() {
@@ -46,13 +44,7 @@ public final class DeleteUser extends DependentCommand {
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        ExistsUserDependency dependency = new ExistsUserDependency(this, resultBuilder);
-        return dependency.checkDependencies();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
+    protected ResultBuilder executeFor(final User target) {
         Library library = Library.getInstance();
         UserDatabase database = UserDatabase.getInstance();
 
@@ -64,22 +56,17 @@ public final class DeleteUser extends DependentCommand {
             return resultBuilder.withMessage(user + " can't be deleted.");
         }
 
-        User caller = getCaller();
-
-        database.getUsers().remove(caller);
-        database.getArtists().remove(caller);
-        database.getHosts().remove(caller);
-        library.getAlbums().removeIf(album -> album.getOwner().equals(user));
-        library.getMerch().removeIf(merch -> merch.getOwner().equals(user));
-        library.getEvents().removeIf(event -> event.getOwner().equals(user));
+        database.getUsers().remove(target);
+        database.getArtists().remove(target);
+        database.getHosts().remove(target);
         library.getSongs().removeIf(song -> song.getOwner().equals(user));
-        caller.getFollowedPlaylists()
+        target.getFollowedPlaylists()
             .forEach(playlist -> playlist.setFollowers(playlist.getFollowers() - 1));
         for (User u : database.getUsers()) {
             u.getLikedSongs().removeIf(song -> song.getOwner().equals(user));
 
             List<Playlist> playlistsToRemove = u.getFollowedPlaylists().stream()
-                .filter(playlist -> playlist.getUser().equals(caller)).toList();
+                .filter(playlist -> playlist.getUser().equals(target)).toList();
             for (Playlist playlist : playlistsToRemove) {
                 u.follow(playlist);
             }

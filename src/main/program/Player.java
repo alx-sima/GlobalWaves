@@ -50,18 +50,18 @@ public final class Player {
     public void updateTime(final int timestamp) {
         if (queue != null && isOnline && !isPaused) {
             queue.addTimeIncrement(timestamp - lastUpdate);
-            lastUpdate = timestamp;
 
             if (queue.getCurrentlyPlaying() == null) {
                 clearQueue();
             }
         }
+        lastUpdate = timestamp;
     }
 
     /**
      * Set the `paused` state of the player.
      *
-     * @param paused  the new state.
+     * @param paused    the new state.
      * @param timestamp the timestamp when this action occurs.
      */
     public void setPaused(final boolean paused, final int timestamp) {
@@ -75,15 +75,12 @@ public final class Player {
     /**
      * Set the online status of the user that owns the player.
      *
-     * @param online  the new online status.
+     * @param online    the new online status.
      * @param timestamp the timestamp when this action occurs.
      */
     public void setOnline(final boolean online, final int timestamp) {
         updateTime(timestamp);
         isOnline = online;
-        if (!isOnline) {
-            lastUpdate = timestamp;
-        }
     }
 
     /**

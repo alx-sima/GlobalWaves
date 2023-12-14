@@ -10,13 +10,15 @@ import main.entities.audio.collections.SongSource;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
-import main.entities.audio.queues.visitors.SongQueueVisitor;
+import main.entities.audio.queues.visitors.SongSourceVisitor;
 
 /**
  * A song, which can be searched or played.
  */
 public final class Song extends AudioFile implements SearchableAudio, SongSource {
 
+    @Getter
+    private final int creationTime;
     private final String album;
     private final List<String> tags;
     private final String lyrics;
@@ -28,25 +30,19 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     @Setter
     private int likes = 0;
 
-    public Song(final Song song) {
-        super(song.getName(), song.getDuration(), song.artist);
-        album = song.album;
-        tags = song.tags;
-        lyrics = song.lyrics;
-        genre = song.genre;
-        releaseYear = song.releaseYear;
-        artist = song.artist;
-        likes = song.likes;
-    }
-
-    public Song(final SongInput input) {
+    public Song(final SongInput input, final int creationTime) {
         super(input.getName(), input.getDuration(), input.getArtist());
+        this.creationTime = creationTime;
         album = input.getAlbum();
         tags = input.getTags();
         lyrics = input.getLyrics();
         genre = input.getGenre();
         releaseYear = input.getReleaseYear();
         artist = input.getArtist();
+    }
+
+    public Song(final SongInput input) {
+       this(input, 0);
     }
 
     private boolean compareReleaseYear(final String parameter) {
@@ -74,7 +70,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     }
 
     @Override
-    public Queue createQueue(Map<String, Queue> playHistory) {
+    public Queue createQueue(final Map<String, Queue> playHistory) {
         return new SongQueue(this, 1, false);
     }
 
@@ -103,7 +99,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     }
 
     @Override
-    public void accept(SongQueueVisitor visitor) {
+    public void accept(final SongSourceVisitor visitor) {
         visitor.visit(this);
     }
 }

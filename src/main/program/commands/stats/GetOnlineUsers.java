@@ -2,14 +2,18 @@ package main.program.commands.stats;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.StatsResult;
+import fileio.output.builders.StatsResultBuilder;
 import java.util.List;
 import java.util.stream.Stream;
+import lombok.Getter;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
 import main.program.commands.Command;
 
+@Getter
 public final class GetOnlineUsers extends Command {
+
+    private final StatsResultBuilder resultBuilder = new StatsResultBuilder().withCommand(this);
 
     public GetOnlineUsers(final CommandInput input) {
         super(input);
@@ -21,6 +25,6 @@ public final class GetOnlineUsers extends Command {
             .filter(User::isOnline);
         List<String> commandResult = onlineUsers.map(User::getUsername).toList();
 
-        return new StatsResult(this, commandResult);
+        return resultBuilder.withResult(commandResult).build();
     }
 }

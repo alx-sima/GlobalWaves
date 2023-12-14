@@ -1,32 +1,27 @@
 package main.program.commands.user;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import lombok.Getter;
 import main.entities.users.User;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.ExistsUserDependency;
+import main.entities.users.UserDatabase;
 
-public final class SwitchConnectionStatus extends DependentCommand {
+@Getter
+public final class SwitchConnectionStatus extends UserCommand {
 
-    private final MessageResultBuilder resultBuilder;
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+
     public SwitchConnectionStatus(final CommandInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        ExistsUserDependency dependency = new ExistsUserDependency(this, resultBuilder);
-        return dependency.checkDependencies();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        User caller = getCaller();
-        boolean newOnlineStatus = !caller.isOnline();
-        caller.setOnline(newOnlineStatus, timestamp);
+    protected ResultBuilder executeFor(final User target) {
+        if (!UserDatabase.getInstance().getUsers().contains(target)) {
+            return resultBuilder.withMessage(user + " is not a normal user.");
+        }
+        boolean newOnlineStatus = !target.isOnline();
+        target.setOnline(newOnlineStatus, timestamp);
 
         return resultBuilder.withMessage(user + " has changed status successfully.");
     }

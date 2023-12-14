@@ -14,7 +14,7 @@ import main.entities.audio.files.Song;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
-import main.entities.audio.queues.visitors.SongQueueVisitor;
+import main.entities.audio.queues.visitors.SongSourceVisitor;
 import main.entities.users.User;
 
 /**
@@ -104,7 +104,7 @@ public final class Playlist implements SearchableAudio, SongSource {
     }
 
     @Override
-    public void accept(final SongQueueVisitor visitor) {
+    public void accept(final SongSourceVisitor visitor) {
         visitor.visit(this);
     }
 }

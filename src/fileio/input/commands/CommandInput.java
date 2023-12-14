@@ -37,7 +37,7 @@ import main.program.commands.user.admin.ShowPodcasts;
 @JsonSubTypes({@Type(value = PlaylistOperationInput.class, names = {"addRemoveInPlaylist",
     "switchVisibility"}),
     @Type(value = CommandInputWithName.class, names = {"removeAlbum", "removeEvent",
-        "removePodcast", "removeAnnouncement",}),
+        "removePodcast", "removeAnnouncement"}),
     @Type(value = ShuffleInput.class, name = "shuffle"),
     @Type(value = PlaylistCreateInput.class, name = "createPlaylist"),
     @Type(value = SearchInput.class, name = "search"),
@@ -48,15 +48,12 @@ import main.program.commands.user.admin.ShowPodcasts;
     @Type(value = AddEventInput.class, name = "addEvent"),
     @Type(value = AddMerchInput.class, name = "addMerch"),
     @Type(value = AddPodcastInput.class, name = "addPodcast"),
-    @Type(value = AddAnnouncementInput.class, name = "addAnnouncement"),})
+    @Type(value = AddAnnouncementInput.class, name = "addAnnouncement")})
 public class CommandInput {
 
     protected String command;
     protected String username;
     protected int timestamp;
-
-    public CommandInput() {
-    }
 
     /**
      * Create a command, based on the `command` field.

@@ -143,5 +143,5 @@ public abstract class Queue {
     /**
      * Accept a QueueVisitor.
      */
-    public abstract void accept(final QueueVisitor visitor);
+    public abstract void accept(QueueVisitor visitor);
 }

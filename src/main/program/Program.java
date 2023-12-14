@@ -33,7 +33,7 @@ public final class Program {
         this.outputs = outputs;
     }
 
-    private void executeCommands(final List<CommandInput> commands, final ArrayNode outputs) {
+    private void executeCommands(final List<CommandInput> commands, final ArrayNode outputNodes) {
         for (CommandInput cmd : commands) {
             Command command = cmd.createCommand();
             if (command == null) {
@@ -42,7 +42,7 @@ public final class Program {
             }
 
             CommandResult output = command.execute();
-            outputs.addPOJO(output);
+            outputNodes.addPOJO(output);
         }
     }
 

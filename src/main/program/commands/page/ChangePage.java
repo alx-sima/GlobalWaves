@@ -1,39 +1,32 @@
 package main.program.commands.page;
 
 import fileio.input.commands.ChangePageInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import lombok.Getter;
 import main.entities.pages.HomePage;
 import main.entities.pages.LikedContentPage;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.OnlineUserDependency;
+import main.entities.users.User;
+import main.program.commands.user.OnlineUserCommand;
 
-public final class ChangePage extends DependentCommand {
+public final class ChangePage extends OnlineUserCommand {
 
-    private final MessageResultBuilder resultBuilder;
+    @Getter
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
     private final String nextPage;
 
     public ChangePage(final ChangePageInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         nextPage = input.getNextPage();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
-        return dependency.checkDependencies();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
+    public ResultBuilder execute(final User caller) {
         switch (nextPage) {
             case "Home":
-                getCaller().setCurrentPage(new HomePage());
+                caller.setCurrentPage(new HomePage(caller));
                 break;
             case "LikedContent":
-                getCaller().setCurrentPage(new LikedContentPage());
+                caller.setCurrentPage(new LikedContentPage(caller));
                 break;
             default:
                 return resultBuilder.withMessage(

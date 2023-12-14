@@ -1,38 +1,26 @@
 package main.program.commands.user.host;
 
 import fileio.input.commands.AddAnnouncementInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
 import java.util.List;
 import main.entities.users.host.Announcement;
-import main.program.Library;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.IsHostDependency;
+import main.entities.users.host.Host;
 
-public final class AddAnnouncement extends DependentCommand {
+public final class AddAnnouncement extends HostCommand {
 
-    private final MessageResultBuilder resultBuilder;
     private final String name;
     private final String description;
 
     public AddAnnouncement(final AddAnnouncementInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         name = input.getName();
         description = input.getDescription();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        IsHostDependency dependency = new IsHostDependency(this, resultBuilder);
-        return dependency.checkDependencies();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        List<Announcement> announcements = Library.getInstance().getAnnouncements();
+    protected ResultBuilder execute(final Host host) {
+        List<Announcement> announcements = host.getAnnouncements();
         announcements.add(new Announcement(user, name, description));
-        return resultBuilder.withMessage(user + " has successfully added new announcement.");
+        return getResultBuilder().withMessage(user + " has successfully added new announcement.");
     }
 }

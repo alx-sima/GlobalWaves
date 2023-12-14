@@ -1,5 +1,6 @@
-package fileio.output;
+package fileio.output.builders;
 
+import fileio.output.CommandResult;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.Getter;
@@ -10,13 +11,9 @@ import main.program.commands.Command;
  * A builder for {@link SearchResult}.
  */
 @Getter
-public final class SearchResultBuilder implements ResultBuilder {
+public final class SearchResultBuilder extends ResultBuilder {
 
-    private final SearchResult result;
-
-    public SearchResultBuilder(final Command command) {
-        result = new SearchResult(command);
-    }
+    private final SearchResult result = new SearchResult();
 
     /**
      * Sets the search result.
@@ -25,6 +22,14 @@ public final class SearchResultBuilder implements ResultBuilder {
      */
     public SearchResultBuilder withResult(final List<String> searchResult) {
         result.setResults(searchResult);
+        return this;
+    }
+
+    @Override
+    public SearchResultBuilder withCommand(final Command command) {
+        result.setCommand(command.getCommand());
+        result.setUser(command.getUser());
+        result.setTimestamp(command.getTimestamp());
         return this;
     }
 
@@ -44,13 +49,8 @@ public final class SearchResultBuilder implements ResultBuilder {
      */
     @Getter
     @Setter
-    private static final class SearchResult extends CommandResult {
+    private static final class SearchResult extends MessageResult {
 
-        private String message;
         private List<String> results = new ArrayList<>();
-
-        SearchResult(final Command command) {
-            super(command);
-        }
     }
 }

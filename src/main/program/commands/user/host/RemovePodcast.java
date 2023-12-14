@@ -1,35 +1,24 @@
 package main.program.commands.user.host;
 
 import fileio.input.commands.CommandInputWithName;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
 import java.util.Objects;
 import main.entities.audio.collections.Podcast;
 import main.entities.users.UserDatabase;
+import main.entities.users.host.Host;
 import main.program.Library;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.IsHostDependency;
 
-public final class RemovePodcast extends DependentCommand {
+public final class RemovePodcast extends HostCommand {
 
-    private final MessageResultBuilder resultBuilder;
     private final String name;
 
     public RemovePodcast(final CommandInputWithName input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         name = input.getName();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        IsHostDependency dependency = new IsHostDependency(this, resultBuilder);
-        return dependency.checkDependencies();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
+    protected ResultBuilder execute(final Host host) {
         Library library = Library.getInstance();
         UserDatabase database = UserDatabase.getInstance();
 

@@ -1,35 +1,28 @@
 package main.program.commands.search;
 
 import fileio.input.commands.SelectInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
 import java.util.List;
+import lombok.Getter;
 import main.entities.Searchable;
+import main.entities.users.User;
 import main.program.Searchbar;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.OnlineUserDependency;
+import main.program.commands.user.OnlineUserCommand;
 
-public final class Select extends DependentCommand {
+public final class Select extends OnlineUserCommand {
 
-    private final MessageResultBuilder resultBuilder;
+    @Getter
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
     private final int itemNumber;
 
     public Select(final SelectInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         itemNumber = input.getItemNumber();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
-        return dependency.execute();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        Searchbar searchbar = getCaller().getSearchbar();
+    protected ResultBuilder execute(final User caller) {
+        Searchbar searchbar = caller.getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();
         searchbar.clearSelection();
 
@@ -42,7 +35,7 @@ public final class Select extends DependentCommand {
         }
 
         Searchable selected = searchbar.selectResult(itemNumber - 1);
-        String selectionOutput = selected.selectResultBy(getCaller());
+        String selectionOutput = selected.selectResultBy(caller);
         return resultBuilder.withMessage("Successfully selected " + selectionOutput + ".");
     }
 }

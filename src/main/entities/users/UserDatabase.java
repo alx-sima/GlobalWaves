@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
+import main.entities.audio.collections.Album;
 import main.entities.users.artist.Artist;
 import main.entities.users.host.Host;
 
@@ -18,6 +19,9 @@ public final class UserDatabase {
     private List<Artist> artists;
     private List<Host> hosts;
 
+    /**
+     * Get the instance of the database.
+     */
     public static UserDatabase getInstance() {
         if (instance == null) {
             instance = new UserDatabase();
@@ -57,13 +61,26 @@ public final class UserDatabase {
         return getUser(username) != null;
     }
 
+    /**
+     * Get all the users, hosts and artists from the database.
+     */
     public Stream<User> getAllUsers() {
         return Stream.concat(Stream.concat(users.stream(), artists.stream()), hosts.stream());
     }
 
+    /**
+     * Initialize the database with the given input.
+     */
     public void initializeDatabase(final LibraryInput input) {
         users = input.getUsers().stream().map(User::new).collect(Collectors.toList());
         artists = new ArrayList<>();
         hosts = new ArrayList<>();
+    }
+
+    /**
+     * Get all the albums from all the artists.
+     */
+    public List<Album> getAlbums() {
+        return artists.stream().flatMap(artist -> artist.getAlbums().stream()).toList();
     }
 }

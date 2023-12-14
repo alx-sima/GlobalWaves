@@ -14,6 +14,9 @@ public class CommandInputWithName extends CommandInput {
 
     protected String name;
 
+    /**
+     * {@inheritDoc}
+     */
     @Override
     public Command createCommand() {
         return switch (command) {

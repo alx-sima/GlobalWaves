@@ -1,34 +1,24 @@
 package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistCreateInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import lombok.Getter;
 import main.entities.users.User;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.OnlineUserDependency;
+import main.program.commands.user.OnlineUserCommand;
 
-public final class CreatePlaylist extends DependentCommand {
+public final class CreatePlaylist extends OnlineUserCommand {
 
-    private final ResultBuilder resultBuilder;
+    @Getter
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
     private final String playListName;
 
     public CreatePlaylist(final PlaylistCreateInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         playListName = input.getPlaylistName();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
-        return dependency.execute();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        User caller = getCaller();
-
+    protected ResultBuilder execute(final User caller) {
         if (caller.createPlaylist(playListName, timestamp)) {
             resultBuilder.withMessage("Playlist created successfully.");
         } else {

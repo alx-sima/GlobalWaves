@@ -1,50 +1,54 @@
 package main.program.commands.user.artist;
 
 import fileio.input.commands.CommandInputWithName;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Stream;
 import main.entities.audio.collections.Album;
+import main.entities.audio.collections.Playlist;
+import main.entities.audio.files.Song;
+import main.entities.users.User;
 import main.entities.users.UserDatabase;
-import main.program.Library;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.IsArtistDependency;
+import main.entities.users.artist.Artist;
 
-public final class RemoveAlbum extends DependentCommand {
+public final class RemoveAlbum extends ArtistCommand {
 
-    private final MessageResultBuilder resultBuilder;
     private final String name;
 
     public RemoveAlbum(final CommandInputWithName input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         name = input.getName();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        IsArtistDependency dependency = new IsArtistDependency(this, resultBuilder);
-        return dependency.execute();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        Library library = Library.getInstance();
-        Album album = library.getAlbums().stream()
-            .filter(a -> a.getName().equals(name)).findFirst().orElse(null);
+    protected ResultBuilder execute(final Artist artist) {
+        List<User> users = UserDatabase.getInstance().getUsers();
+        List<Album> albums = artist.getAlbums();
+        Album album = albums.stream().filter(a -> a.getName().equals(name)).findFirst()
+            .orElse(null);
 
         if (album == null) {
-            return resultBuilder.withMessage(user + " doesn't have an album with the given name.");
+            return getResultBuilder().withMessage(
+                user + " doesn't have an album with the given name.");
         }
 
-        if (UserDatabase.getInstance().getUsers().stream().flatMap(
-                user -> user.getPlaylists().stream()
-                    .flatMap(playlist -> playlist.getSongs().stream()))
-            .anyMatch(song -> album.getSongs().contains(song))) {
-            return resultBuilder.withMessage(user + " can't delete this album.");
+        if (users.stream().map(u -> u.getPlayer().getPlayingAt(timestamp)).filter(Objects::nonNull)
+            .anyMatch(file -> user.equals(file.getOwner()))) {
+            return getResultBuilder().withMessage(user + " can't delete this album.");
         }
 
-        library.getAlbums().remove(album);
-        return resultBuilder.withMessage(user + " deleted the album successfully.");
+        Stream<Playlist> allUserPlaylists = users.stream()
+            .flatMap(user -> user.getPlaylists().stream());
+
+        Stream<Song> allPlaylistSongs = allUserPlaylists.flatMap(
+            playlist -> playlist.getSongs().stream());
+
+        if (allPlaylistSongs.anyMatch(song -> album.getSongs().contains(song))) {
+            return getResultBuilder().withMessage(user + " can't delete this album.");
+        }
+
+        albums.remove(album);
+        return getResultBuilder().withMessage(user + " deleted the album successfully.");
     }
 }

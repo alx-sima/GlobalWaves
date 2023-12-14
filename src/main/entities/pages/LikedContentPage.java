@@ -6,7 +6,11 @@ import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
 import main.entities.users.User;
 
-public final class LikedContentPage implements Page {
+public final class LikedContentPage extends Page {
+
+    public LikedContentPage(final User user) {
+        super(user);
+    }
 
     private List<String> getLikedSongs(final User user) {
         Stream<Song> songs = user.getLikedSongs().stream();
@@ -20,7 +24,7 @@ public final class LikedContentPage implements Page {
     }
 
     @Override
-    public String printPageOfUser(final User user) {
+    public String printPage() {
         return "Liked songs:\n\t" + getLikedSongs(user) + "\n\nFollowed playlists:\n\t"
             + getFollowedPlaylists(user);
     }

@@ -2,12 +2,15 @@ package main.program.commands.user.admin;
 
 import fileio.input.commands.AddUserInput;
 import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import lombok.Getter;
 import main.entities.users.UserDatabase;
 import main.program.commands.Command;
 
 public final class AddUser extends Command {
 
+    @Getter
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
     private final String type;
     private final int age;
     private final String city;
@@ -21,8 +24,6 @@ public final class AddUser extends Command {
 
     @Override
     public CommandResult execute() {
-        MessageResultBuilder resultBuilder = new MessageResultBuilder(this);
-
         UserDatabase database = UserDatabase.getInstance();
 
         if (database.existsUser(user)) {

@@ -14,12 +14,18 @@ public final class QueueVisitor {
         this.owner = owner;
     }
 
+    /**
+     * Visit a song queue.
+     */
     public void visit(final SongQueue queue) {
-        SongQueueVisitor visitor = new SongQueueVisitor(owner);
+        SongSourceVisitor visitor = new SongSourceVisitor(owner);
         queue.getSongSource().accept(visitor);
         isOwned = visitor.isOwned();
     }
 
+    /**
+     * Visit a podcast.
+     */
     public void visit(final Podcast podcast) {
         isOwned = owner.equals(podcast.getOwner());
     }

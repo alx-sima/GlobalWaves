@@ -2,14 +2,18 @@ package main.program.commands.stats;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.StatsResult;
+import fileio.output.builders.StatsResultBuilder;
 import java.util.Comparator;
 import java.util.List;
+import lombok.Getter;
 import main.entities.audio.collections.Playlist;
 import main.program.Library;
 import main.program.commands.Command;
 
+@Getter
 public final class GetTop5Playlists extends Command {
+
+    private final StatsResultBuilder resultBuilder = new StatsResultBuilder().withCommand(this);
 
     public GetTop5Playlists(final CommandInput input) {
         super(input);
@@ -26,6 +30,6 @@ public final class GetTop5Playlists extends Command {
         List<String> top = publicPlaylists.stream().sorted(comparator).limit(MAX_RESULTS)
             .map(Playlist::getName).toList();
 
-        return new StatsResult(this, top);
+        return resultBuilder.withResult(top).build();
     }
 }

@@ -1,51 +1,39 @@
 package main.program.commands.user.artist;
 
 import fileio.input.commands.AddMerchInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
 import java.util.List;
+import main.entities.users.artist.Artist;
 import main.entities.users.artist.Merch;
-import main.program.Library;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.IsArtistDependency;
 
-public final class AddMerch extends DependentCommand {
+public final class AddMerch extends ArtistCommand {
 
-    private final MessageResultBuilder resultBuilder;
     private final String name;
     private final String description;
     private final int price;
 
     public AddMerch(final AddMerchInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         name = input.getName();
         description = input.getDescription();
         price = input.getPrice();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        IsArtistDependency dependency = new IsArtistDependency(this, resultBuilder);
-        return dependency.execute();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        List<Merch> merchList = Library.getInstance().getMerch();
+    protected ResultBuilder execute(final Artist artist) {
+        List<Merch> merchList = artist.getMerch();
 
         if (merchList.stream().anyMatch(merch -> merch.getName().equals(name))) {
-            return resultBuilder.withMessage(user + " has merchandise with the same name.");
+            return getResultBuilder().withMessage(user + " has merchandise with the same name.");
         }
 
         if (price < 0) {
-            return resultBuilder.withMessage("Price for merchandise can not be negative.");
+            return getResultBuilder().withMessage("Price for merchandise can not be negative.");
         }
 
         Merch merch = new Merch(user, name, description, price);
         merchList.add(merch);
 
-        return resultBuilder.withMessage(user + " has added new merchandise successfully.");
+        return getResultBuilder().withMessage(user + " has added new merchandise successfully.");
     }
 }

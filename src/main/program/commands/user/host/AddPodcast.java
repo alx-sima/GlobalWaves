@@ -2,49 +2,39 @@ package main.program.commands.user.host;
 
 import fileio.input.EpisodeInput;
 import fileio.input.commands.AddPodcastInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
 import java.util.List;
 import main.entities.audio.collections.Podcast;
+import main.entities.users.host.Host;
 import main.program.Library;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.IsHostDependency;
 
-public final class AddPodcast extends DependentCommand {
+public final class AddPodcast extends HostCommand {
 
-    private final MessageResultBuilder resultBuilder;
     private final String name;
     private final List<EpisodeInput> episodes;
 
     public AddPodcast(final AddPodcastInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
         name = input.getName();
         episodes = input.getEpisodes();
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        IsHostDependency dependency = new IsHostDependency(this, resultBuilder);
-        return dependency.checkDependencies();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
+    protected ResultBuilder execute(final Host host) {
         List<Podcast> podcasts = Library.getInstance().getPodcasts();
 
         if (podcasts.stream().anyMatch(podcast -> podcast.getName().equals(name))) {
-            return resultBuilder.withMessage(user + " has another podcast with the same name.");
+            return getResultBuilder().withMessage(
+                user + " has another podcast with the same name.");
         }
 
         // Check for duplicate song names.
         if (episodes.stream().map(EpisodeInput::getName).distinct().count() != episodes.size()) {
-            return resultBuilder.withMessage(
+            return getResultBuilder().withMessage(
                 user + " has the same song at least twice in this album.");
         }
 
         podcasts.add(new Podcast(user, name, episodes));
-        return resultBuilder.withMessage(user + " has added new podcast successfully.");
+        return getResultBuilder().withMessage(user + " has added new podcast successfully.");
     }
 }

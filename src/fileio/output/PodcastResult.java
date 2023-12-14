@@ -2,19 +2,20 @@ package fileio.output;
 
 import java.util.List;
 import lombok.Getter;
+import lombok.Setter;
 import main.entities.audio.collections.Podcast;
 import main.entities.audio.files.AudioFile;
-import main.program.commands.Command;
 
 @Getter
-public class PodcastResult extends CommandResult {
+@Setter
+public final class PodcastResult extends CommandResult {
 
-    private final List<PodcastOutput> result;
+    private List<PodcastOutput> result;
 
-    public PodcastResult(final Command command, final List<Podcast> result) {
-        super(command);
+    public void setResult(final List<Podcast> result) {
         this.result = result.stream().map(PodcastOutput::new).toList();
     }
+
 
     @Getter
     private static final class PodcastOutput {

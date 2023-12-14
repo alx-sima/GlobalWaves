@@ -1,10 +1,16 @@
 package main.entities.users.host;
 
+import java.util.ArrayList;
+import java.util.List;
+import lombok.Getter;
 import main.entities.Searchable;
 import main.entities.pages.HostPage;
 import main.entities.users.User;
 
+@Getter
 public final class Host extends User implements Searchable {
+
+    private final List<Announcement> announcements = new ArrayList<>();
 
     public Host(final String type, final String username, final int age, final String city) {
         super(type, username, age, city);

@@ -2,17 +2,27 @@ package main.entities.pages;
 
 import main.entities.users.User;
 
-public interface Page {
+public abstract class Page {
+
+    protected final User user;
+
+    protected Page(final User user) {
+        this.user = user;
+    }
 
     /**
      * Prints the page as seen by the user.
      *
-     * @param user the user that is viewing the page.
      * @return the page's contents as a string.
      */
-    String printPageOfUser(User user);
+    public abstract String printPage();
 
-    default User getPageOwner() {
+    /**
+     * Get the user (artist/host) whose page this is.
+     *
+     * @return the reference to the user or null (default) if the page doesn't show another user.
+     */
+    public User getPageOwner() {
         return null;
     }
 }

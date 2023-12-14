@@ -13,7 +13,7 @@ import main.entities.audio.files.Song;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
-import main.entities.audio.queues.visitors.SongQueueVisitor;
+import main.entities.audio.queues.visitors.SongSourceVisitor;
 
 /**
  * An album, created by an artist, which contains a list of songs.
@@ -30,12 +30,12 @@ public final class Album implements SearchableAudio, SongSource {
     private final List<Song> songs;
 
     public Album(final String owner, final String name, final int releaseYear,
-        final String description, final List<SongInput> songs) {
+        final String description, final List<SongInput> songs, final int creationTime) {
         this.owner = owner;
         this.name = name;
         this.releaseYear = releaseYear;
         this.description = description;
-        this.songs = songs.stream().map(Song::new).toList();
+        this.songs = songs.stream().map(input -> new Song(input, creationTime)).toList();
     }
 
     @Override
@@ -78,7 +78,7 @@ public final class Album implements SearchableAudio, SongSource {
     }
 
     @Override
-    public void accept(SongQueueVisitor visitor) {
+    public void accept(final SongSourceVisitor visitor) {
         visitor.visit(this);
     }
 }

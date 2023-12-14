@@ -1,29 +1,23 @@
 package main.program.commands.page;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.OnlineUserDependency;
+import fileio.output.builders.ResultBuilder;
+import lombok.Getter;
+import main.entities.users.User;
+import main.program.commands.user.OnlineUserCommand;
 
-public final class PrintCurrentPage extends DependentCommand {
+@Getter
+public final class PrintCurrentPage extends OnlineUserCommand {
 
-    private final MessageResultBuilder resultBuilder;
+    private final ResultBuilder resultBuilder = new ResultBuilder();
 
     public PrintCurrentPage(final CommandInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
+        resultBuilder.withCommand(this);
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
-        return dependency.checkDependencies();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        return resultBuilder.withMessage(getCaller().getCurrentPage().printPageOfUser(getCaller()));
+    protected ResultBuilder execute(final User caller) {
+        return resultBuilder.withMessage(caller.getCurrentPage().printPage());
     }
 }

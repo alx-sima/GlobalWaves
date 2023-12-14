@@ -1,35 +1,27 @@
 package main.program.commands.player;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResultBuilder;
-import fileio.output.ResultBuilder;
+import fileio.output.builders.ResultBuilder;
+import lombok.Getter;
 import main.entities.audio.files.AudioFile;
 import main.entities.audio.queues.Queue;
 import main.entities.users.User;
-import main.program.commands.DependentCommand;
-import main.program.commands.dependencies.OnlineUserDependency;
+import main.program.Player;
+import main.program.commands.user.OnlineUserCommand;
 
-public final class Prev extends DependentCommand {
+@Getter
+public final class Prev extends OnlineUserCommand {
 
-    private final MessageResultBuilder resultBuilder;
-
+    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
     public Prev(final CommandInput input) {
         super(input);
-        resultBuilder = new MessageResultBuilder(this);
     }
 
     @Override
-    public CommandResult checkDependencies() {
-        OnlineUserDependency dependency = new OnlineUserDependency(this, resultBuilder);
-        return dependency.execute();
-    }
-
-    @Override
-    public ResultBuilder executeIfDependenciesMet() {
-        User caller = getCaller();
-        Queue queue = caller.getPlayer().getQueue();
-        caller.getPlayer().updateTime(timestamp);
+    protected ResultBuilder execute(final User caller) {
+        Player player = caller.getPlayer();
+        Queue queue = player.getQueue();
+        player.updateTime(timestamp);
 
         if (queue == null) {
             return resultBuilder.withMessage(
@@ -37,7 +29,10 @@ public final class Prev extends DependentCommand {
         }
 
         AudioFile prevFile = queue.prev();
-        caller.getPlayer().setPaused(false, timestamp);
+        player.setPaused(false, timestamp);
+        if (prevFile == null) {
+            return resultBuilder.withMessage("There is no previous track to return to.");
+        }
         return resultBuilder.withMessage(
             "Returned to previous track successfully. The current track is " + prevFile.getName()
                 + ".");

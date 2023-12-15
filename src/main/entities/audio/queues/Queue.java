@@ -11,18 +11,12 @@ import main.entities.audio.queues.visitors.QueueVisitor;
 public abstract class Queue {
 
     @Getter
-    private final boolean isShuffle;
-    @Getter
     protected RepeatMode repeatMode = RepeatMode.NO_REPEAT;
     @Getter
     protected AudioFile currentlyPlaying = null;
     protected int playTime = 0;
     protected Shuffler shuffler = null;
     protected int playIndex = 0;
-
-    protected Queue(final boolean isShuffle) {
-        this.isShuffle = isShuffle;
-    }
 
     /**
      * Get the next file.
@@ -70,18 +64,26 @@ public abstract class Queue {
         return shuffler != null;
     }
 
+
     /**
-     * Try to enable shuffling (if this queue supports it).
+     * Enable shuffling.
      *
-     * @param seed the seed of the shuffler.
+     * @param newShuffler the shuffler to use.
      */
-    public void enableShuffle(final int seed) {
+    public void enableShuffle(final Shuffler newShuffler) {
+        shuffler = newShuffler;
+        playIndex = shuffler.getIndexOf(playIndex);
     }
 
     /**
      * Disable shuffling.
      */
     public void disableShuffle() {
+        // Get the current song's index in the original order.
+        if (isShuffled()) {
+            playIndex = shuffler.getIndexMapping(playIndex);
+        }
+
         shuffler = null;
     }
 

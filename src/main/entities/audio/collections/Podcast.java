@@ -9,8 +9,8 @@ import main.entities.audio.SearchableAudio;
 import main.entities.audio.files.AudioFile;
 import main.entities.audio.files.Episode;
 import main.entities.audio.queues.Queue;
-import main.entities.audio.queues.visitors.QueueVisitor;
 import main.entities.audio.queues.RepeatMode;
+import main.entities.audio.queues.visitors.QueueVisitor;
 
 /**
  * A podcast is a collection of episodes which can be played, and keeps track of play progress.
@@ -23,7 +23,6 @@ public final class Podcast extends Queue implements SearchableAudio {
     private final List<Episode> episodes;
 
     public Podcast(final PodcastInput input) {
-        super(false);
         name = input.getName();
         owner = input.getOwner();
         episodes = input.getEpisodes().stream()
@@ -32,7 +31,6 @@ public final class Podcast extends Queue implements SearchableAudio {
     }
 
     public Podcast(final String owner, final String name, final List<EpisodeInput> episodes) {
-        super(false);
         this.owner = owner;
         this.name = name;
         this.episodes = episodes.stream().map(episodeInput -> new Episode(episodeInput, owner))
@@ -41,7 +39,6 @@ public final class Podcast extends Queue implements SearchableAudio {
     }
 
     public Podcast(final Podcast podcast) {
-        super(false);
         owner = podcast.owner;
         name = podcast.name;
         episodes = podcast.episodes;

@@ -42,7 +42,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     }
 
     public Song(final SongInput input) {
-       this(input, 0);
+        this(input, 0);
     }
 
     private boolean compareReleaseYear(final String parameter) {
@@ -71,7 +71,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
 
     @Override
     public Queue createQueue(final Map<String, Queue> playHistory) {
-        return new SongQueue(this, 1, false);
+        return new SongQueue(this, 1);
     }
 
     @Override

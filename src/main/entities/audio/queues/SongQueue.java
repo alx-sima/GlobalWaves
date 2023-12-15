@@ -15,8 +15,7 @@ public final class SongQueue extends Queue {
     private final SongSource songSource;
     private final int size;
 
-    public SongQueue(final SongSource songSource, final int size, final boolean canShuffle) {
-        super(canShuffle);
+    public SongQueue(final SongSource songSource, final int size) {
         this.songSource = songSource;
         this.size = size;
         currentlyPlaying = getCurrentSong();
@@ -44,26 +43,6 @@ public final class SongQueue extends Queue {
         }
 
         return null;
-    }
-
-    @Override
-    public void enableShuffle(final int seed) {
-        if (super.isShuffle()) {
-            shuffler = new Shuffler(seed, size);
-
-            // Get the current song's index in the newly shuffled order.
-            playIndex = shuffler.getIndexOf(playIndex);
-        }
-    }
-
-    @Override
-    public void disableShuffle() {
-        // Get the current song's index in the original order.
-        if (super.isShuffled()) {
-            playIndex = shuffler.getIndexMapping(playIndex);
-        }
-
-        super.disableShuffle();
     }
 
     @Override

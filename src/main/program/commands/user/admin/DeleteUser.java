@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 import lombok.Getter;
 import main.entities.audio.collections.Playlist;
-import main.entities.audio.queues.visitors.QueueVisitor;
+import main.entities.audio.queues.visitors.OwnerVisitor;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
 import main.program.Library;
@@ -29,7 +29,7 @@ public final class DeleteUser extends UserCommand {
             return true;
         }
 
-        QueueVisitor visitor = new QueueVisitor(user);
+        OwnerVisitor visitor = new OwnerVisitor(user);
         if (users.stream().map(user -> user.getPlayer().getQueue()).filter(Objects::nonNull)
             .anyMatch(queue -> {
                 queue.accept(visitor);

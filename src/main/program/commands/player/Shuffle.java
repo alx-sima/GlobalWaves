@@ -4,6 +4,8 @@ import fileio.input.commands.ShuffleInput;
 import fileio.output.builders.ResultBuilder;
 import lombok.Getter;
 import main.entities.audio.queues.Queue;
+import main.entities.audio.queues.Shuffler;
+import main.entities.audio.queues.visitors.ShuffleVisitor;
 import main.program.Player;
 import main.entities.users.User;
 import main.program.commands.user.OnlineUserCommand;
@@ -30,17 +32,21 @@ public final class Shuffle extends OnlineUserCommand {
                 "Please load a source before using the shuffle function.");
         }
 
-        if (!queue.isShuffle()) {
+        ShuffleVisitor visitor = new ShuffleVisitor(seed);
+        queue.accept(visitor);
+
+        if (!visitor.isShuffleable()) {
             return resultBuilder.withMessage("The loaded source is not a playlist or an album.");
         }
 
-        if (queue.isShuffled()) {
+        Shuffler shuffler = visitor.getShuffler();
+        if (shuffler != null) {
+            queue.enableShuffle(shuffler);
+            resultBuilder.withMessage("Shuffle function activated successfully.");
+        } else {
             queue.disableShuffle();
             player.updateTime(timestamp);
             resultBuilder.withMessage("Shuffle function deactivated successfully.");
-        } else {
-            queue.enableShuffle(seed);
-            resultBuilder.withMessage("Shuffle function activated successfully.");
         }
         return resultBuilder;
     }

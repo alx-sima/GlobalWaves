@@ -2,6 +2,9 @@ package main.entities.users.host;
 
 import lombok.Getter;
 
+/**
+ * An announcement posted by a host.
+ */
 public final class Announcement {
 
     @Getter

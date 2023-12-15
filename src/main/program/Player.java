@@ -8,6 +8,9 @@ import main.entities.audio.files.AudioFile;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 
+/**
+ * User's player that can play songs and podcasts.
+ */
 public final class Player {
 
     private final Map<String, Queue> playHistory = new HashMap<>();

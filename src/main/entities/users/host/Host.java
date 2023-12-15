@@ -7,6 +7,9 @@ import main.entities.Searchable;
 import main.entities.pages.HostPage;
 import main.entities.users.User;
 
+/**
+ * A host, that can create podcasts and post announcements.
+ */
 @Getter
 public final class Host extends User implements Searchable {
 

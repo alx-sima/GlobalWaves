@@ -9,6 +9,9 @@ import main.entities.users.UserDatabase;
 import main.entities.users.artist.Artist;
 import main.program.commands.Command;
 
+/**
+ * A command that can be executed only by artists.
+ */
 @Getter
 public abstract class ArtistCommand extends Command {
 

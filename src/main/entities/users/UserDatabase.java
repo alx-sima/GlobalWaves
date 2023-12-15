@@ -10,6 +10,9 @@ import main.entities.audio.collections.Album;
 import main.entities.users.artist.Artist;
 import main.entities.users.host.Host;
 
+/**
+ * A database that contains all the users, hosts and artists.
+ */
 @Getter
 public final class UserDatabase {
 
@@ -50,6 +53,17 @@ public final class UserDatabase {
             case "host" -> hosts.add(new Host(username, age, city));
             default -> System.err.println("Invalid user type: " + type);
         }
+    }
+
+    /**
+     * Remove a user from the database.
+     *
+     * @param target the username of the user.
+     */
+    public void removeUser(final String target) {
+        users.removeIf(user -> user.getUsername().equals(target));
+        artists.removeIf(artist -> artist.getUsername().equals(target));
+        hosts.removeIf(host -> host.getUsername().equals(target));
     }
 
     /**

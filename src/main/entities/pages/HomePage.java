@@ -7,6 +7,9 @@ import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
 import main.entities.users.User;
 
+/**
+ * A page that contains information about the user's top liked songs and followed playlists.
+ */
 public final class HomePage extends Page {
 
     /**

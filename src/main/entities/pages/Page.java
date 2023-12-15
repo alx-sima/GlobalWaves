@@ -2,6 +2,9 @@ package main.entities.pages;
 
 import main.entities.users.User;
 
+/**
+ * A page that can be viewed by a user.
+ */
 public abstract class Page {
 
     protected final User user;

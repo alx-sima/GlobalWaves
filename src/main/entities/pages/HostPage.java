@@ -6,6 +6,9 @@ import main.entities.users.User;
 import main.entities.users.host.Host;
 import main.program.Library;
 
+/**
+ * A page that contains information about a host.
+ */
 public final class HostPage extends Page {
 
     private final Host host;

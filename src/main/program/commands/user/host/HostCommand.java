@@ -9,6 +9,9 @@ import main.entities.users.UserDatabase;
 import main.entities.users.host.Host;
 import main.program.commands.Command;
 
+/**
+ * A command that can be executed only by hosts.
+ */
 @Getter
 public abstract class HostCommand extends Command {
 

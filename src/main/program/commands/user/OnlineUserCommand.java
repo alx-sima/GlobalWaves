@@ -4,6 +4,9 @@ import fileio.input.commands.CommandInput;
 import fileio.output.builders.ResultBuilder;
 import main.entities.users.User;
 
+/**
+ * A command that can be executed only by online users.
+ */
 public abstract class OnlineUserCommand extends UserCommand {
 
     protected OnlineUserCommand(final CommandInput input) {

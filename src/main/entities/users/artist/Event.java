@@ -2,6 +2,9 @@ package main.entities.users.artist;
 
 import lombok.Getter;
 
+/**
+ * An event posted by an artist.
+ */
 public final class Event {
 
     @Getter

@@ -2,6 +2,9 @@ package main.entities.users.artist;
 
 import lombok.Getter;
 
+/**
+ * Merch sold by an artist.
+ */
 public final class Merch {
 
     @Getter

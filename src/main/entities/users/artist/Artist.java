@@ -8,6 +8,9 @@ import main.entities.audio.collections.Album;
 import main.entities.pages.ArtistPage;
 import main.entities.users.User;
 
+/**
+ * An artist, that can add albums, events, and merch.
+ */
 @Getter
 public final class Artist extends User implements Searchable {
 

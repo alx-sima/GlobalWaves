@@ -43,6 +43,23 @@ public final class DeleteUser extends UserCommand {
             .anyMatch(owner -> owner.equals(getCaller()));
     }
 
+    private void decreasePlaylistFollowersCount(final User target) {
+        target.getFollowedPlaylists()
+            .forEach(playlist -> playlist.setFollowers(playlist.getFollowers() - 1));
+    }
+
+    private void removeTracesFromOtherUsers(final User target) {
+        for (User u : UserDatabase.getInstance().getUsers()) {
+            u.getLikedSongs().removeIf(song -> song.getOwner().equals(user));
+
+            List<Playlist> playlistsToRemove = u.getFollowedPlaylists().stream()
+                .filter(playlist -> playlist.getUser().equals(target)).toList();
+            for (Playlist playlist : playlistsToRemove) {
+                u.follow(playlist);
+            }
+        }
+    }
+
     @Override
     protected ResultBuilder executeFor(final User target) {
         Library library = Library.getInstance();
@@ -56,21 +73,11 @@ public final class DeleteUser extends UserCommand {
             return resultBuilder.withMessage(user + " can't be deleted.");
         }
 
-        database.getUsers().remove(target);
-        database.getArtists().remove(target);
-        database.getHosts().remove(target);
+        database.removeUser(user);
         library.getSongs().removeIf(song -> song.getOwner().equals(user));
-        target.getFollowedPlaylists()
-            .forEach(playlist -> playlist.setFollowers(playlist.getFollowers() - 1));
-        for (User u : database.getUsers()) {
-            u.getLikedSongs().removeIf(song -> song.getOwner().equals(user));
+        decreasePlaylistFollowersCount(target);
+        removeTracesFromOtherUsers(target);
 
-            List<Playlist> playlistsToRemove = u.getFollowedPlaylists().stream()
-                .filter(playlist -> playlist.getUser().equals(target)).toList();
-            for (Playlist playlist : playlistsToRemove) {
-                u.follow(playlist);
-            }
-        }
         return resultBuilder.withMessage(user + " was successfully deleted.");
 
     }

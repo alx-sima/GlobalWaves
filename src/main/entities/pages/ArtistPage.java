@@ -5,6 +5,9 @@ import main.entities.audio.collections.Album;
 import main.entities.users.User;
 import main.entities.users.artist.Artist;
 
+/**
+ * A page that contains information about an artist.
+ */
 public final class ArtistPage extends Page {
 
     private final Artist artist;

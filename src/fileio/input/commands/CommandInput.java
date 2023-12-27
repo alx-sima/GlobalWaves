@@ -7,6 +7,8 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo.Id;
 import lombok.Getter;
 import lombok.Setter;
 import main.program.commands.Command;
+import main.program.commands.page.NextPage;
+import main.program.commands.page.PreviousPage;
 import main.program.commands.page.PrintCurrentPage;
 import main.program.commands.player.Backward;
 import main.program.commands.player.Forward;
@@ -26,7 +28,16 @@ import main.program.commands.stats.GetTop5Artists;
 import main.program.commands.stats.ShowPreferredSongs;
 import main.program.commands.stats.GetTop5Playlists;
 import main.program.commands.stats.GetTop5Songs;
+import main.program.commands.stats.Wrapped;
+import main.program.commands.user.BuyMerch;
+import main.program.commands.user.BuyPremium;
+import main.program.commands.user.CancelPremium;
+import main.program.commands.user.GetNotifications;
+import main.program.commands.user.LoadRecommendations;
+import main.program.commands.user.SeeMerch;
+import main.program.commands.user.Subscribe;
 import main.program.commands.user.SwitchConnectionStatus;
+import main.program.commands.user.UpdateRecommendations;
 import main.program.commands.user.admin.DeleteUser;
 import main.program.commands.user.admin.ShowAlbums;
 import main.program.commands.user.admin.ShowPodcasts;
@@ -38,6 +49,7 @@ import main.program.commands.user.admin.ShowPodcasts;
     "switchVisibility"}),
     @Type(value = CommandInputWithName.class, names = {"removeAlbum", "removeEvent",
         "removePodcast", "removeAnnouncement"}),
+    @Type(value = AdBreakInput.class, name = "adBreak"),
     @Type(value = ShuffleInput.class, name = "shuffle"),
     @Type(value = PlaylistCreateInput.class, name = "createPlaylist"),
     @Type(value = SearchInput.class, name = "search"),
@@ -62,6 +74,8 @@ public class CommandInput {
      */
     public Command createCommand() {
         return switch (command) {
+            case "nextPage" -> new NextPage(this);
+            case "previousPage" -> new PreviousPage(this);
             case "printCurrentPage" -> new PrintCurrentPage(this);
             case "backward" -> new Backward(this);
             case "forward" -> new Forward(this);
@@ -81,10 +95,19 @@ public class CommandInput {
             case "getTop5Playlists" -> new GetTop5Playlists(this);
             case "getTop5Songs" -> new GetTop5Songs(this);
             case "showPreferredSongs" -> new ShowPreferredSongs(this);
+            case "wrapped" -> new Wrapped(this);
             case "deleteUser" -> new DeleteUser(this);
             case "showAlbums" -> new ShowAlbums(this);
             case "showPodcasts" -> new ShowPodcasts(this);
+            case "buyMerch" -> new BuyMerch(this);
+            case "buyPremium" -> new BuyPremium(this);
+            case "cancelPremium" -> new CancelPremium(this);
+            case "getNotifications" -> new GetNotifications(this);
+            case "loadRecommendations" -> new LoadRecommendations(this);
+            case "seeMerch" -> new SeeMerch(this);
+            case "subscribe" -> new Subscribe(this);
             case "switchConnectionStatus" -> new SwitchConnectionStatus(this);
+            case "updateRecommendations" -> new UpdateRecommendations(this);
             default -> null;
         };
     }

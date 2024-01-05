@@ -12,6 +12,7 @@ import java.util.List;
 import lombok.Getter;
 import main.entities.users.UserDatabase;
 import main.program.commands.Command;
+import main.program.commands.stats.EndProgram;
 
 /**
  * The actual program, storing all the data and parsing commands.
@@ -50,6 +51,7 @@ public final class Program {
             CommandResult output = command.execute();
             outputNodes.addPOJO(output);
         }
+        outputNodes.addPOJO(new EndProgram());
     }
 
     /**

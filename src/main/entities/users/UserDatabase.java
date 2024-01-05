@@ -2,7 +2,9 @@ package main.entities.users;
 
 import fileio.input.LibraryInput;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
@@ -21,6 +23,7 @@ public final class UserDatabase {
     private List<User> users;
     private List<Artist> artists;
     private List<Host> hosts;
+    private Set<Artist> monetizedArtists;
 
     /**
      * Get the instance of the database.
@@ -39,6 +42,7 @@ public final class UserDatabase {
     public void initializeDatabase(final LibraryInput input) {
         users = input.getUsers().stream().map(User::new).collect(Collectors.toList());
         artists = new ArrayList<>();
+        monetizedArtists = new HashSet<>();
         hosts = new ArrayList<>();
     }
 
@@ -63,6 +67,7 @@ public final class UserDatabase {
     public void removeUser(final String target) {
         users.removeIf(user -> user.getUsername().equals(target));
         artists.removeIf(artist -> artist.getUsername().equals(target));
+        monetizedArtists.removeIf(artist -> artist.getUsername().equals(target));
         hosts.removeIf(host -> host.getUsername().equals(target));
     }
 

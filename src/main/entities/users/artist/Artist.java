@@ -12,6 +12,7 @@ import main.entities.audio.files.Song;
 import main.entities.pages.ArtistPage;
 import main.entities.users.CreatorWrapped;
 import main.entities.users.User;
+import main.entities.users.UserDatabase;
 
 /**
  * An artist, that can add albums, events, and merch.
@@ -53,6 +54,9 @@ public final class Artist extends User implements Searchable {
      * Record a listen by `listener` to the `song`.
      */
     public void addListen(final User listener, final Song song) {
+        // If a song by the artist is listened, track the artist for monetization.
+        UserDatabase.getInstance().getMonetizedArtists().add(this);
+
         wrapped.addListen(listener, song);
         listener.addListen(song);
     }

@@ -39,6 +39,11 @@ public interface WrappedOutput {
         private final String key;
         private final int value;
 
+        public Pair(final Object key, final int value) {
+            this.key = key.toString();
+            this.value = value;
+        }
+
         public Pair(final Entry<?, Integer> mapEntry) {
             key = mapEntry.getKey().toString();
             value = mapEntry.getValue();

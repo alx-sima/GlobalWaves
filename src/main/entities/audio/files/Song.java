@@ -34,6 +34,8 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     @Getter
     @Setter
     private int likes = 0;
+    @Getter
+    private double totalEarned = 0.0d;
 
     public Song(final SongInput input, final Album album, final Artist artist,
         final int creationTime) {
@@ -103,6 +105,13 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     @Override
     public void accept(final SongSourceVisitor visitor) {
         visitor.visit(this);
+    }
+
+    /**
+     * Increase the revenue earned by this song.
+     */
+    private void addRevenue(final double revenue) {
+        totalEarned += revenue;
     }
 
     @Override

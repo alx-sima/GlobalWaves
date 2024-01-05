@@ -1,19 +1,20 @@
 package main.program.commands.player;
 
 import fileio.input.commands.ShuffleInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.Shuffler;
 import main.entities.audio.queues.visitors.ShuffleVisitor;
-import main.program.Player;
 import main.entities.users.User;
+import main.program.Player;
 import main.program.commands.user.OnlineUserCommand;
 
 public final class Shuffle extends OnlineUserCommand {
 
     @Getter
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final int seed;
 
     public Shuffle(final ShuffleInput input) {
@@ -22,13 +23,13 @@ public final class Shuffle extends OnlineUserCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         Player player = caller.getPlayer();
         player.updateTime(timestamp);
         Queue queue = player.getQueue();
 
         if (queue == null) {
-            return resultBuilder.withMessage(
+            return resultBuilder.returnMessage(
                 "Please load a source before using the shuffle function.");
         }
 
@@ -36,18 +37,17 @@ public final class Shuffle extends OnlineUserCommand {
         queue.accept(visitor);
 
         if (!visitor.isShuffleable()) {
-            return resultBuilder.withMessage("The loaded source is not a playlist or an album.");
+            return resultBuilder.returnMessage("The loaded source is not a playlist or an album.");
         }
 
         Shuffler shuffler = visitor.getShuffler();
         if (shuffler != null) {
             queue.enableShuffle(shuffler);
-            resultBuilder.withMessage("Shuffle function activated successfully.");
-        } else {
-            queue.disableShuffle();
-            player.updateTime(timestamp);
-            resultBuilder.withMessage("Shuffle function deactivated successfully.");
+            return resultBuilder.returnMessage("Shuffle function activated successfully.");
         }
-        return resultBuilder;
+
+        queue.disableShuffle();
+        player.updateTime(timestamp);
+        return resultBuilder.returnMessage("Shuffle function deactivated successfully.");
     }
 }

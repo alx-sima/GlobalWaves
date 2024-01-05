@@ -1,7 +1,8 @@
 package main.program.commands.user;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
@@ -9,20 +10,20 @@ import main.entities.users.UserDatabase;
 @Getter
 public final class SwitchConnectionStatus extends UserCommand {
 
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
 
     public SwitchConnectionStatus(final CommandInput input) {
         super(input);
     }
 
     @Override
-    protected ResultBuilder executeFor(final User target) {
+    protected MessageResult executeFor(final User target) {
         if (!UserDatabase.getInstance().getUsers().contains(target)) {
-            return resultBuilder.withMessage(user + " is not a normal user.");
+            return resultBuilder.returnMessage(user + " is not a normal user.");
         }
         boolean newOnlineStatus = !target.isOnline();
         target.setOnline(newOnlineStatus, timestamp);
 
-        return resultBuilder.withMessage(user + " has changed status successfully.");
+        return resultBuilder.returnMessage(user + " has changed status successfully.");
     }
 }

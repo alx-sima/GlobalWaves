@@ -16,4 +16,10 @@ public abstract class CommandResult {
     @JsonInclude(Include.NON_NULL)
     protected String user;
     protected int timestamp;
+
+    protected CommandResult(final String command, final String user, final int timestamp) {
+        this.command = command;
+        this.user = user;
+        this.timestamp = timestamp;
+    }
 }

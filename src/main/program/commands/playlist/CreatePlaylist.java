@@ -1,7 +1,8 @@
 package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistCreateInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.users.User;
 import main.program.commands.user.OnlineUserCommand;
@@ -9,7 +10,7 @@ import main.program.commands.user.OnlineUserCommand;
 public final class CreatePlaylist extends OnlineUserCommand {
 
     @Getter
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final String playListName;
 
     public CreatePlaylist(final PlaylistCreateInput input) {
@@ -18,12 +19,10 @@ public final class CreatePlaylist extends OnlineUserCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         if (caller.createPlaylist(playListName, timestamp)) {
-            resultBuilder.withMessage("Playlist created successfully.");
-        } else {
-            resultBuilder.withMessage("A playlist with the same name already exists.");
+            return resultBuilder.returnMessage("Playlist created successfully.");
         }
-        return resultBuilder;
+        return resultBuilder.returnMessage("A playlist with the same name already exists.");
     }
 }

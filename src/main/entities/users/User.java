@@ -1,11 +1,16 @@
 package main.entities.users;
 
 import fileio.input.UserInput;
+import fileio.output.wrapped.UserWrapped;
+import fileio.output.wrapped.WrappedOutput;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import main.entities.audio.collections.Playlist;
+import main.entities.audio.files.Episode;
 import main.entities.audio.files.Song;
 import main.entities.pages.HomePage;
 import main.entities.pages.Page;
@@ -32,6 +37,7 @@ public class User {
     private final List<Song> likedSongs = new ArrayList<>();
     @Getter
     private final List<Playlist> followedPlaylists = new ArrayList<>();
+    private final Wrapped wrapped = new Wrapped();
     @Getter
     @Setter
     private Page currentPage = new HomePage(this);
@@ -138,5 +144,47 @@ public class User {
         followedPlaylists.add(playlist);
         playlist.setFollowers(playlist.getFollowers() + 1);
         return true;
+    }
+
+    /**
+     * Record a listen of a song.
+     */
+    public void addListen(final Song song) {
+        CreatorWrapped.increment(wrapped.topSongs, song.getName());
+        CreatorWrapped.increment(wrapped.topArtists, song.getArtist().getName());
+        CreatorWrapped.increment(wrapped.topGenres, song.getGenre());
+        CreatorWrapped.increment(wrapped.topAlbums, song.getAlbum().getName());
+    }
+
+    /**
+     * Record a listen of an episode.
+     */
+    public void addListen(final Episode episode) {
+        CreatorWrapped.increment(wrapped.topEpisodes, episode.getName());
+    }
+
+    /**
+     * Get the user's *wrapped*.
+     */
+    public WrappedOutput getWrapped() {
+        return new UserWrapped(wrapped);
+    }
+
+    /**
+     * Print the user's name.
+     */
+    @Override
+    public String toString() {
+        return username;
+    }
+
+    @Getter
+    public static final class Wrapped implements WrappedStats {
+
+        private final Map<String, Integer> topArtists = new HashMap<>();
+        private final Map<String, Integer> topGenres = new HashMap<>();
+        private final Map<String, Integer> topSongs = new HashMap<>();
+        private final Map<String, Integer> topAlbums = new HashMap<>();
+        private final Map<String, Integer> topEpisodes = new HashMap<>();
     }
 }

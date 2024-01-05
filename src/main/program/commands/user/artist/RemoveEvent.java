@@ -1,7 +1,7 @@
 package main.program.commands.user.artist;
 
 import fileio.input.commands.CommandInputWithName;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
 import java.util.List;
 import main.entities.users.artist.Artist;
 import main.entities.users.artist.Event;
@@ -16,18 +16,18 @@ public final class RemoveEvent extends ArtistCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final Artist artist) {
+    protected MessageResult execute(final Artist artist) {
         List<Event> events = artist.getEvents();
 
         Event event = events.stream().filter(e -> e.getName().equals(name)).findFirst()
             .orElse(null);
 
         if (event == null) {
-            return getResultBuilder().withMessage(
+            return getResultBuilder().returnMessage(
                 user + " doesn't have an event with the given name.");
         }
 
         events.remove(event);
-        return getResultBuilder().withMessage(user + " deleted the event successfully.");
+        return getResultBuilder().returnMessage(user + " deleted the event successfully.");
     }
 }

@@ -1,7 +1,7 @@
 package main.program.commands.user.artist;
 
 import fileio.input.commands.AddMerchInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
 import java.util.List;
 import main.entities.users.artist.Artist;
 import main.entities.users.artist.Merch;
@@ -20,20 +20,20 @@ public final class AddMerch extends ArtistCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final Artist artist) {
+    protected MessageResult execute(final Artist artist) {
         List<Merch> merchList = artist.getMerch();
 
         if (merchList.stream().anyMatch(merch -> merch.getName().equals(name))) {
-            return getResultBuilder().withMessage(user + " has merchandise with the same name.");
+            return getResultBuilder().returnMessage(user + " has merchandise with the same name.");
         }
 
         if (price < 0) {
-            return getResultBuilder().withMessage("Price for merchandise can not be negative.");
+            return getResultBuilder().returnMessage("Price for merchandise can not be negative.");
         }
 
         Merch merch = new Merch(user, name, description, price);
         merchList.add(merch);
 
-        return getResultBuilder().withMessage(user + " has added new merchandise successfully.");
+        return getResultBuilder().returnMessage(user + " has added new merchandise successfully.");
     }
 }

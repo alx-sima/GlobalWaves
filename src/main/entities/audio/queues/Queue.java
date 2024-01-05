@@ -4,19 +4,25 @@ import lombok.Getter;
 import main.entities.audio.files.AudioFile;
 import main.entities.audio.files.Song;
 import main.entities.audio.queues.visitors.QueueVisitor;
+import main.entities.users.User;
 
 /**
  * A play queue, holding the files that will play in the music player.
  */
 public abstract class Queue {
 
+    protected final User user;
     @Getter
     protected RepeatMode repeatMode = RepeatMode.NO_REPEAT;
     @Getter
     protected AudioFile currentlyPlaying = null;
     protected int playTime = 0;
-    protected Shuffler shuffler = null;
     protected int playIndex = 0;
+    protected Shuffler shuffler = null;
+
+    protected Queue(final User user) {
+        this.user = user;
+    }
 
     /**
      * Get the next file.

@@ -1,7 +1,7 @@
 package main.program.commands.user;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
 import main.entities.users.User;
 
 /**
@@ -14,9 +14,9 @@ public abstract class OnlineUserCommand extends UserCommand {
     }
 
     @Override
-    public final ResultBuilder executeFor(final User target) {
+    public final MessageResult executeFor(final User target) {
         if (!target.isOnline()) {
-            return getResultBuilder().withMessage(user + " is offline.");
+            return getResultBuilder().returnMessage(user + " is offline.");
         }
 
         return execute(target);
@@ -28,5 +28,5 @@ public abstract class OnlineUserCommand extends UserCommand {
      * @param caller the user specified by the command.
      * @return the result of the command.
      */
-    protected abstract ResultBuilder execute(User caller);
+    protected abstract MessageResult execute(User caller);
 }

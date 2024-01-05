@@ -1,8 +1,8 @@
 package main.program.commands.user.artist;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.CommandResult;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import java.util.stream.Stream;
 import lombok.Getter;
 import main.entities.users.UserDatabase;
@@ -15,7 +15,7 @@ import main.program.commands.Command;
 @Getter
 public abstract class ArtistCommand extends Command {
 
-    protected final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
 
     protected ArtistCommand(final CommandInput input) {
         super(input);
@@ -27,18 +27,17 @@ public abstract class ArtistCommand extends Command {
     }
 
     @Override
-    public final CommandResult execute() {
+    public final MessageResult execute() {
         if (!UserDatabase.getInstance().existsUser(user)) {
-            return getResultBuilder().withMessage("The username " + user + " doesn't exist.")
-                .build();
+            return getResultBuilder().returnMessage("The username " + user + " doesn't exist.");
         }
 
         Artist caller = getArtist();
         if (caller == null) {
-            return getResultBuilder().withMessage(user + " is not an artist.").build();
+            return getResultBuilder().returnMessage(user + " is not an artist.");
         }
 
-        return execute(caller).build();
+        return execute(caller);
     }
 
     /**
@@ -47,5 +46,5 @@ public abstract class ArtistCommand extends Command {
      * @param artist the artist that called the command.
      * @return the result of the command.
      */
-    protected abstract ResultBuilder execute(Artist artist);
+    protected abstract MessageResult execute(Artist artist);
 }

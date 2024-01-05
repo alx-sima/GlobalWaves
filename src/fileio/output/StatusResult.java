@@ -1,15 +1,19 @@
 package fileio.output;
 
 import lombok.Getter;
-import lombok.Setter;
 import main.entities.audio.files.AudioFile;
 import main.program.Player;
+import main.program.commands.Command;
 
 @Getter
-@Setter
-public final class StatusResult extends CommandResult {
+public final class StatusResult extends MessageResult {
 
-    private StatusOutput stats;
+    private final StatusOutput stats;
+
+    private StatusResult(final Builder builder) {
+        super(builder);
+        stats = builder.stats;
+    }
 
     @Getter
     public static final class StatusOutput {
@@ -20,7 +24,7 @@ public final class StatusResult extends CommandResult {
         private final boolean shuffle;
         private final boolean paused;
 
-        public StatusOutput(final Player player, final int timestamp) {
+        private StatusOutput(final Player player, final int timestamp) {
             AudioFile nowPlaying = player.getPlayingAt(timestamp);
             repeat = player.getRepeatMode().toString();
 
@@ -37,6 +41,28 @@ public final class StatusResult extends CommandResult {
             remainedTime = 0;
             paused = true;
             shuffle = false;
+        }
+    }
+
+    public static final class Builder extends ResultBuilder {
+
+        private StatusOutput stats;
+
+        public Builder(final Command cmd) {
+            super(cmd);
+        }
+
+        /**
+         * Set the status, by checking the `player` at a given `timestamp`.
+         */
+        public Builder player(final Player player, final int timestamp) {
+            stats = new StatusOutput(player, timestamp);
+            return this;
+        }
+
+        @Override
+        public MessageResult build() {
+            return new StatusResult(this);
         }
     }
 }

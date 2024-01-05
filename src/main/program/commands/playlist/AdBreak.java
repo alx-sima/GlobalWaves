@@ -1,7 +1,8 @@
 package main.program.commands.playlist;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.users.User;
 import main.program.commands.user.OnlineUserCommand;
@@ -9,7 +10,7 @@ import main.program.commands.user.OnlineUserCommand;
 @Getter
 public final class AdBreak extends OnlineUserCommand {
 
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
 
     public AdBreak(final CommandInput input) {
         super(input);
@@ -17,7 +18,7 @@ public final class AdBreak extends OnlineUserCommand {
 
 
     @Override
-    protected ResultBuilder execute(final User caller) {
-        return resultBuilder;
+    protected MessageResult execute(final User caller) {
+        return resultBuilder.build();
     }
 }

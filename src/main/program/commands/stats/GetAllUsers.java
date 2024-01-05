@@ -2,7 +2,8 @@ package main.program.commands.stats;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.builders.StatsResultBuilder;
+import fileio.output.StatsResult;
+import fileio.output.StatsResult.Builder;
 import java.util.List;
 import java.util.stream.Stream;
 import lombok.Getter;
@@ -13,7 +14,7 @@ import main.program.commands.Command;
 @Getter
 public final class GetAllUsers extends Command {
 
-    private final StatsResultBuilder resultBuilder = new StatsResultBuilder().withCommand(this);
+    private final StatsResult.Builder resultBuilder = new Builder(this);
 
     public GetAllUsers(final CommandInput input) {
         super(input);
@@ -24,6 +25,6 @@ public final class GetAllUsers extends Command {
         Stream<User> users = UserDatabase.getInstance().getAllUsers();
         List<String> commandResult = users.map(User::getUsername).toList();
 
-        return resultBuilder.withResult(commandResult).build();
+        return resultBuilder.result(commandResult).build();
     }
 }

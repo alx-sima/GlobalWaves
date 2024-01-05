@@ -3,8 +3,8 @@ package main.entities.audio.queues.visitors;
 import lombok.Getter;
 import main.entities.audio.collections.Album;
 import main.entities.audio.collections.Playlist;
-import main.entities.audio.collections.Podcast;
 import main.entities.audio.files.Song;
+import main.entities.audio.queues.PodcastQueue;
 import main.entities.audio.queues.SongQueue;
 
 /**
@@ -28,8 +28,8 @@ public final class OwnerVisitor implements QueueVisitor {
     }
 
     @Override
-    public void visit(final Podcast podcast) {
-        isOwned = owner.equals(podcast.getOwner());
+    public void visit(final PodcastQueue podcast) {
+        isOwned = owner.equals(podcast.getCurrentlyPlaying().getOwner());
     }
 
     private static final class SongOwnerVisitor implements SongSourceVisitor {
@@ -44,7 +44,7 @@ public final class OwnerVisitor implements QueueVisitor {
 
         @Override
         public void visit(final Album album) {
-            isOwned = owner.equals(album.getOwner());
+            isOwned = owner.equals(album.getOwner().getUsername());
         }
 
         @Override
@@ -54,7 +54,7 @@ public final class OwnerVisitor implements QueueVisitor {
 
         @Override
         public void visit(final Song song) {
-            isOwned = owner.equals(song.getArtist());
+            isOwned = owner.equals(song.getArtist().getUsername());
         }
     }
 }

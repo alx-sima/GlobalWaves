@@ -1,7 +1,7 @@
 package main.program.commands.user.artist;
 
 import fileio.input.commands.AddEventInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import main.entities.users.artist.Artist;
@@ -62,14 +62,14 @@ public final class AddEvent extends ArtistCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final Artist artist) {
+    protected MessageResult execute(final Artist artist) {
         if (!isValidDateFormat(date)) {
-            return getResultBuilder().withMessage(
+            return getResultBuilder().returnMessage(
                 "Event for " + user + " does not have a valid date.");
         }
 
         Event event = new Event(user, name, description, date);
         artist.getEvents().add(event);
-        return getResultBuilder().withMessage(user + " has added new event successfully.");
+        return getResultBuilder().returnMessage(user + " has added new event successfully.");
     }
 }

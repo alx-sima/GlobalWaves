@@ -1,7 +1,8 @@
 package main.program.commands.player;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.audio.queues.Queue;
 import main.entities.users.User;
@@ -12,27 +13,26 @@ import main.program.commands.user.OnlineUserCommand;
 public final class Forward extends OnlineUserCommand {
 
     private static final int FORWARD_TIME = 90;
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
 
     public Forward(final CommandInput input) {
         super(input);
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         Player player = caller.getPlayer();
         player.updateTime(timestamp);
         Queue queue = player.getQueue();
 
         if (queue == null) {
-            return resultBuilder.withMessage("Please load a source before attempting to forward.");
+            return resultBuilder.returnMessage(
+                "Please load a source before attempting to forward.");
         }
 
         if (queue.skip(FORWARD_TIME)) {
-            resultBuilder.withMessage("Skipped forward successfully.");
-        } else {
-            resultBuilder.withMessage("The loaded source is not a podcast.");
+            return resultBuilder.returnMessage("Skipped forward successfully.");
         }
-        return resultBuilder;
+        return resultBuilder.returnMessage("The loaded source is not a podcast.");
     }
 }

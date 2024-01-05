@@ -1,7 +1,8 @@
 package main.program.commands.search;
 
 import fileio.input.commands.SelectInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import java.util.List;
 import lombok.Getter;
 import main.entities.Searchable;
@@ -12,7 +13,7 @@ import main.program.commands.user.OnlineUserCommand;
 public final class Select extends OnlineUserCommand {
 
     @Getter
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final int itemNumber;
 
     public Select(final SelectInput input) {
@@ -21,21 +22,22 @@ public final class Select extends OnlineUserCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         Searchbar searchbar = caller.getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();
         searchbar.clearSelection();
 
         if (searchResults == null) {
-            return resultBuilder.withMessage("Please conduct a search before making a selection.");
+            return resultBuilder.returnMessage(
+                "Please conduct a search before making a selection.");
         }
 
         if (itemNumber > searchResults.size()) {
-            return resultBuilder.withMessage("The selected ID is too high.");
+            return resultBuilder.returnMessage("The selected ID is too high.");
         }
 
         Searchable selected = searchbar.selectResult(itemNumber - 1);
         String selectionOutput = selected.selectResultBy(caller);
-        return resultBuilder.withMessage("Successfully selected " + selectionOutput + ".");
+        return resultBuilder.returnMessage("Successfully selected " + selectionOutput + ".");
     }
 }

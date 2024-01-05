@@ -1,7 +1,8 @@
 package main.program.commands.user.admin;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import java.util.List;
 import java.util.Objects;
 import lombok.Getter;
@@ -9,13 +10,12 @@ import main.entities.audio.collections.Playlist;
 import main.entities.audio.queues.visitors.OwnerVisitor;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
-import main.program.Library;
 import main.program.commands.user.UserCommand;
 
 @Getter
 public final class DeleteUser extends UserCommand {
 
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
 
     public DeleteUser(final CommandInput input) {
         super(input);
@@ -61,8 +61,7 @@ public final class DeleteUser extends UserCommand {
     }
 
     @Override
-    protected ResultBuilder executeFor(final User target) {
-        Library library = Library.getInstance();
+    protected MessageResult executeFor(final User target) {
         UserDatabase database = UserDatabase.getInstance();
 
         for (User user : database.getUsers()) {
@@ -70,15 +69,14 @@ public final class DeleteUser extends UserCommand {
         }
 
         if (isBusyUser()) {
-            return resultBuilder.withMessage(user + " can't be deleted.");
+            return resultBuilder.returnMessage(user + " can't be deleted.");
         }
 
         database.removeUser(user);
-        library.getSongs().removeIf(song -> song.getOwner().equals(user));
         decreasePlaylistFollowersCount(target);
         removeTracesFromOtherUsers(target);
 
-        return resultBuilder.withMessage(user + " was successfully deleted.");
+        return resultBuilder.returnMessage(user + " was successfully deleted.");
 
     }
 }

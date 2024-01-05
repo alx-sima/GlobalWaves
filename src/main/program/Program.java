@@ -19,6 +19,12 @@ import main.program.commands.Command;
 @Getter
 public final class Program {
 
+
+    /**
+     * The maximum number of results to be displayed.
+     */
+    public static final int MAX_RESULTS = 5;
+
     private final LibraryInput libraryInput;
     private final String inputFile;
     private final ObjectMapper objectMapper;
@@ -53,8 +59,8 @@ public final class Program {
      */
     public void run() throws IOException {
 
-        Library.getInstance().initializeLibrary(libraryInput);
         UserDatabase.getInstance().initializeDatabase(libraryInput);
+        Library.getInstance().initializeLibrary(libraryInput);
 
         List<CommandInput> commands = objectMapper.readValue(new File(inputFile),
             new TypeReference<>() {

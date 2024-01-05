@@ -21,7 +21,7 @@ public final class HostPage extends Page {
     private List<Podcast> getPodcasts() {
         Library library = Library.getInstance();
         return library.getPodcasts().stream()
-            .filter(podcast -> podcast.getOwner().equals(host.getUsername()))
+            .filter(podcast -> podcast.getHost().getUsername().equals(host.getUsername()))
             .toList();
     }
 

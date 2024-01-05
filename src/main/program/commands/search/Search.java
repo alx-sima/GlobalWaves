@@ -1,8 +1,11 @@
 package main.program.commands.search;
 
+import static main.program.Program.MAX_RESULTS;
+
 import fileio.input.commands.SearchInput;
-import fileio.output.builders.ResultBuilder;
-import fileio.output.builders.SearchResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.SearchResult;
+import fileio.output.SearchResult.Builder;
 import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -10,7 +13,6 @@ import java.util.stream.Stream;
 import lombok.Getter;
 import main.entities.Searchable;
 import main.entities.audio.collections.Playlist;
-import main.entities.audio.files.Song;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
 import main.program.Library;
@@ -20,7 +22,7 @@ import main.program.commands.user.OnlineUserCommand;
 public final class Search extends OnlineUserCommand {
 
     @Getter
-    private final SearchResultBuilder resultBuilder = new SearchResultBuilder().withCommand(this);
+    private final SearchResult.Builder resultBuilder = new Builder(this);
     private final String type;
     private final List<SearchFilter> filters;
 
@@ -46,13 +48,7 @@ public final class Search extends OnlineUserCommand {
         UserDatabase database = UserDatabase.getInstance();
 
         return switch (searchType) {
-            case "song" -> {
-                Stream<Song> publicSongs = library.getSongs().stream();
-                Stream<Song> albumSongs = database.getAlbums().stream()
-                    .flatMap(album -> album.getSongs().stream());
-
-                yield Stream.concat(publicSongs, albumSongs);
-            }
+            case "song" -> library.getSongs().stream();
             case "podcast" -> library.getPodcasts().stream();
             case "playlist" -> {
                 // Search in the user's playlists and also in the public playlists.
@@ -71,10 +67,9 @@ public final class Search extends OnlineUserCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
 
         Stream<? extends Searchable> searchPlace = getSearchPlace(caller, type);
-
         List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS)
             .collect(Collectors.toList());
         caller.getSearchbar().setSearchResults(valid);
@@ -85,7 +80,7 @@ public final class Search extends OnlineUserCommand {
         player.updateTime(timestamp);
         player.clearQueue();
 
-        resultBuilder.withMessage("Search returned " + result.size() + " results");
-        return resultBuilder.withResult(result);
+        return resultBuilder.results(result)
+            .returnMessage("Search returned " + result.size() + " results");
     }
 }

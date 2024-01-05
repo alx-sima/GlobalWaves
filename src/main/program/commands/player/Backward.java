@@ -1,7 +1,8 @@
 package main.program.commands.player;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.audio.queues.Queue;
 import main.entities.users.User;
@@ -11,25 +12,23 @@ import main.program.commands.user.OnlineUserCommand;
 public final class Backward extends OnlineUserCommand {
 
     private static final int BACKWARD_TIME = -90;
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
 
     public Backward(final CommandInput input) {
         super(input);
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {
-            return resultBuilder.withMessage("Please load a source before rewinding.");
+            return resultBuilder.returnMessage("Please load a source before rewinding.");
         }
 
         if (queue.skip(BACKWARD_TIME)) {
-            resultBuilder.withMessage("Rewound successfully.");
-        } else {
-            resultBuilder.withMessage("The loaded source is not a podcast.");
+            return resultBuilder.returnMessage("Rewound successfully.");
         }
-        return resultBuilder;
+        return resultBuilder.returnMessage("The loaded source is not a podcast.");
     }
 }

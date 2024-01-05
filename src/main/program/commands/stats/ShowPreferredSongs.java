@@ -2,7 +2,8 @@ package main.program.commands.stats;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.builders.StatsResultBuilder;
+import fileio.output.StatsResult;
+import fileio.output.StatsResult.Builder;
 import java.util.List;
 import lombok.Getter;
 import main.entities.audio.files.AudioFile;
@@ -12,7 +13,7 @@ import main.program.commands.Command;
 @Getter
 public final class ShowPreferredSongs extends Command {
 
-    private final StatsResultBuilder resultBuilder = new StatsResultBuilder().withCommand(this);
+    private final StatsResult.Builder resultBuilder = new Builder(this);
 
     public ShowPreferredSongs(final CommandInput input) {
         super(input);
@@ -23,6 +24,6 @@ public final class ShowPreferredSongs extends Command {
         User caller = getCaller();
 
         List<String> likes = caller.getLikedSongs().stream().map(AudioFile::getName).toList();
-        return resultBuilder.withResult(likes).build();
+        return resultBuilder.result(likes).build();
     }
 }

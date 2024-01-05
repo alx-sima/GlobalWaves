@@ -2,7 +2,8 @@ package main.program.commands.user.admin;
 
 import fileio.input.commands.AddUserInput;
 import fileio.output.CommandResult;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.users.UserDatabase;
 import main.program.commands.Command;
@@ -10,7 +11,7 @@ import main.program.commands.Command;
 public final class AddUser extends Command {
 
     @Getter
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final String type;
     private final int age;
     private final String city;
@@ -27,12 +28,12 @@ public final class AddUser extends Command {
         UserDatabase database = UserDatabase.getInstance();
 
         if (database.existsUser(user)) {
-            resultBuilder.withMessage("The username " + user + " is already taken.");
+            resultBuilder.returnMessage("The username " + user + " is already taken.");
             return resultBuilder.build();
         }
 
         database.addUser(type, user, age, city);
-        resultBuilder.withMessage("The username " + user + " has been added successfully.");
+        resultBuilder.returnMessage("The username " + user + " has been added successfully.");
         return resultBuilder.build();
     }
 }

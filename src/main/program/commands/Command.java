@@ -2,7 +2,7 @@ package main.program.commands;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.ResultBuilder;
 import lombok.Getter;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
@@ -13,11 +13,7 @@ import main.entities.users.UserDatabase;
 @Getter
 public abstract class Command {
 
-    /**
-     * The maximum number of results to be displayed.
-     */
-    protected static final int MAX_RESULTS = 5;
-    protected final String command;
+   protected final String command;
     protected final String user;
     protected final int timestamp;
 

@@ -98,4 +98,18 @@ public final class UserDatabase {
     public List<Album> getAlbums() {
         return artists.stream().flatMap(artist -> artist.getAlbums().stream()).toList();
     }
+
+    /**
+     * TODO
+     */
+    public Host getOrAddHost(final String username) {
+        Host host = hosts.stream().filter(h -> h.getUsername().equals(username)).findFirst()
+            .orElse(null);
+        if (host == null) {
+            host = new Host(username, 0, "");
+            hosts.add(host);
+        }
+
+        return host;
+    }
 }

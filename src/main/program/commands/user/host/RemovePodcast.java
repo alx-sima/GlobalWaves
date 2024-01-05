@@ -1,7 +1,7 @@
 package main.program.commands.user.host;
 
 import fileio.input.commands.CommandInputWithName;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
 import java.util.Objects;
 import main.entities.audio.collections.Podcast;
 import main.entities.users.UserDatabase;
@@ -18,7 +18,7 @@ public final class RemovePodcast extends HostCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final Host host) {
+    protected MessageResult execute(final Host host) {
         Library library = Library.getInstance();
         UserDatabase database = UserDatabase.getInstance();
 
@@ -26,15 +26,16 @@ public final class RemovePodcast extends HostCommand {
             .filter(p -> p.getName().equals(name)).findFirst().orElse(null);
 
         if (podcast == null) {
-            return resultBuilder.withMessage(user + " doesn't have a podcast with the given name.");
+            return resultBuilder.returnMessage(
+                user + " doesn't have a podcast with the given name.");
         }
 
         if (database.getUsers().stream().map(user -> user.getPlayer().getPlayingAt(timestamp))
             .filter(Objects::nonNull)
             .anyMatch(currentFile -> currentFile.getOwner().equals(user))) {
-            return resultBuilder.withMessage(user + " can't delete this podcast.");
+            return resultBuilder.returnMessage(user + " can't delete this podcast.");
         }
         library.getPodcasts().remove(podcast);
-        return resultBuilder.withMessage(user + " deleted the podcast successfully.");
+        return resultBuilder.returnMessage(user + " deleted the podcast successfully.");
     }
 }

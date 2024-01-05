@@ -1,7 +1,8 @@
 package main.program.commands.player;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.users.User;
 import main.program.Player;
@@ -10,19 +11,19 @@ import main.program.commands.user.OnlineUserCommand;
 @Getter
 public final class PlayPause extends OnlineUserCommand {
 
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
 
     public PlayPause(final CommandInput input) {
         super(input);
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         Player player = caller.getPlayer();
         player.updateTime(timestamp);
 
         if (player.getQueue() == null) {
-            return resultBuilder.withMessage(
+            return resultBuilder.returnMessage(
                 "Please load a source before attempting to pause or resume playback.");
         }
 
@@ -30,10 +31,8 @@ public final class PlayPause extends OnlineUserCommand {
         player.setPaused(willPause, timestamp);
 
         if (willPause) {
-            resultBuilder.withMessage("Playback paused successfully.");
-        } else {
-            resultBuilder.withMessage("Playback resumed successfully.");
+            return resultBuilder.returnMessage("Playback paused successfully.");
         }
-        return resultBuilder;
+        return resultBuilder.returnMessage("Playback resumed successfully.");
     }
 }

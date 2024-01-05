@@ -70,8 +70,8 @@ public final class Playlist implements SearchableAudio, SongSource {
     }
 
     @Override
-    public Queue createQueue(final Map<String, Queue> playHistory) {
-        return new SongQueue(this, songs.size());
+    public Queue createQueue(final User listener, final Map<String, Queue> playHistory) {
+        return new SongQueue(listener, this, songs.size());
     }
 
     @Override

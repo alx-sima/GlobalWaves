@@ -2,10 +2,11 @@ package main.program.commands.user.artist;
 
 import fileio.input.SongInput;
 import fileio.input.commands.AddAlbumInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
 import java.util.List;
 import main.entities.audio.collections.Album;
 import main.entities.users.artist.Artist;
+import main.program.Library;
 
 public final class AddAlbum extends ArtistCommand {
 
@@ -23,21 +24,24 @@ public final class AddAlbum extends ArtistCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final Artist artist) {
+    protected MessageResult execute(final Artist artist) {
         List<Album> albums = artist.getAlbums();
 
         if (albums.stream().anyMatch(album -> album.getName().equals(name))) {
-            return getResultBuilder().withMessage(user + " has another album with the same name.");
+            return getResultBuilder().returnMessage(
+                user + " has another album with the same name.");
         }
 
         // Check for duplicate song names.
         if (songs.stream().map(SongInput::getName).distinct().count() != songs.size()) {
-            return getResultBuilder().withMessage(
+            return getResultBuilder().returnMessage(
                 user + " has the same song at least twice in this album.");
         }
 
-        Album album = new Album(user, name, releaseYear, description, songs, timestamp);
+        Album album = new Album(artist, name, releaseYear, description, songs, timestamp);
+        Library.getInstance().getSongs().addAll(album.getSongs());
         albums.add(album);
-        return getResultBuilder().withMessage(user + " has added new album successfully.");
+
+        return getResultBuilder().returnMessage(user + " has added new album successfully.");
     }
 }

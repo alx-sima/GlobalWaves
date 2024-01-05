@@ -1,7 +1,8 @@
 package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistOperationInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import java.util.List;
 import lombok.Getter;
 import main.entities.audio.collections.Playlist;
@@ -12,7 +13,7 @@ import main.program.commands.user.OnlineUserCommand;
 public final class SwitchVisibility extends OnlineUserCommand {
 
     @Getter
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final int playlistId;
 
     public SwitchVisibility(final PlaylistOperationInput input) {
@@ -21,11 +22,11 @@ public final class SwitchVisibility extends OnlineUserCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         List<Playlist> playlists = caller.getPlaylists();
 
         if (playlistId > playlists.size()) {
-            return resultBuilder.withMessage("The specified playlist ID is too high.");
+            return resultBuilder.returnMessage("The specified playlist ID is too high.");
         }
 
         List<Playlist> publicPlaylists = Library.getInstance().getPublicPlaylists();
@@ -40,7 +41,7 @@ public final class SwitchVisibility extends OnlineUserCommand {
         }
 
         String visibilityStatus = playlist.isPrivate() ? "private" : "public";
-        return resultBuilder.withMessage(
+        return resultBuilder.returnMessage(
             "Visibility status updated successfully to " + visibilityStatus + ".");
     }
 }

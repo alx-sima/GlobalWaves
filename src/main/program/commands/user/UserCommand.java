@@ -1,8 +1,7 @@
 package main.program.commands.user;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.CommandResult;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
 import main.program.commands.Command;
@@ -17,14 +16,13 @@ public abstract class UserCommand extends Command {
     }
 
     @Override
-    public final CommandResult execute() {
+    public final MessageResult execute() {
         User target = UserDatabase.getInstance().getUser(user);
         if (target == null) {
-            return getResultBuilder().withMessage("The username " + user + " doesn't exist.")
-                .build();
+            return getResultBuilder().returnMessage("The username " + user + " doesn't exist.");
         }
 
-        return executeFor(target).build();
+        return executeFor(target);
     }
 
     /**
@@ -32,6 +30,6 @@ public abstract class UserCommand extends Command {
      *
      * @param target the target user.
      */
-    protected abstract ResultBuilder executeFor(User target);
+    protected abstract MessageResult executeFor(User target);
 
 }

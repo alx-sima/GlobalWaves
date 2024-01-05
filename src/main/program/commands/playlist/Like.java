@@ -1,7 +1,8 @@
 package main.program.commands.playlist;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.audio.files.Song;
 import main.entities.audio.queues.Queue;
@@ -12,32 +13,30 @@ import main.program.commands.user.OnlineUserCommand;
 @Getter
 public final class Like extends OnlineUserCommand {
 
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
 
     public Like(final CommandInput input) {
         super(input);
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         Player player = caller.getPlayer();
         Queue queue = player.getQueue();
         player.updateTime(timestamp);
 
         if (queue == null) {
-            return resultBuilder.withMessage("Please load a source before liking or unliking.");
+            return resultBuilder.returnMessage("Please load a source before liking or unliking.");
         }
 
         Song song = queue.getCurrentSong();
         if (song == null) {
-            return resultBuilder.withMessage("Loaded source is not a song");
+            return resultBuilder.returnMessage("Loaded source is not a song");
         }
 
         if (caller.like(song)) {
-            resultBuilder.withMessage("Like registered successfully.");
-        } else {
-            resultBuilder.withMessage("Unlike registered successfully.");
+            return resultBuilder.returnMessage("Like registered successfully.");
         }
-        return resultBuilder;
+        return resultBuilder.returnMessage("Unlike registered successfully.");
     }
 }

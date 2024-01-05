@@ -2,18 +2,18 @@ package fileio.output;
 
 import java.util.List;
 import lombok.Getter;
-import lombok.Setter;
 import main.entities.audio.collections.Podcast;
 import main.entities.audio.files.AudioFile;
+import main.program.commands.Command;
 
 @Getter
-@Setter
-public final class PodcastResult extends CommandResult {
+public final class PodcastResult extends MessageResult {
 
-    private List<PodcastOutput> result;
+    private final List<PodcastOutput> result;
 
-    public void setResult(final List<Podcast> result) {
-        this.result = result.stream().map(PodcastOutput::new).toList();
+    private PodcastResult(final Builder builder) {
+        super(builder);
+        result = builder.result;
     }
 
 
@@ -26,6 +26,28 @@ public final class PodcastResult extends CommandResult {
         PodcastOutput(final Podcast podcast) {
             this.name = podcast.getName();
             this.episodes = podcast.getEpisodes().stream().map(AudioFile::getName).toList();
+        }
+    }
+
+    public static final class Builder extends ResultBuilder {
+
+        private List<PodcastOutput> result;
+
+        public Builder(final Command cmd) {
+            super(cmd);
+        }
+
+        /**
+         * Set the result.
+         */
+        public Builder result(final List<Podcast> podcasts) {
+            this.result = podcasts.stream().map(PodcastOutput::new).toList();
+            return this;
+        }
+
+        @Override
+        public MessageResult build() {
+            return new PodcastResult(this);
         }
     }
 }

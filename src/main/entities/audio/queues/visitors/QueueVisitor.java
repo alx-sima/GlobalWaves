@@ -1,6 +1,6 @@
 package main.entities.audio.queues.visitors;
 
-import main.entities.audio.collections.Podcast;
+import main.entities.audio.queues.PodcastQueue;
 import main.entities.audio.queues.SongQueue;
 
 /**
@@ -11,7 +11,7 @@ public interface QueueVisitor {
     /**
      * Visit a podcast.
      */
-    default void visit(Podcast podcast) {
+    default void visit(PodcastQueue podcast) {
     }
 
     /**

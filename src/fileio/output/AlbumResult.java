@@ -2,19 +2,20 @@ package fileio.output;
 
 import java.util.List;
 import lombok.Getter;
-import lombok.Setter;
 import main.entities.audio.collections.Album;
 import main.entities.audio.files.Song;
+import main.program.commands.Command;
 
 @Getter
-@Setter
-public final class AlbumResult extends CommandResult {
+public final class AlbumResult extends MessageResult {
 
-    private List<AlbumOutput> result;
+    private final List<AlbumOutput> result;
 
-    public void setResult(final List<Album> result) {
-        this.result = result.stream().map(AlbumOutput::new).toList();
+    private AlbumResult(final Builder builder) {
+        super(builder);
+        this.result = builder.result;
     }
+
 
     @Getter
     private static final class AlbumOutput {
@@ -25,6 +26,29 @@ public final class AlbumResult extends CommandResult {
         private AlbumOutput(final Album album) {
             name = album.getName();
             songs = album.getSongs().stream().map(Song::getName).toList();
+        }
+    }
+
+    @Getter
+    public static final class Builder extends ResultBuilder {
+
+        private List<AlbumOutput> result;
+
+        public Builder(final Command cmd) {
+            super(cmd);
+        }
+
+        /**
+         * Set the result.
+         */
+        public Builder result(final List<Album> albums) {
+            result = albums.stream().map(AlbumOutput::new).toList();
+            return this;
+        }
+
+        @Override
+        public MessageResult build() {
+            return new AlbumResult(this);
         }
     }
 }

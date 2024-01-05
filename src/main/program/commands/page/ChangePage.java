@@ -1,7 +1,8 @@
 package main.program.commands.page;
 
 import fileio.input.commands.ChangePageInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.pages.HomePage;
 import main.entities.pages.LikedContentPage;
@@ -11,7 +12,7 @@ import main.program.commands.user.OnlineUserCommand;
 public final class ChangePage extends OnlineUserCommand {
 
     @Getter
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final String nextPage;
 
     public ChangePage(final ChangePageInput input) {
@@ -20,7 +21,7 @@ public final class ChangePage extends OnlineUserCommand {
     }
 
     @Override
-    public ResultBuilder execute(final User caller) {
+    public MessageResult execute(final User caller) {
         switch (nextPage) {
             case "Home":
                 caller.setCurrentPage(new HomePage(caller));
@@ -29,10 +30,10 @@ public final class ChangePage extends OnlineUserCommand {
                 caller.setCurrentPage(new LikedContentPage(caller));
                 break;
             default:
-                return resultBuilder.withMessage(
+                return resultBuilder.returnMessage(
                     user + " is trying to access a non-existent page.");
 
         }
-        return resultBuilder.withMessage(user + " accessed " + nextPage + " successfully.");
+        return resultBuilder.returnMessage(user + " accessed " + nextPage + " successfully.");
     }
 }

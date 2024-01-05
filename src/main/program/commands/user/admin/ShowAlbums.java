@@ -1,7 +1,8 @@
 package main.program.commands.user.admin;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.builders.AlbumResultBuilder;
+import fileio.output.AlbumResult;
+import fileio.output.AlbumResult.Builder;
 import fileio.output.CommandResult;
 import java.util.List;
 import lombok.Getter;
@@ -12,7 +13,8 @@ import main.program.commands.Command;
 @Getter
 public final class ShowAlbums extends Command {
 
-    private final AlbumResultBuilder resultBuilder = new AlbumResultBuilder().withCommand(this);
+
+    private final AlbumResult.Builder resultBuilder = new Builder(this);
 
     public ShowAlbums(final CommandInput input) {
         super(input);
@@ -21,8 +23,8 @@ public final class ShowAlbums extends Command {
     @Override
     public CommandResult execute() {
         List<Album> albums = UserDatabase.getInstance().getAlbums().stream()
-            .filter(album -> album.getOwner().equals(user)).toList();
+            .filter(album -> album.getOwner().getUsername().equals(user)).toList();
 
-        return resultBuilder.withAlbums(albums).build();
+        return resultBuilder.result(albums).build();
     }
 }

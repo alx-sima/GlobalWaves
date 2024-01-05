@@ -7,6 +7,7 @@ import main.entities.audio.SearchableAudio;
 import main.entities.audio.files.AudioFile;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
+import main.entities.users.User;
 
 /**
  * User's player that can play songs and podcasts.
@@ -31,8 +32,8 @@ public final class Player {
      * @param audio     the loaded audio source.
      * @param timestamp the moment the playlist starts.
      */
-    public void addQueue(final SearchableAudio audio, final int timestamp) {
-        queue = audio.createQueue(playHistory);
+    public void addQueue(final User user, final SearchableAudio audio, final int timestamp) {
+        queue = audio.createQueue(user, playHistory);
         lastUpdate = timestamp;
         isPaused = false;
     }

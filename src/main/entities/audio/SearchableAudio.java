@@ -25,7 +25,7 @@ public interface SearchableAudio extends Searchable {
      * @param playHistory the saved history of queues played by the same user.
      * @return a queue based on the internal type.
      */
-    Queue createQueue(Map<String, Queue> playHistory);
+    Queue createQueue(User user, Map<String, Queue> playHistory);
 
     /**
      * Get the playlist that contains this item.

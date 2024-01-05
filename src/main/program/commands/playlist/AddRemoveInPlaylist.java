@@ -1,7 +1,8 @@
 package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistOperationInput;
-import fileio.output.builders.ResultBuilder;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
@@ -12,7 +13,7 @@ import main.program.commands.user.OnlineUserCommand;
 public final class AddRemoveInPlaylist extends OnlineUserCommand {
 
     @Getter
-    private final ResultBuilder resultBuilder = new ResultBuilder().withCommand(this);
+    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final int playlistId;
 
     public AddRemoveInPlaylist(final PlaylistOperationInput input) {
@@ -21,29 +22,27 @@ public final class AddRemoveInPlaylist extends OnlineUserCommand {
     }
 
     @Override
-    protected ResultBuilder execute(final User caller) {
+    protected MessageResult execute(final User caller) {
         Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {
-            return resultBuilder.withMessage(
+            return resultBuilder.returnMessage(
                 "Please load a source before adding to or removing from the playlist.");
         }
 
         Song currentSong = queue.getCurrentSong();
         if (currentSong == null) {
-            return resultBuilder.withMessage("The loaded source is not a song");
+            return resultBuilder.returnMessage("The loaded source is not a song");
         }
 
         Playlist playlist = caller.getPlaylist(playlistId - 1);
         if (playlist == null) {
-            return resultBuilder.withMessage("The specified playlist does not exist.");
+            return resultBuilder.returnMessage("The specified playlist does not exist.");
         }
 
         if (playlist.addRemoveSong(currentSong)) {
-            resultBuilder.withMessage("Successfully added to playlist.");
-        } else {
-            resultBuilder.withMessage("Successfully removed from playlist.");
+            return resultBuilder.returnMessage("Successfully added to playlist.");
         }
-        return resultBuilder;
+        return resultBuilder.returnMessage("Successfully removed from playlist.");
     }
 }

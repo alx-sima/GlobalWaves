@@ -6,11 +6,14 @@ import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
 import main.entities.audio.SearchableAudio;
+import main.entities.audio.collections.Album;
 import main.entities.audio.collections.SongSource;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
 import main.entities.audio.queues.visitors.SongSourceVisitor;
+import main.entities.users.User;
+import main.entities.users.artist.Artist;
 
 /**
  * A song, which can be searched or played.
@@ -19,30 +22,29 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
 
     @Getter
     private final int creationTime;
-    private final String album;
+    @Getter
+    private final Album album;
     private final List<String> tags;
     private final String lyrics;
+    @Getter
     private final String genre;
     private final int releaseYear;
     @Getter
-    private final String artist;
+    private final Artist artist;
     @Getter
     @Setter
     private int likes = 0;
 
-    public Song(final SongInput input, final int creationTime) {
+    public Song(final SongInput input, final Album album, final Artist artist,
+        final int creationTime) {
         super(input.getName(), input.getDuration(), input.getArtist());
         this.creationTime = creationTime;
-        album = input.getAlbum();
+        this.album = album;
+        this.artist = artist;
         tags = input.getTags();
         lyrics = input.getLyrics();
         genre = input.getGenre();
         releaseYear = input.getReleaseYear();
-        artist = input.getArtist();
-    }
-
-    public Song(final SongInput input) {
-        this(input, 0);
     }
 
     private boolean compareReleaseYear(final String parameter) {
@@ -58,20 +60,20 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     @Override
     public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
-            case "name" -> getName().startsWith(parameter);
-            case "album" -> album.equals(parameter);
+            case "name" -> getName().toLowerCase().startsWith(parameter.toLowerCase());
+            case "album" -> album.getName().equals(parameter);
             case "tags" -> tags.contains(parameter);
             case "lyrics" -> lyrics.toLowerCase().contains(parameter.toLowerCase());
             case "genre" -> genre.equalsIgnoreCase(parameter);
             case "releaseYear" -> compareReleaseYear(parameter);
-            case "artist" -> artist.equals(parameter);
+            case "artist" -> artist.getName().equals(parameter);
             default -> false;
         };
     }
 
     @Override
-    public Queue createQueue(final Map<String, Queue> playHistory) {
-        return new SongQueue(this, 1);
+    public Queue createQueue(final User user, final Map<String, Queue> playHistory) {
+        return new SongQueue(user, this, 1);
     }
 
     @Override
@@ -101,5 +103,10 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     @Override
     public void accept(final SongSourceVisitor visitor) {
         visitor.visit(this);
+    }
+
+    @Override
+    public String toString() {
+        return name;
     }
 }

@@ -18,6 +18,11 @@ public final class NextPage extends OnlineUserCommand {
 
     @Override
     protected MessageResult execute(final User caller) {
-        return resultBuilder.build();
+        if (!caller.getPageHistory().redo()) {
+            return resultBuilder.returnMessage("There are no pages left to go forward.");
+        }
+
+        return resultBuilder.returnMessage(
+            "The user " + user + " has navigated successfully to the next page.");
     }
 }

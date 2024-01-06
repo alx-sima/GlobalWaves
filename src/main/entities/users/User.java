@@ -15,6 +15,7 @@ import main.entities.audio.files.Episode;
 import main.entities.audio.files.Song;
 import main.entities.pages.HomePage;
 import main.entities.pages.Page;
+import main.entities.pages.PageHistory;
 import main.entities.users.creators.CreatorWrapped;
 import main.entities.users.creators.content.Merch;
 import main.program.Library;
@@ -46,9 +47,6 @@ public class User implements Subscriber {
     private final List<Playlist> followedPlaylists = new ArrayList<>();
     private final Wrapped wrapped = new Wrapped();
     @Getter
-    @Setter
-    private Page currentPage = new HomePage(this);
-    @Getter
     private boolean isOnline = true;
     private final Map<Song, Integer> freeListenedSongs = new HashMap<>();
     private final Map<Song, Integer> premiumListenedSongs = new HashMap<>();
@@ -56,6 +54,12 @@ public class User implements Subscriber {
     @Setter
     private boolean isPremium = false;
     private final List<Notification> notifications = new ArrayList<>();
+    @Getter
+    private final PageHistory pageHistory = new PageHistory(this);
+    @Getter
+    @Setter
+    private Page currentPage = new HomePage(this);
+
     @Getter
     private final List<Merch> merch = new ArrayList<>();
 

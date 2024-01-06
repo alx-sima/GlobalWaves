@@ -18,7 +18,12 @@ public final class PreviousPage extends OnlineUserCommand {
 
     @Override
     protected MessageResult execute(final User caller) {
-        return resultBuilder.build();
+        if (!caller.getPageHistory().undo()) {
+            return resultBuilder.returnMessage("There are no pages left to go back.");
+        }
+
+        return resultBuilder.returnMessage(
+            "The user " + user + " has navigated successfully to the previous page.");
     }
 }
 

@@ -24,10 +24,10 @@ public final class ChangePage extends OnlineUserCommand {
     public MessageResult execute(final User caller) {
         switch (nextPage) {
             case "Home":
-                caller.setCurrentPage(new HomePage(caller));
+                caller.getPageHistory().changePage(new HomePage(caller));
                 break;
             case "LikedContent":
-                caller.setCurrentPage(new LikedContentPage(caller));
+                caller.getPageHistory().changePage(new LikedContentPage(caller));
                 break;
             default:
                 return resultBuilder.returnMessage(

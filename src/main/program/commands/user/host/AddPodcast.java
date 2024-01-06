@@ -5,7 +5,7 @@ import fileio.input.commands.AddPodcastInput;
 import fileio.output.MessageResult;
 import java.util.List;
 import main.entities.audio.collections.Podcast;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
 import main.program.Library;
 
 public final class AddPodcast extends HostCommand {

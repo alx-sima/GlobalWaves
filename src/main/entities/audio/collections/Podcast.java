@@ -10,7 +10,7 @@ import main.entities.audio.files.Episode;
 import main.entities.audio.queues.PodcastQueue;
 import main.entities.audio.queues.Queue;
 import main.entities.users.User;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
 
 /**
  * A podcast is a collection of episodes which can be played, and keeps track of play progress.

@@ -7,7 +7,7 @@ import fileio.output.MessageResult.Builder;
 import java.util.stream.Stream;
 import lombok.Getter;
 import main.entities.users.UserDatabase;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
 import main.program.commands.Command;
 
 /**

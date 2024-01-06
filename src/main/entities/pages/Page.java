@@ -1,5 +1,6 @@
 package main.entities.pages;
 
+import main.entities.users.creators.Creator;
 import main.entities.users.User;
 
 /**
@@ -25,7 +26,7 @@ public abstract class Page {
      *
      * @return the reference to the user or null (default) if the page doesn't show another user.
      */
-    public User getPageOwner() {
+    public Creator getPageOwner() {
         return null;
     }
 }

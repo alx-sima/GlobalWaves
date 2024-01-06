@@ -2,8 +2,7 @@ package main.entities.pages;
 
 import java.util.List;
 import main.entities.audio.collections.Album;
-import main.entities.users.User;
-import main.entities.users.artist.Artist;
+import main.entities.users.creators.Artist;
 
 /**
  * A page that contains information about an artist.
@@ -28,7 +27,7 @@ public final class ArtistPage extends Page {
     }
 
     @Override
-    public User getPageOwner() {
+    public Artist getPageOwner() {
         return artist;
     }
 }

@@ -10,7 +10,7 @@ import main.entities.audio.collections.Playlist;
 import main.entities.audio.files.Song;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
-import main.entities.users.artist.Artist;
+import main.entities.users.creators.Artist;
 import main.program.Library;
 
 public final class RemoveAlbum extends ArtistCommand {

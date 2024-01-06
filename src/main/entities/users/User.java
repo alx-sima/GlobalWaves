@@ -15,14 +15,17 @@ import main.entities.audio.files.Episode;
 import main.entities.audio.files.Song;
 import main.entities.pages.HomePage;
 import main.entities.pages.Page;
+import main.entities.users.creators.CreatorWrapped;
 import main.program.Library;
 import main.program.Player;
 import main.program.Searchbar;
+import main.program.notifications.Notification;
+import main.program.notifications.Subscriber;
 
 /**
  * A user of the application, with their own playlists and liked songs.
  */
-public class User {
+public class User implements Subscriber {
 
     private static final double PREMIUM_CREDIT = 1e6;
 
@@ -51,6 +54,7 @@ public class User {
     @Getter
     @Setter
     private boolean isPremium = false;
+    private final List<Notification> notifications = new ArrayList<>();
 
     public User(final String username, final int age, final String city) {
         this.username = username;
@@ -222,6 +226,21 @@ public class User {
     @Override
     public String toString() {
         return username;
+    }
+
+    /**
+     * Get the pending notifications, and clear the list.
+     */
+    public List<Notification> getNotifications() {
+        List<Notification> notificationList = new ArrayList<>(notifications);
+        notifications.clear();
+
+        return notificationList;
+    }
+
+    @Override
+    public void update(final Notification notification) {
+        notifications.add(notification);
     }
 
     @Getter

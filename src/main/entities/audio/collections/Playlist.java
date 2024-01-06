@@ -16,6 +16,7 @@ import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
 import main.entities.audio.queues.visitors.SongSourceVisitor;
 import main.entities.users.User;
+import main.program.notifications.Notifier;
 
 /**
  * A collection of songs, that can be played and followed (if public).
@@ -31,6 +32,8 @@ public final class Playlist implements SearchableAudio, SongSource {
     private boolean isPrivate = false;
     @Setter
     private int followers = 0;
+    @Getter
+    private final Notifier notifier = new Notifier();
 
     public Playlist(final String name, final User user, final int creationTimestamp) {
         this.name = name;

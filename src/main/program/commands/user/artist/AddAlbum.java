@@ -5,8 +5,7 @@ import fileio.input.commands.AddAlbumInput;
 import fileio.output.MessageResult;
 import java.util.List;
 import main.entities.audio.collections.Album;
-import main.entities.users.artist.Artist;
-import main.program.Library;
+import main.entities.users.creators.Artist;
 
 public final class AddAlbum extends ArtistCommand {
 
@@ -38,9 +37,7 @@ public final class AddAlbum extends ArtistCommand {
                 user + " has the same song at least twice in this album.");
         }
 
-        Album album = new Album(artist, name, releaseYear, description, songs, timestamp);
-        Library.getInstance().getSongs().addAll(album.getSongs());
-        albums.add(album);
+        artist.addAlbum(new Album(artist, name, releaseYear, description, songs, timestamp));
 
         return getResultBuilder().returnMessage(user + " has added new album successfully.");
     }

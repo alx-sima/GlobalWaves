@@ -10,7 +10,7 @@ import main.entities.audio.collections.Playlist;
 import main.entities.audio.collections.Podcast;
 import main.entities.audio.files.Song;
 import main.entities.users.UserDatabase;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
 
 /**
  * The program's database of songs.

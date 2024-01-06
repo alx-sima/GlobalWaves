@@ -15,7 +15,7 @@ import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
 import main.entities.audio.queues.visitors.SongSourceVisitor;
 import main.entities.users.User;
-import main.entities.users.artist.Artist;
+import main.entities.users.creators.Artist;
 
 /**
  * An album, created by an artist, which contains a list of songs.

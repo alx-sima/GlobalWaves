@@ -2,8 +2,7 @@ package main.entities.pages;
 
 import java.util.List;
 import main.entities.audio.collections.Podcast;
-import main.entities.users.User;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
 import main.program.Library;
 
 /**
@@ -31,7 +30,7 @@ public final class HostPage extends Page {
     }
 
     @Override
-    public User getPageOwner() {
+    public Host getPageOwner() {
         return host;
     }
 }

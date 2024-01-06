@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.Getter;
-import main.entities.users.artist.Artist;
+import main.entities.users.creators.Artist;
 import main.program.Program;
 
 @Getter

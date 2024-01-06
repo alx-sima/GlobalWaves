@@ -2,9 +2,8 @@ package main.program.commands.user.host;
 
 import fileio.input.commands.AddAnnouncementInput;
 import fileio.output.MessageResult;
-import java.util.List;
-import main.entities.users.host.Announcement;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
+import main.entities.users.creators.content.Announcement;
 
 public final class AddAnnouncement extends HostCommand {
 
@@ -19,8 +18,7 @@ public final class AddAnnouncement extends HostCommand {
 
     @Override
     protected MessageResult execute(final Host host) {
-        List<Announcement> announcements = host.getAnnouncements();
-        announcements.add(new Announcement(user, name, description));
+        host.addAnnouncement(new Announcement(user, name, description));
         return getResultBuilder().returnMessage(user + " has successfully added new announcement.");
     }
 }

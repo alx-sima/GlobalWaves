@@ -9,8 +9,8 @@ import lombok.Getter;
 import main.entities.audio.files.Song;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
-import main.entities.users.artist.Artist;
-import main.entities.users.artist.Merch;
+import main.entities.users.creators.Artist;
+import main.entities.users.creators.content.Merch;
 
 @Getter
 public final class EndProgram {

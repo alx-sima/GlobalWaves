@@ -2,7 +2,7 @@ package main.entities.audio.files;
 
 import fileio.input.EpisodeInput;
 import lombok.Getter;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
 
 /**
  * An episode, which is part of a podcast.

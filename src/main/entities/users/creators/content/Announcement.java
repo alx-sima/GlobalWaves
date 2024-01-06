@@ -1,4 +1,4 @@
-package main.entities.users.host;
+package main.entities.users.creators.content;
 
 import lombok.Getter;
 

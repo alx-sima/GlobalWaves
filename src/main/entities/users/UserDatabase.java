@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
 import main.entities.audio.collections.Album;
-import main.entities.users.artist.Artist;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Artist;
+import main.entities.users.creators.Host;
 
 /**
  * A database that contains all the users, hosts and artists.

@@ -3,8 +3,8 @@ package main.program.commands.user.artist;
 import fileio.input.commands.AddMerchInput;
 import fileio.output.MessageResult;
 import java.util.List;
-import main.entities.users.artist.Artist;
-import main.entities.users.artist.Merch;
+import main.entities.users.creators.Artist;
+import main.entities.users.creators.content.Merch;
 
 public final class AddMerch extends ArtistCommand {
 
@@ -31,8 +31,7 @@ public final class AddMerch extends ArtistCommand {
             return getResultBuilder().returnMessage("Price for merchandise can not be negative.");
         }
 
-        Merch merch = new Merch(user, name, description, price);
-        merchList.add(merch);
+        artist.addMerch(new Merch(user, name, description, price));
 
         return getResultBuilder().returnMessage(user + " has added new merchandise successfully.");
     }

@@ -5,7 +5,7 @@ import fileio.output.MessageResult;
 import java.util.Objects;
 import main.entities.audio.collections.Podcast;
 import main.entities.users.UserDatabase;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
 import main.program.Library;
 
 public final class RemovePodcast extends HostCommand {

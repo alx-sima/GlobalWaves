@@ -13,7 +13,7 @@ import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
 import main.entities.audio.queues.visitors.SongSourceVisitor;
 import main.entities.users.User;
-import main.entities.users.artist.Artist;
+import main.entities.users.creators.Artist;
 
 /**
  * A song, which can be searched or played.

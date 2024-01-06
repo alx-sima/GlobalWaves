@@ -2,7 +2,7 @@ package fileio.output.wrapped;
 
 import java.util.Map;
 import lombok.Getter;
-import main.entities.users.host.Host;
+import main.entities.users.creators.Host;
 
 @Getter
 public final class HostWrapped implements WrappedOutput {

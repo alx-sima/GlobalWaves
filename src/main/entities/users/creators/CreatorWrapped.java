@@ -1,7 +1,9 @@
-package main.entities.users;
+package main.entities.users.creators;
 
 import java.util.Map;
 import main.entities.audio.files.AudioFile;
+import main.entities.users.User;
+import main.entities.users.WrappedStats;
 
 public interface CreatorWrapped<T extends AudioFile> extends WrappedStats {
 

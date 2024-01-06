@@ -1,4 +1,4 @@
-package main.entities.users.artist;
+package main.entities.users.creators.content;
 
 import lombok.Getter;
 

@@ -6,7 +6,7 @@ import fileio.output.MessageResult.Builder;
 import java.util.stream.Stream;
 import lombok.Getter;
 import main.entities.users.UserDatabase;
-import main.entities.users.artist.Artist;
+import main.entities.users.creators.Artist;
 import main.program.commands.Command;
 
 /**

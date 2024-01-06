@@ -5,6 +5,7 @@ import main.entities.audio.files.AudioFile;
 import main.entities.audio.files.Song;
 import main.entities.audio.queues.visitors.QueueVisitor;
 import main.entities.users.User;
+import main.program.Library;
 
 /**
  * A play queue, holding the files that will play in the music player.
@@ -19,6 +20,10 @@ public abstract class Queue {
     protected int playTime = 0;
     protected int playIndex = 0;
     protected Shuffler shuffler = null;
+    /**
+     * The price of the next ad (if scheduled) or null if not.
+     */
+    protected Double nextAdPrice = null;
 
     protected Queue(final User user) {
         this.user = user;
@@ -46,7 +51,7 @@ public abstract class Queue {
         // Skip the files that ended in the meantime.
         while (playTime >= currentlyPlaying.getDuration()) {
             playTime -= currentlyPlaying.getDuration();
-            currentlyPlaying = getNextFile();
+            currentlyPlaying = getdwm();
 
             // Check if queue ended.
             if (currentlyPlaying == null) {
@@ -102,6 +107,17 @@ public abstract class Queue {
 
     protected abstract AudioFile getFilePlaying();
 
+    private AudioFile getdwm() {
+        if (nextAdPrice != null) {
+            user.splitAdMoney(nextAdPrice);
+            nextAdPrice = null;
+
+            return Library.getInstance().getAd();
+        }
+
+        return getNextFile();
+    }
+
     /**
      * Get the song that is currently playing.
      *
@@ -126,7 +142,7 @@ public abstract class Queue {
      * @return the next file, or null if the queue has ended.
      */
     public AudioFile next() {
-        AudioFile nextFile = getNextFile();
+        AudioFile nextFile = getdwm();
         currentlyPlaying = nextFile;
         playTime = 0;
 
@@ -146,6 +162,13 @@ public abstract class Queue {
 
         playTime = 0;
         return currentlyPlaying;
+    }
+
+    /**
+     * Schedule an ad play after the current audio.
+     */
+    public void pushAd(final double price) {
+        nextAdPrice = price;
     }
 
     /**

@@ -8,7 +8,7 @@ import main.program.commands.playlist.AdBreak;
 @Getter
 @Setter
 public final class AdBreakInput extends CommandInput {
-    private int price;
+    private double price;
 
     @Override
     public Command createCommand() {

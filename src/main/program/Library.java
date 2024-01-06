@@ -20,6 +20,8 @@ public final class Library {
 
     private static Library instance;
 
+    @Getter
+    private Song ad;
     @Setter
     private List<Song> songs;
     private List<Podcast> podcasts;
@@ -45,6 +47,13 @@ public final class Library {
     public void initializeLibrary(final LibraryInput input) {
         songs = new ArrayList<>();
         podcasts = new ArrayList<>();
+
+        if (input.getSongs().isEmpty()) {
+            System.err.println("Ad not present.");
+            return;
+        }
+
+        ad = new Song(input.getSongs().get(0), null, null, 0);
 
         for (PodcastInput podcastInput : input.getPodcasts()) {
             Host host = UserDatabase.getInstance().getOrAddHost(podcastInput.getOwner());

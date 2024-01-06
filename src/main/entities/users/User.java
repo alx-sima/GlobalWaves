@@ -177,6 +177,19 @@ public class User {
         CreatorWrapped.increment(wrapped.topEpisodes, episode.getName());
     }
 
+    private void splitMoney(final Map<Song, Integer> songs, final double value) {
+        int totalSongs = songs.values().stream().reduce(0, Integer::sum);
+
+        for (Entry<Song, Integer> mapEntry : songs.entrySet()) {
+            Song song = mapEntry.getKey();
+            int songListens = mapEntry.getValue();
+
+            song.addRevenue(value / totalSongs * songListens);
+        }
+
+        songs.clear();
+    }
+
     /**
      * Split the premium credit to the songs listened while the subscription was active.
      *
@@ -184,17 +197,16 @@ public class User {
      */
     public void splitPremiumMoney(final int timestamp) {
         player.updateTime(timestamp);
+        splitMoney(premiumListenedSongs, PREMIUM_CREDIT);
+    }
 
-        int totalSongs = premiumListenedSongs.values().stream().reduce(0, Integer::sum);
-
-        for (Entry<Song, Integer> mapEntry : premiumListenedSongs.entrySet()) {
-            Song song = mapEntry.getKey();
-            int songListens = mapEntry.getValue();
-
-            song.addRevenue(PREMIUM_CREDIT / totalSongs * songListens);
-        }
-
-        premiumListenedSongs.clear();
+    /**
+     * Split the ad credit to the songs listened since the last ad play.
+     *
+     * @param adValue the value to be split.
+     */
+    public void splitAdMoney(final double adValue) {
+        splitMoney(freeListenedSongs, adValue);
     }
 
     /**

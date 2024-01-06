@@ -62,7 +62,8 @@ public final class EndProgram {
 
             songRevenue = roundDouble(
                 songs.stream().map(Song::getTotalEarned).reduce(0.0d, Double::sum));
-            Song bestSong = songs.stream().max(Comparator.comparingDouble(Song::getTotalEarned))
+            Song bestSong = songs.stream().max(Comparator.comparingDouble(Song::getTotalEarned)
+                    .thenComparing((a, b) -> b.getName().compareTo(a.getName())))
                 .orElse(null);
             if (bestSong != null && bestSong.getTotalEarned() > 0.0d) {
                 mostProfitableSong = bestSong.getName();

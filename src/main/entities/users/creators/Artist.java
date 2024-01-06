@@ -2,9 +2,15 @@ package main.entities.users.creators;
 
 import fileio.output.wrapped.ArtistWrapped;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.stream.Stream;
 import lombok.Getter;
 import main.entities.audio.collections.Album;
+import main.entities.audio.files.Song;
 import main.entities.pages.ArtistPage;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
@@ -33,6 +39,10 @@ public final class Artist extends Creator {
     public String selectResultBy(final User user) {
         user.setCurrentPage(new ArtistPage(this));
         return username + "'s page";
+    }
+
+    public Stream<Song> getAllSongs() {
+        return albums.stream().flatMap(album -> album.getSongs().stream());
     }
 
     /**
@@ -90,5 +100,50 @@ public final class Artist extends Creator {
         UserDatabase.getInstance().getMonetizedArtists().add(this);
 
         return true;
+    }
+
+    /**
+     * Get the artist's listeners.
+     *
+     * @return a mapping between the listener and the number of listens to this artist.
+     */
+    public Map<User, Integer> getListeners() {
+        Map<User, Integer> fans = new HashMap<>();
+        Iterator<Entry<User, Integer>> iterator = getAllSongs().flatMap(
+            song -> song.getListeners().entrySet().stream()).iterator();
+
+        while (iterator.hasNext()) {
+            Entry<User, Integer> entry = iterator.next();
+            CreatorWrapped.add(fans, entry.getKey(), entry.getValue());
+        }
+        return fans;
+    }
+
+    @Getter
+    public static final class Stats {
+
+        private final Map<String, Integer> albumsMap = new HashMap<>();
+        private final Map<String, Integer> songsMap = new HashMap<>();
+        private final Map<String, Integer> fansMap = new HashMap<>();
+
+        public Stats(final Artist artist) {
+            Iterator<Song> songs = artist.getAllSongs().iterator();
+
+            while (songs.hasNext()) {
+                Song song = songs.next();
+
+                int totalListens = song.getNumberOfListens();
+                if (totalListens == 0) {
+                    continue;
+                }
+
+                CreatorWrapped.add(albumsMap, song.getAlbum().getName(), totalListens);
+                CreatorWrapped.add(songsMap, song.getName(), totalListens);
+
+                for (Entry<User, Integer> entry : song.getListeners().entrySet()) {
+                    CreatorWrapped.add(fansMap, entry.getKey().toString(), entry.getValue());
+                }
+            }
+        }
     }
 }

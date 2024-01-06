@@ -18,6 +18,8 @@ import main.program.commands.player.PlayPause;
 import main.program.commands.player.Prev;
 import main.program.commands.player.Repeat;
 import main.program.commands.player.Status;
+import main.program.commands.player.recommendations.LoadRecommendations;
+import main.program.commands.player.recommendations.UpdateRecommendations;
 import main.program.commands.playlist.Follow;
 import main.program.commands.playlist.Like;
 import main.program.commands.playlist.ShowPlaylists;
@@ -32,11 +34,9 @@ import main.program.commands.stats.Wrapped;
 import main.program.commands.user.BuyPremium;
 import main.program.commands.user.CancelPremium;
 import main.program.commands.user.GetNotifications;
-import main.program.commands.user.LoadRecommendations;
 import main.program.commands.user.SeeMerch;
 import main.program.commands.user.Subscribe;
 import main.program.commands.user.SwitchConnectionStatus;
-import main.program.commands.user.UpdateRecommendations;
 import main.program.commands.user.admin.DeleteUser;
 import main.program.commands.user.admin.ShowAlbums;
 import main.program.commands.user.admin.ShowPodcasts;
@@ -59,7 +59,9 @@ import main.program.commands.user.admin.ShowPodcasts;
     @Type(value = AddEventInput.class, name = "addEvent"),
     @Type(value = AddMerchInput.class, name = "addMerch"),
     @Type(value = AddPodcastInput.class, name = "addPodcast"),
-    @Type(value = AddAnnouncementInput.class, name = "addAnnouncement")})
+    @Type(value = AddAnnouncementInput.class, name = "addAnnouncement"),
+    @Type(value = UpdateRecommendationsInput.class, name = "updateRecommendations"),
+})
 public class CommandInput {
 
     protected String command;
@@ -105,7 +107,6 @@ public class CommandInput {
             case "seeMerch" -> new SeeMerch(this);
             case "subscribe" -> new Subscribe(this);
             case "switchConnectionStatus" -> new SwitchConnectionStatus(this);
-            case "updateRecommendations" -> new UpdateRecommendations(this);
             default -> null;
         };
     }

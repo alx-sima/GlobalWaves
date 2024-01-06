@@ -20,6 +20,7 @@ import main.entities.users.creators.CreatorWrapped;
 import main.entities.users.creators.content.Merch;
 import main.program.Library;
 import main.program.Player;
+import main.program.Recommendations;
 import main.program.Searchbar;
 import main.program.notifications.Notification;
 import main.program.notifications.Subscriber;
@@ -35,10 +36,12 @@ public class User implements Subscriber {
     protected final String username;
     private final int age;
     private final String city;
+
     @Getter
     private final Player player = new Player();
     @Getter
     private final Searchbar searchbar = new Searchbar();
+
     @Getter
     private final List<Playlist> playlists = new ArrayList<>();
     @Getter
@@ -54,11 +57,15 @@ public class User implements Subscriber {
     @Setter
     private boolean isPremium = false;
     private final List<Notification> notifications = new ArrayList<>();
+
     @Getter
     private final PageHistory pageHistory = new PageHistory(this);
     @Getter
     @Setter
     private Page currentPage = new HomePage(this);
+
+    @Getter
+    private final Recommendations recommendations = new Recommendations();
 
     @Getter
     private final List<Merch> merch = new ArrayList<>();

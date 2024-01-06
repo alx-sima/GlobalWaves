@@ -18,9 +18,7 @@ public final class Library {
 
     private static Library instance;
 
-    @Getter
     private Song ad;
-    @Setter
     private List<Song> songs;
     private List<Podcast> podcasts;
     private List<Playlist> publicPlaylists;

@@ -4,7 +4,10 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import main.entities.users.User;
+import main.entities.users.creators.Artist;
 import main.entities.users.creators.CreatorWrapped;
+import main.entities.users.creators.Host;
+import main.program.InvalidOperation;
 
 /**
  * An audio file, which can be part of a play queue.
@@ -23,6 +26,14 @@ public abstract class AudioFile {
         this.owner = owner;
     }
 
+    public  Host getHost() throws InvalidOperation {
+        throw new InvalidOperation();
+    }
+
+    public Artist getArtist() throws InvalidOperation {
+        throw new InvalidOperation();
+    }
+
     /**
      * Record one listen for the listener.
      *
@@ -30,5 +41,12 @@ public abstract class AudioFile {
      */
     public void addListen(final User listener) {
         CreatorWrapped.increment(listeners, listener);
+    }
+
+    /**
+     * Get the total number of listens of this file.
+     */
+    public int getNumberOfListens() {
+        return listeners.values().stream().reduce(0, Integer::sum);
     }
 }

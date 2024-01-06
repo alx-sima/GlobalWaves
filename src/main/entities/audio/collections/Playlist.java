@@ -27,7 +27,7 @@ public final class Playlist implements SearchableAudio, SongSource {
 
     private final String name;
     private final User user;
-    private final List<Song> songs = new ArrayList<>();
+    private final List<Song> songs;
     private final int creationTimestamp;
     @Setter
     private boolean isPrivate = false;
@@ -36,12 +36,17 @@ public final class Playlist implements SearchableAudio, SongSource {
     @Getter
     private final Notifier notifier = new Notifier();
 
-    public Playlist(final String name, final User user, final int creationTimestamp) {
+    public Playlist(final String name, final User user, final int creationTimestamp,
+        final List<Song> songs) {
         this.name = name;
         this.user = user;
         this.creationTimestamp = creationTimestamp;
+        this.songs = songs;
     }
 
+    public Playlist(final String name, final User user, final int creationTimestamp) {
+        this(name, user, creationTimestamp, new ArrayList<>());
+    }
     /**
      * Get the names of the songs of the playlist.
      */

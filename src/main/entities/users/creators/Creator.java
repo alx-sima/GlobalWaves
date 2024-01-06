@@ -3,6 +3,7 @@ package main.entities.users.creators;
 import lombok.Getter;
 import main.entities.Searchable;
 import main.entities.users.User;
+import main.program.InvalidOperation;
 import main.program.notifications.Notifier;
 
 @Getter
@@ -37,8 +38,4 @@ public abstract class Creator extends User implements Searchable {
      */
     public abstract boolean buyMerch(User buyer, String merchName)
         throws InvalidOperation;
-}
-
-final class InvalidOperation extends Exception {
-
 }

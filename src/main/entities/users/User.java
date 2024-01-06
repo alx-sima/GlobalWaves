@@ -16,6 +16,7 @@ import main.entities.audio.files.Song;
 import main.entities.pages.HomePage;
 import main.entities.pages.Page;
 import main.entities.users.creators.CreatorWrapped;
+import main.entities.users.creators.content.Merch;
 import main.program.Library;
 import main.program.Player;
 import main.program.Searchbar;
@@ -55,6 +56,8 @@ public class User implements Subscriber {
     @Setter
     private boolean isPremium = false;
     private final List<Notification> notifications = new ArrayList<>();
+    @Getter
+    private final List<Merch> merch = new ArrayList<>();
 
     public User(final String username, final int age, final String city) {
         this.username = username;
@@ -179,6 +182,15 @@ public class User implements Subscriber {
      */
     public void addListen(final Episode episode) {
         CreatorWrapped.increment(wrapped.topEpisodes, episode.getName());
+    }
+
+    /**
+     * Add the merchandise to the user.
+     *
+     * @param merchandise the newly owned merchandise.
+     */
+    public void addMerch(final Merch merchandise) {
+        merch.add(merchandise);
     }
 
     private void splitMoney(final Map<Song, Integer> songs, final double value) {

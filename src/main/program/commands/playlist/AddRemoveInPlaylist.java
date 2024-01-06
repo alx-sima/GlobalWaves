@@ -32,7 +32,7 @@ public final class AddRemoveInPlaylist extends OnlineUserCommand {
 
         Song currentSong = queue.getCurrentSong();
         if (currentSong == null) {
-            return resultBuilder.returnMessage("The loaded source is not a song");
+            return resultBuilder.returnMessage("The loaded source is not a song.");
         }
 
         Playlist playlist = caller.getPlaylist(playlistId - 1);

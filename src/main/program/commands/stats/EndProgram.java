@@ -73,7 +73,7 @@ public final class EndProgram {
         }
 
         /**
-         * Round x to 2 decimal places.
+         * Round `x` to 2 decimal places.
          */
         private static double roundDouble(final double x) {
             return Math.round(x * ROUNDING_EXPONENT) / ROUNDING_EXPONENT;

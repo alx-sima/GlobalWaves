@@ -51,6 +51,12 @@ public final class Host extends Creator {
         listener.addListen(episode);
     }
 
+    @Override
+    public boolean buyMerch(final User buyer, final String merchName) throws InvalidOperation {
+        // A host doesn't sell merch.
+        throw new InvalidOperation();
+    }
+
     @Getter
     public static final class Wrapped implements CreatorWrapped<Episode> {
 

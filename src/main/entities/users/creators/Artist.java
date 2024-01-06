@@ -68,6 +68,7 @@ public final class Artist extends Creator {
     /**
      * Add a new merch to the artist.
      */
+    @Override
     public void addMerch(final Merch merchandise) {
         merch.add(merchandise);
 
@@ -90,6 +91,23 @@ public final class Artist extends Creator {
     @Override
     public ArtistWrapped getWrapped() {
         return new ArtistWrapped(wrapped);
+    }
+
+    @Override
+    public boolean buyMerch(final User buyer, final String merchName) {
+        Merch selectedMerch = merch.stream().filter(m -> m.getName().equals(merchName)).findAny()
+            .orElse(null);
+        if (selectedMerch == null) {
+            return false;
+        }
+
+        selectedMerch.buyMerch();
+        buyer.addMerch(selectedMerch);
+
+        // Track this artist as monetized.
+        UserDatabase.getInstance().getMonetizedArtists().add(this);
+
+        return true;
     }
 
     @Getter

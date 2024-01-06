@@ -26,4 +26,19 @@ public abstract class Creator extends User implements Searchable {
     public String getName() {
         return username;
     }
+
+    /**
+     * Buy merch from the creator.
+     *
+     * @param buyer     the user which buys the merch.
+     * @param merchName the name of the merch.
+     * @return true if merch was bought, false if the merch doesn't exist.
+     * @throws InvalidOperation the creator doesn't sell merch.
+     */
+    public abstract boolean buyMerch(final User buyer, final String merchName)
+        throws InvalidOperation;
+}
+
+final class InvalidOperation extends Exception {
+
 }

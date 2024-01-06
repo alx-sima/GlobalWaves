@@ -14,7 +14,7 @@ public final class Episode extends AudioFile {
     private final String description;
 
     public Episode(final EpisodeInput input, final Host host) {
-        super(input.getName(), input.getDuration(), host.getName());
+        super(input.getName(), input.getDuration(), host != null ? host.getName() : null);
         this.host = host;
         description = input.getDescription();
     }

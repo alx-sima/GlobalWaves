@@ -9,8 +9,6 @@ import lombok.Setter;
 import main.entities.audio.collections.Playlist;
 import main.entities.audio.collections.Podcast;
 import main.entities.audio.files.Song;
-import main.entities.users.UserDatabase;
-import main.entities.users.creators.Host;
 
 /**
  * The program's database of songs.
@@ -56,8 +54,7 @@ public final class Library {
         ad = new Song(input.getSongs().get(0), null, null, 0);
 
         for (PodcastInput podcastInput : input.getPodcasts()) {
-            Host host = UserDatabase.getInstance().getOrAddHost(podcastInput.getOwner());
-            podcasts.add(new Podcast(podcastInput, host));
+            podcasts.add(new Podcast(podcastInput, null));
         }
 
         publicPlaylists = new ArrayList<>();

@@ -25,11 +25,10 @@ import main.program.commands.stats.GetAllUsers;
 import main.program.commands.stats.GetOnlineUsers;
 import main.program.commands.stats.GetTop5Albums;
 import main.program.commands.stats.GetTop5Artists;
-import main.program.commands.stats.ShowPreferredSongs;
 import main.program.commands.stats.GetTop5Playlists;
 import main.program.commands.stats.GetTop5Songs;
+import main.program.commands.stats.ShowPreferredSongs;
 import main.program.commands.stats.Wrapped;
-import main.program.commands.user.BuyMerch;
 import main.program.commands.user.BuyPremium;
 import main.program.commands.user.CancelPremium;
 import main.program.commands.user.GetNotifications;
@@ -47,7 +46,7 @@ import main.program.commands.user.admin.ShowPodcasts;
 @JsonTypeInfo(use = Id.NAME, visible = true, property = "command", defaultImpl = CommandInput.class)
 @JsonSubTypes({@Type(value = PlaylistOperationInput.class, names = {"addRemoveInPlaylist",
     "switchVisibility"}),
-    @Type(value = CommandInputWithName.class, names = {"removeAlbum", "removeEvent",
+    @Type(value = CommandInputWithName.class, names = {"buyMerch", "removeAlbum", "removeEvent",
         "removePodcast", "removeAnnouncement"}),
     @Type(value = AdBreakInput.class, name = "adBreak"),
     @Type(value = ShuffleInput.class, name = "shuffle"),
@@ -99,7 +98,6 @@ public class CommandInput {
             case "deleteUser" -> new DeleteUser(this);
             case "showAlbums" -> new ShowAlbums(this);
             case "showPodcasts" -> new ShowPodcasts(this);
-            case "buyMerch" -> new BuyMerch(this);
             case "buyPremium" -> new BuyPremium(this);
             case "cancelPremium" -> new CancelPremium(this);
             case "getNotifications" -> new GetNotifications(this);

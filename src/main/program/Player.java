@@ -5,6 +5,7 @@ import java.util.Map;
 import lombok.Getter;
 import main.entities.audio.SearchableAudio;
 import main.entities.audio.files.AudioFile;
+import main.entities.audio.queues.PodcastQueue;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.users.User;
@@ -14,7 +15,7 @@ import main.entities.users.User;
  */
 public final class Player {
 
-    private final Map<String, Queue> playHistory = new HashMap<>();
+    private final Map<String, PodcastQueue> podcastHistory = new HashMap<>();
 
     @Getter
     private Queue queue;
@@ -33,7 +34,7 @@ public final class Player {
      * @param timestamp the moment the playlist starts.
      */
     public void addQueue(final User user, final SearchableAudio audio, final int timestamp) {
-        queue = audio.createQueue(user, playHistory);
+        queue = audio.createQueue(user, podcastHistory);
         lastUpdate = timestamp;
         isPaused = false;
     }

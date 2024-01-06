@@ -10,7 +10,6 @@ import main.entities.audio.files.Episode;
 import main.entities.audio.queues.PodcastQueue;
 import main.entities.audio.queues.Queue;
 import main.entities.users.User;
-import main.entities.users.creators.Host;
 
 /**
  * A podcast is a collection of episodes which can be played, and keeps track of play progress.
@@ -19,20 +18,20 @@ import main.entities.users.creators.Host;
 public final class Podcast implements SearchableAudio {
 
     private final String name;
-    private final Host host;
+    private final String owner;
     private final List<Episode> episodes;
 
-    public Podcast(final PodcastInput input, final Host host) {
-        this.host = host;
+    public Podcast(final PodcastInput input) {
         name = input.getName();
+        owner = input.getOwner();
         episodes = input.getEpisodes().stream()
-            .map(episodeInput -> new Episode(episodeInput, host)).toList();
+            .map(Episode::new).toList();
     }
 
-    public Podcast(final String name, final Host host, final List<EpisodeInput> episodes) {
+    public Podcast(final String name, final String owner, final List<EpisodeInput> episodes) {
         this.name = name;
-        this.host = host;
-        this.episodes = episodes.stream().map(episodeInput -> new Episode(episodeInput, host))
+        this.owner = owner;
+        this.episodes = episodes.stream().map(Episode::new)
             .toList();
     }
 
@@ -40,20 +39,21 @@ public final class Podcast implements SearchableAudio {
     public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
             case "name" -> name.startsWith(parameter);
-            case "owner" -> host.getUsername().equals(parameter);
+            case "owner" -> owner.equals(parameter);
             default -> false;
         };
     }
 
     @Override
-    public Queue createQueue(final User user, final Map<String, Queue> playHistory) {
-        Queue previousPlay = playHistory.get(name);
+    public Queue createQueue(final User user, final Map<String, PodcastQueue> podcastHistory) {
+        PodcastQueue previousPlay = podcastHistory.get(name);
         if (previousPlay != null) {
+            previousPlay.getFilePlaying();
             return previousPlay;
         }
 
         PodcastQueue podcast = new PodcastQueue(this, user);
-        playHistory.put(name, podcast);
+        podcastHistory.put(name, podcast);
         return podcast;
     }
 

@@ -22,7 +22,7 @@ public final class ShowPodcasts extends Command {
     @Override
     public CommandResult execute() {
         List<Podcast> podcasts = Library.getInstance().getPodcasts().stream()
-            .filter(podcast -> podcast.getHost().getUsername().equals(user)).toList();
+            .filter(podcast -> podcast.getOwner().equals(user)).toList();
 
         return resultBuilder.result(podcasts).build();
     }

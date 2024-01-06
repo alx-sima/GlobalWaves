@@ -10,12 +10,12 @@ public abstract class Creator extends User implements Searchable {
 
     private final Notifier notifier = new Notifier();
 
-    protected Creator(String username, int age, String city) {
+    protected Creator(final String username, final int age, final String city) {
         super(username, age, city);
     }
 
     @Override
-    public boolean matchFilter(final String filter, final String parameter) {
+    public final boolean matchFilter(final String filter, final String parameter) {
         if (filter.equals("name")) {
             return username.startsWith(parameter);
         }
@@ -23,7 +23,7 @@ public abstract class Creator extends User implements Searchable {
     }
 
     @Override
-    public String getName() {
+    public final String getName() {
         return username;
     }
 
@@ -35,7 +35,7 @@ public abstract class Creator extends User implements Searchable {
      * @return true if merch was bought, false if the merch doesn't exist.
      * @throws InvalidOperation the creator doesn't sell merch.
      */
-    public abstract boolean buyMerch(final User buyer, final String merchName)
+    public abstract boolean buyMerch(User buyer, String merchName)
         throws InvalidOperation;
 }
 

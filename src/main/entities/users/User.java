@@ -251,7 +251,7 @@ public class User implements Subscriber {
     }
 
     @Override
-    public void update(final Notification notification) {
+    public final void update(final Notification notification) {
         notifications.add(notification);
     }
 

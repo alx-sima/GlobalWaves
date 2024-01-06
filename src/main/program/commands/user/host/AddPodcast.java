@@ -34,7 +34,7 @@ public final class AddPodcast extends HostCommand {
                 user + " has the same song at least twice in this album.");
         }
 
-        podcasts.add(new Podcast(name, host, episodes));
+        podcasts.add(new Podcast(name, user, episodes));
         return getResultBuilder().returnMessage(user + " has added new podcast successfully.");
     }
 }

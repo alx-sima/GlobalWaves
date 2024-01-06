@@ -2,12 +2,9 @@ package main.entities.users.creators;
 
 import fileio.output.wrapped.ArtistWrapped;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
 import main.entities.audio.collections.Album;
-import main.entities.audio.files.Song;
 import main.entities.pages.ArtistPage;
 import main.entities.users.User;
 import main.entities.users.UserDatabase;
@@ -20,16 +17,12 @@ import main.program.notifications.Notifier;
 /**
  * An artist, that can add albums, events, and merch.
  */
+@Getter
 public final class Artist extends Creator {
 
-    @Getter
     private final List<Album> albums = new ArrayList<>();
-    @Getter
     private final List<Event> events = new ArrayList<>();
-    @Getter
     private final List<Merch> merch = new ArrayList<>();
-    private final Wrapped wrapped = new Wrapped();
-    @Getter
     private final Notifier notifier = new Notifier();
 
     public Artist(final String username, final int age, final String city) {
@@ -77,20 +70,9 @@ public final class Artist extends Creator {
     }
 
 
-    /**
-     * Record a listen by `listener` to the `song`.
-     */
-    public void addListen(final User listener, final Song song) {
-        // If a song by the artist is listened, track the artist for monetization.
-        UserDatabase.getInstance().getMonetizedArtists().add(this);
-
-        wrapped.addListen(listener, song);
-        listener.addListen(song);
-    }
-
     @Override
     public ArtistWrapped getWrapped() {
-        return new ArtistWrapped(wrapped);
+        return new ArtistWrapped(this);
     }
 
     @Override
@@ -108,28 +90,5 @@ public final class Artist extends Creator {
         UserDatabase.getInstance().getMonetizedArtists().add(this);
 
         return true;
-    }
-
-    @Getter
-    public static final class Wrapped implements CreatorWrapped<Song> {
-
-        private final Map<String, Integer> topAlbums;
-        private final Map<String, Integer> topSongs;
-        private final Map<String, Integer> topFans;
-        private final int listeners;
-
-        private Wrapped() {
-            topAlbums = new HashMap<>();
-            topSongs = new HashMap<>();
-            topFans = new HashMap<>();
-            listeners = 0;
-        }
-
-        @Override
-        public void addListen(final User listener, final Song song) {
-            CreatorWrapped.increment(topFans, listener.getUsername());
-            CreatorWrapped.increment(topSongs, song.getName());
-            CreatorWrapped.increment(topAlbums, song.getAlbum().getName());
-        }
     }
 }

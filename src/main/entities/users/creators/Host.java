@@ -1,11 +1,9 @@
 package main.entities.users.creators;
 
+import fileio.output.wrapped.HostWrapped;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import lombok.Getter;
-import main.entities.audio.files.Episode;
 import main.entities.pages.HostPage;
 import main.entities.users.User;
 import main.entities.users.creators.content.Announcement;
@@ -15,12 +13,10 @@ import main.program.notifications.Notifier;
 /**
  * A host, that can create podcasts and post announcements.
  */
+@Getter
 public final class Host extends Creator {
 
-    @Getter
     private final List<Announcement> announcements = new ArrayList<>();
-    private final Wrapped wrapped = new Wrapped();
-    @Getter
     private final Notifier notifier = new Notifier();
 
     public Host(final String username, final int age, final String city) {
@@ -43,30 +39,14 @@ public final class Host extends Creator {
             new Notification("New Announcement", "New Announcement from " + username + "."));
     }
 
-    /**
-     * Record a listen by `listener` to the `episode`.
-     */
-    public void addListen(final User listener, final Episode episode) {
-        wrapped.addListen(listener, episode);
-        listener.addListen(episode);
+    @Override
+    public HostWrapped getWrapped() {
+        return new HostWrapped(this);
     }
 
     @Override
     public boolean buyMerch(final User buyer, final String merchName) throws InvalidOperation {
         // A host doesn't sell merch.
         throw new InvalidOperation();
-    }
-
-    @Getter
-    public static final class Wrapped implements CreatorWrapped<Episode> {
-
-        private final Map<Episode, Integer> topEpisodes = new HashMap<>();
-        private final Map<User, Integer> topListeners = new HashMap<>();
-
-        @Override
-        public void addListen(final User listener, final Episode listened) {
-            CreatorWrapped.increment(topEpisodes, listened);
-            CreatorWrapped.increment(topListeners, listener);
-        }
     }
 }

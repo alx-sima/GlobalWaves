@@ -8,6 +8,7 @@ import lombok.Setter;
 import main.entities.audio.SearchableAudio;
 import main.entities.audio.collections.Album;
 import main.entities.audio.collections.SongSource;
+import main.entities.audio.queues.PodcastQueue;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
@@ -74,7 +75,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     }
 
     @Override
-    public Queue createQueue(final User user, final Map<String, Queue> playHistory) {
+    public Queue createQueue(final User user, final Map<String, PodcastQueue> podcastHistory) {
         return new SongQueue(user, this, 1);
     }
 

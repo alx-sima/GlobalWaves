@@ -10,6 +10,7 @@ import java.util.Map;
 import lombok.Getter;
 import main.entities.audio.SearchableAudio;
 import main.entities.audio.files.Song;
+import main.entities.audio.queues.PodcastQueue;
 import main.entities.audio.queues.Queue;
 import main.entities.audio.queues.RepeatMode;
 import main.entities.audio.queues.SongQueue;
@@ -50,7 +51,7 @@ public final class Album implements SearchableAudio, SongSource {
     }
 
     @Override
-    public Queue createQueue(final User user, final Map<String, Queue> playHistory) {
+    public Queue createQueue(final User user, final Map<String, PodcastQueue> podcastHistory) {
         return new SongQueue(user, this, songs.size());
     }
 

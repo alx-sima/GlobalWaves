@@ -14,7 +14,7 @@ public final class PodcastQueue extends Queue {
     public PodcastQueue(final Podcast podcast, final User user) {
         super(user);
         episodes = podcast.getEpisodes();
-        currentlyPlaying = episodes.get(0);
+        currentlyPlaying = getFilePlaying();
     }
 
     @Override
@@ -46,11 +46,10 @@ public final class PodcastQueue extends Queue {
     }
 
     @Override
-    protected Episode getFilePlaying() {
+    public Episode getFilePlaying() {
         Episode nowPlaying = episodes.get(playIndex);
-        if (nowPlaying.getHost() != null) {
-            nowPlaying.getHost().addListen(user, nowPlaying);
-        }
+        nowPlaying.addListen(user);
+        user.addListen(nowPlaying);
         return nowPlaying;
     }
 

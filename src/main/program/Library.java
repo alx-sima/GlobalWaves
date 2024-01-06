@@ -54,7 +54,7 @@ public final class Library {
         ad = new Song(input.getSongs().get(0), null, null, 0);
 
         for (PodcastInput podcastInput : input.getPodcasts()) {
-            podcasts.add(new Podcast(podcastInput, null));
+            podcasts.add(new Podcast(podcastInput));
         }
 
         publicPlaylists = new ArrayList<>();

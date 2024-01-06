@@ -2,7 +2,7 @@ package main.program.commands.user;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.MessageResult;
-import main.entities.users.User;
+import main.program.entities.users.User;
 
 /**
  * A command that can be executed only by online users.

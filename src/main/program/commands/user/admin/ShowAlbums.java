@@ -6,8 +6,8 @@ import fileio.output.AlbumResult.Builder;
 import fileio.output.CommandResult;
 import java.util.List;
 import lombok.Getter;
-import main.entities.audio.collections.Album;
-import main.entities.users.UserDatabase;
+import main.program.entities.audio.collections.Album;
+import main.program.databases.UserDatabase;
 import main.program.commands.Command;
 
 @Getter

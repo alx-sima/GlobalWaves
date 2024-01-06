@@ -3,8 +3,8 @@ package main.program.commands.user.artist;
 import fileio.input.commands.CommandInputWithName;
 import fileio.output.MessageResult;
 import java.util.List;
-import main.entities.users.creators.Artist;
-import main.entities.users.creators.content.Event;
+import main.program.entities.users.creators.Artist;
+import main.program.entities.users.creators.content.Event;
 
 public final class RemoveEvent extends ArtistCommand {
 

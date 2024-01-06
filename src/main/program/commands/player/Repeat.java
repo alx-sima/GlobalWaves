@@ -4,10 +4,10 @@ import fileio.input.commands.CommandInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
-import main.entities.audio.queues.Queue;
-import main.entities.audio.queues.RepeatMode;
-import main.entities.users.User;
-import main.program.Player;
+import main.program.entities.audio.queues.Queue;
+import main.program.entities.audio.queues.RepeatMode;
+import main.program.entities.users.User;
+import main.program.entities.users.interactions.Player;
 import main.program.commands.user.OnlineUserCommand;
 
 @Getter

@@ -1,0 +1,27 @@
+package main.program.commands.user.merch;
+
+import fileio.input.commands.CommandInput;
+import fileio.output.MessageResult;
+import fileio.output.StatsResult;
+import fileio.output.StatsResult.Builder;
+import java.util.List;
+import lombok.Getter;
+import main.program.entities.users.User;
+import main.program.entities.users.creators.content.Merch;
+import main.program.commands.user.OnlineUserCommand;
+
+@Getter
+public final class SeeMerch extends OnlineUserCommand {
+
+    private final StatsResult.Builder resultBuilder = new Builder(this);
+
+    public SeeMerch(final CommandInput input) {
+        super(input);
+    }
+
+    @Override
+    protected MessageResult execute(final User caller) {
+        List<String> merchNames = caller.getMerch().stream().map(Merch::getName).toList();
+        return resultBuilder.result(merchNames).build();
+    }
+}

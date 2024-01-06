@@ -4,10 +4,10 @@ import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
-import main.entities.audio.collections.Playlist;
-import main.entities.audio.files.Song;
-import main.entities.audio.queues.Queue;
-import main.entities.users.User;
+import main.program.entities.audio.collections.Playlist;
+import main.program.entities.audio.files.Song;
+import main.program.entities.audio.queues.Queue;
+import main.program.entities.users.User;
 import main.program.commands.user.OnlineUserCommand;
 
 public final class AddRemoveInPlaylist extends OnlineUserCommand {

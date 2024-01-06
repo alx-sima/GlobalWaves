@@ -4,7 +4,7 @@ import fileio.input.commands.PlaylistCreateInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
-import main.entities.users.User;
+import main.program.entities.users.User;
 import main.program.commands.user.OnlineUserCommand;
 
 public final class CreatePlaylist extends OnlineUserCommand {

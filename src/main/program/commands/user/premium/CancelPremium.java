@@ -1,0 +1,29 @@
+package main.program.commands.user.premium;
+
+import fileio.input.commands.CommandInput;
+import fileio.output.MessageResult;
+import fileio.output.MessageResult.Builder;
+import lombok.Getter;
+import main.program.entities.users.User;
+import main.program.commands.user.OnlineUserCommand;
+
+@Getter
+public final class CancelPremium extends OnlineUserCommand {
+
+    private final MessageResult.Builder resultBuilder = new Builder(this);
+
+    public CancelPremium(final CommandInput input) {
+        super(input);
+    }
+
+    @Override
+    protected MessageResult execute(final User caller) {
+        if (!caller.isPremium()) {
+            return resultBuilder.returnMessage(user + " is not a premium user.");
+        }
+
+        caller.setPremium(false);
+        caller.splitPremiumMoney(timestamp);
+        return resultBuilder.returnMessage(user + " cancelled the subscription successfully.");
+    }
+}

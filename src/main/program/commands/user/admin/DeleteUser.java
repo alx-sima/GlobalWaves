@@ -6,10 +6,10 @@ import fileio.output.MessageResult.Builder;
 import java.util.List;
 import java.util.Objects;
 import lombok.Getter;
-import main.entities.audio.collections.Playlist;
-import main.entities.audio.queues.visitors.OwnerVisitor;
-import main.entities.users.User;
-import main.entities.users.UserDatabase;
+import main.program.entities.audio.collections.Playlist;
+import main.program.entities.audio.queues.visitors.OwnerVisitor;
+import main.program.entities.users.User;
+import main.program.databases.UserDatabase;
 import main.program.commands.user.UserCommand;
 
 @Getter

@@ -4,8 +4,8 @@ import fileio.input.SongInput;
 import fileio.input.commands.AddAlbumInput;
 import fileio.output.MessageResult;
 import java.util.List;
-import main.entities.audio.collections.Album;
-import main.entities.users.creators.Artist;
+import main.program.entities.audio.collections.Album;
+import main.program.entities.users.creators.Artist;
 
 public final class AddAlbum extends ArtistCommand {
 

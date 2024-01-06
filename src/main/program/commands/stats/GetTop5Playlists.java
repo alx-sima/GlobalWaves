@@ -9,8 +9,8 @@ import fileio.output.StatsResult.Builder;
 import java.util.Comparator;
 import java.util.List;
 import lombok.Getter;
-import main.entities.audio.collections.Playlist;
-import main.program.Library;
+import main.program.entities.audio.collections.Playlist;
+import main.program.databases.Library;
 import main.program.commands.Command;
 
 @Getter

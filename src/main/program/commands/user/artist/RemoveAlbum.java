@@ -5,13 +5,13 @@ import fileio.output.MessageResult;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
-import main.entities.audio.collections.Album;
-import main.entities.audio.collections.Playlist;
-import main.entities.audio.files.Song;
-import main.entities.users.User;
-import main.entities.users.UserDatabase;
-import main.entities.users.creators.Artist;
-import main.program.Library;
+import main.program.entities.audio.collections.Album;
+import main.program.entities.audio.collections.Playlist;
+import main.program.entities.audio.files.Song;
+import main.program.entities.users.User;
+import main.program.databases.UserDatabase;
+import main.program.entities.users.creators.Artist;
+import main.program.databases.Library;
 
 public final class RemoveAlbum extends ArtistCommand {
 

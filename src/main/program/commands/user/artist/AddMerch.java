@@ -3,8 +3,8 @@ package main.program.commands.user.artist;
 import fileio.input.commands.AddMerchInput;
 import fileio.output.MessageResult;
 import java.util.List;
-import main.entities.users.creators.Artist;
-import main.entities.users.creators.content.Merch;
+import main.program.entities.users.creators.Artist;
+import main.program.entities.users.creators.content.Merch;
 
 public final class AddMerch extends ArtistCommand {
 

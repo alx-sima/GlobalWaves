@@ -9,12 +9,12 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.entities.audio.collections.Podcast;
-import main.entities.audio.files.Episode;
-import main.entities.users.User;
-import main.entities.users.creators.CreatorWrapped;
-import main.entities.users.creators.Host;
-import main.program.Library;
+import main.program.entities.audio.collections.Podcast;
+import main.program.entities.audio.files.Episode;
+import main.program.entities.users.User;
+import main.program.entities.users.interactions.wrapped.CreatorWrapped;
+import main.program.entities.users.creators.Host;
+import main.program.databases.Library;
 
 @Getter
 public final class HostWrapped implements WrappedOutput {

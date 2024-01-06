@@ -2,8 +2,8 @@ package main.program.commands.user.host;
 
 import fileio.input.commands.AddAnnouncementInput;
 import fileio.output.MessageResult;
-import main.entities.users.creators.Host;
-import main.entities.users.creators.content.Announcement;
+import main.program.entities.users.creators.Host;
+import main.program.entities.users.creators.content.Announcement;
 
 public final class AddAnnouncement extends HostCommand {
 

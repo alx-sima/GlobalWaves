@@ -2,8 +2,8 @@ package main.program.commands.user;
 
 import fileio.input.commands.CommandInput;
 import fileio.output.MessageResult;
-import main.entities.users.User;
-import main.entities.users.UserDatabase;
+import main.program.entities.users.User;
+import main.program.databases.UserDatabase;
 import main.program.commands.Command;
 
 /**

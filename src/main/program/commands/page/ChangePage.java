@@ -4,14 +4,14 @@ import fileio.input.commands.ChangePageInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
-import main.entities.audio.files.AudioFile;
-import main.entities.pages.ArtistPage;
-import main.entities.pages.HomePage;
-import main.entities.pages.HostPage;
-import main.entities.pages.LikedContentPage;
-import main.entities.pages.PageHistory;
-import main.entities.users.User;
-import main.program.InvalidOperation;
+import main.program.entities.audio.files.AudioFile;
+import main.program.entities.users.interactions.pages.ArtistPage;
+import main.program.entities.users.interactions.pages.HomePage;
+import main.program.entities.users.interactions.pages.HostPage;
+import main.program.entities.users.interactions.pages.LikedContentPage;
+import main.program.entities.users.interactions.pages.PageHistory;
+import main.program.entities.users.User;
+import main.program.exceptions.InvalidOperation;
 import main.program.commands.user.OnlineUserCommand;
 
 public final class ChangePage extends OnlineUserCommand {

@@ -6,8 +6,8 @@ import fileio.output.PodcastResult;
 import fileio.output.PodcastResult.Builder;
 import java.util.List;
 import lombok.Getter;
-import main.entities.audio.collections.Podcast;
-import main.program.Library;
+import main.program.entities.audio.collections.Podcast;
+import main.program.databases.Library;
 import main.program.commands.Command;
 
 @Getter

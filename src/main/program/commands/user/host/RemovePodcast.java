@@ -3,10 +3,10 @@ package main.program.commands.user.host;
 import fileio.input.commands.CommandInputWithName;
 import fileio.output.MessageResult;
 import java.util.Objects;
-import main.entities.audio.collections.Podcast;
-import main.entities.users.UserDatabase;
-import main.entities.users.creators.Host;
-import main.program.Library;
+import main.program.entities.audio.collections.Podcast;
+import main.program.databases.UserDatabase;
+import main.program.entities.users.creators.Host;
+import main.program.databases.Library;
 
 public final class RemovePodcast extends HostCommand {
 

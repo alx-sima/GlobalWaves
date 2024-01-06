@@ -5,9 +5,9 @@ import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import java.util.List;
 import lombok.Getter;
-import main.entities.audio.collections.Playlist;
-import main.entities.users.User;
-import main.program.Library;
+import main.program.entities.audio.collections.Playlist;
+import main.program.entities.users.User;
+import main.program.databases.Library;
 import main.program.commands.user.OnlineUserCommand;
 
 public final class SwitchVisibility extends OnlineUserCommand {

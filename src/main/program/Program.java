@@ -10,7 +10,8 @@ import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import lombok.Getter;
-import main.entities.users.UserDatabase;
+import main.program.databases.Library;
+import main.program.databases.UserDatabase;
 import main.program.commands.Command;
 import main.program.commands.stats.EndProgram;
 
@@ -19,7 +20,6 @@ import main.program.commands.stats.EndProgram;
  */
 @Getter
 public final class Program {
-
 
     /**
      * The maximum number of results to be displayed.

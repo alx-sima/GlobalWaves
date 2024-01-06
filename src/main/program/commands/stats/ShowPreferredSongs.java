@@ -6,8 +6,8 @@ import fileio.output.StatsResult;
 import fileio.output.StatsResult.Builder;
 import java.util.List;
 import lombok.Getter;
-import main.entities.audio.files.AudioFile;
-import main.entities.users.User;
+import main.program.entities.audio.files.AudioFile;
+import main.program.entities.users.User;
 import main.program.commands.Command;
 
 @Getter

@@ -4,8 +4,8 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.ResultBuilder;
 import lombok.Getter;
-import main.entities.users.User;
-import main.entities.users.UserDatabase;
+import main.program.entities.users.User;
+import main.program.databases.UserDatabase;
 
 /**
  * A command that can be executed by a user, returning a result.

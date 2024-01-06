@@ -1,6 +1,6 @@
 package main.program.commands.search;
 
-import main.entities.Searchable;
+import main.program.entities.Searchable;
 
 import java.util.List;
 

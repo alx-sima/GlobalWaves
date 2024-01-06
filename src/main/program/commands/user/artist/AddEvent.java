@@ -4,8 +4,8 @@ import fileio.input.commands.AddEventInput;
 import fileio.output.MessageResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-import main.entities.users.creators.Artist;
-import main.entities.users.creators.content.Event;
+import main.program.entities.users.creators.Artist;
+import main.program.entities.users.creators.content.Event;
 
 public final class AddEvent extends ArtistCommand {
 

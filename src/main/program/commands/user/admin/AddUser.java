@@ -5,7 +5,7 @@ import fileio.output.CommandResult;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
-import main.entities.users.UserDatabase;
+import main.program.databases.UserDatabase;
 import main.program.commands.Command;
 
 public final class AddUser extends Command {

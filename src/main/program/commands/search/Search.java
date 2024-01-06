@@ -11,12 +11,12 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.entities.Searchable;
-import main.entities.audio.collections.Playlist;
-import main.entities.users.User;
-import main.entities.users.UserDatabase;
-import main.program.Library;
-import main.program.Player;
+import main.program.entities.Searchable;
+import main.program.entities.audio.collections.Playlist;
+import main.program.entities.users.User;
+import main.program.databases.UserDatabase;
+import main.program.databases.Library;
+import main.program.entities.users.interactions.Player;
 import main.program.commands.user.OnlineUserCommand;
 
 public final class Search extends OnlineUserCommand {

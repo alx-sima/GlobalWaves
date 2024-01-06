@@ -11,12 +11,12 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.entities.audio.collections.Playlist;
-import main.entities.audio.files.Song;
-import main.entities.users.User;
-import main.entities.users.creators.Artist;
-import main.program.Library;
-import main.program.Player;
+import main.program.entities.audio.collections.Playlist;
+import main.program.entities.audio.files.Song;
+import main.program.entities.users.User;
+import main.program.entities.users.creators.Artist;
+import main.program.databases.Library;
+import main.program.entities.users.interactions.Player;
 import main.program.commands.user.OnlineUserCommand;
 
 @Getter

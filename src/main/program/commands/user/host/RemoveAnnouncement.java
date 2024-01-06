@@ -3,8 +3,8 @@ package main.program.commands.user.host;
 import fileio.input.commands.CommandInputWithName;
 import fileio.output.MessageResult;
 import java.util.List;
-import main.entities.users.creators.content.Announcement;
-import main.entities.users.creators.Host;
+import main.program.entities.users.creators.content.Announcement;
+import main.program.entities.users.creators.Host;
 
 public final class RemoveAnnouncement extends HostCommand {
 

@@ -2,8 +2,8 @@ package fileio.output;
 
 import java.util.List;
 import lombok.Getter;
-import main.entities.audio.collections.Album;
-import main.entities.audio.files.Song;
+import main.program.entities.audio.collections.Album;
+import main.program.entities.audio.files.Song;
 import main.program.commands.Command;
 
 @Getter

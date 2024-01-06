@@ -3,7 +3,7 @@ package fileio.input.commands;
 import lombok.Getter;
 import lombok.Setter;
 import main.program.commands.Command;
-import main.program.commands.user.BuyMerch;
+import main.program.commands.user.merch.BuyMerch;
 import main.program.commands.user.artist.RemoveAlbum;
 import main.program.commands.user.artist.RemoveEvent;
 import main.program.commands.user.host.RemoveAnnouncement;

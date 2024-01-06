@@ -10,9 +10,9 @@ import java.util.Comparator;
 import java.util.List;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.entities.audio.files.Song;
-import main.entities.users.UserDatabase;
-import main.entities.users.creators.Artist;
+import main.program.entities.audio.files.Song;
+import main.program.databases.UserDatabase;
+import main.program.entities.users.creators.Artist;
 import main.program.commands.Command;
 
 @Getter

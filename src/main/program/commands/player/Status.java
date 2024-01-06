@@ -5,8 +5,8 @@ import fileio.output.CommandResult;
 import fileio.output.StatusResult;
 import fileio.output.StatusResult.Builder;
 import lombok.Getter;
-import main.entities.users.User;
-import main.program.Player;
+import main.program.entities.users.User;
+import main.program.entities.users.interactions.Player;
 import main.program.commands.Command;
 
 @Getter

@@ -2,7 +2,7 @@ package fileio.output.wrapped;
 
 import java.util.Map;
 import lombok.Getter;
-import main.entities.users.User;
+import main.program.entities.users.User;
 
 @Getter
 public final class UserWrapped implements WrappedOutput {

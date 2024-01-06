@@ -7,8 +7,8 @@ import fileio.output.StatsResult.Builder;
 import java.util.List;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.entities.users.User;
-import main.entities.users.UserDatabase;
+import main.program.entities.users.User;
+import main.program.databases.UserDatabase;
 import main.program.commands.Command;
 
 @Getter

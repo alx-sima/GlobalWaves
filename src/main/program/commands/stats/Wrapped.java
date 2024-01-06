@@ -6,8 +6,8 @@ import fileio.output.WrappedResult;
 import fileio.output.WrappedResult.Builder;
 import fileio.output.wrapped.WrappedOutput;
 import lombok.Getter;
-import main.entities.users.User;
-import main.entities.users.UserDatabase;
+import main.program.entities.users.User;
+import main.program.databases.UserDatabase;
 import main.program.commands.user.UserCommand;
 
 @Getter

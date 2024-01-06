@@ -6,11 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.TreeMap;
 import lombok.Getter;
-import main.entities.audio.files.Song;
-import main.entities.users.User;
-import main.entities.users.UserDatabase;
-import main.entities.users.creators.Artist;
-import main.entities.users.creators.content.Merch;
+import main.program.entities.audio.files.Song;
+import main.program.entities.users.User;
+import main.program.databases.UserDatabase;
+import main.program.entities.users.creators.Artist;
+import main.program.entities.users.creators.content.Merch;
 
 @Getter
 public final class EndProgram {

@@ -5,9 +5,9 @@ import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import java.util.List;
 import lombok.Getter;
-import main.entities.Searchable;
-import main.entities.users.User;
-import main.program.Searchbar;
+import main.program.entities.Searchable;
+import main.program.entities.users.User;
+import main.program.entities.users.interactions.Searchbar;
 import main.program.commands.user.OnlineUserCommand;
 
 public final class Select extends OnlineUserCommand {

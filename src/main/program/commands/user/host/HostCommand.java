@@ -6,8 +6,8 @@ import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.entities.users.UserDatabase;
-import main.entities.users.creators.Host;
+import main.program.databases.UserDatabase;
+import main.program.entities.users.creators.Host;
 import main.program.commands.Command;
 
 /**

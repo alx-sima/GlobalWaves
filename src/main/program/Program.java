@@ -51,7 +51,9 @@ public final class Program {
             CommandResult output = command.execute();
             outputNodes.addPOJO(output);
         }
-        outputNodes.addPOJO(new EndProgram());
+
+        CommandInput lastCommand = commands.get(commands.size() - 1);
+        outputNodes.addPOJO(new EndProgram(lastCommand.getTimestamp()));
     }
 
     /**

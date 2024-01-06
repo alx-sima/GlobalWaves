@@ -29,9 +29,11 @@ public interface WrappedOutput {
     }
 
     /**
-     * Check if the wrapped stats are empty.
+     * Check if the wrapped stats are empty and return an error message, or *null* otherwise.
+     *
+     * @return an error message format, taking the user's name as a parameter (String).
      */
-    boolean checkEmpty();
+    String returnMessage();
 
     @Getter
     final class Pair {

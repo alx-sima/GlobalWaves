@@ -16,7 +16,11 @@ public final class HostWrapped implements WrappedOutput {
     }
 
     @Override
-    public boolean checkEmpty() {
-        return topEpisodes.isEmpty() && listeners == 0;
+    public String returnMessage() {
+        if (topEpisodes.isEmpty() && listeners == 0) {
+            return "No data to show for host %s.";
+        }
+
+        return null;
     }
 }

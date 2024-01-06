@@ -110,7 +110,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     /**
      * Increase the revenue earned by this song.
      */
-    private void addRevenue(final double revenue) {
+    public void addRevenue(final double revenue) {
         totalEarned += revenue;
     }
 

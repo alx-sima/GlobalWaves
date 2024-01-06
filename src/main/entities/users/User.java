@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import lombok.Getter;
 import lombok.Setter;
 import main.entities.audio.collections.Playlist;
@@ -22,6 +23,8 @@ import main.program.Searchbar;
  * A user of the application, with their own playlists and liked songs.
  */
 public class User {
+
+    private static final double PREMIUM_CREDIT = 1e6;
 
     @Getter
     protected final String username;
@@ -43,6 +46,11 @@ public class User {
     private Page currentPage = new HomePage(this);
     @Getter
     private boolean isOnline = true;
+    private final Map<Song, Integer> freeListenedSongs = new HashMap<>();
+    private final Map<Song, Integer> premiumListenedSongs = new HashMap<>();
+    @Getter
+    @Setter
+    private boolean isPremium = false;
 
     public User(final String username, final int age, final String city) {
         this.username = username;
@@ -154,6 +162,12 @@ public class User {
         CreatorWrapped.increment(wrapped.topArtists, song.getArtist().getName());
         CreatorWrapped.increment(wrapped.topGenres, song.getGenre());
         CreatorWrapped.increment(wrapped.topAlbums, song.getAlbum().getName());
+
+        if (isPremium) {
+            CreatorWrapped.increment(premiumListenedSongs, song);
+        } else {
+            CreatorWrapped.increment(freeListenedSongs, song);
+        }
     }
 
     /**
@@ -161,6 +175,26 @@ public class User {
      */
     public void addListen(final Episode episode) {
         CreatorWrapped.increment(wrapped.topEpisodes, episode.getName());
+    }
+
+    /**
+     * Split the premium credit to the songs listened while the subscription was active.
+     *
+     * @param timestamp when the split happens.
+     */
+    public void splitPremiumMoney(final int timestamp) {
+        player.updateTime(timestamp);
+
+        int totalSongs = premiumListenedSongs.values().stream().reduce(0, Integer::sum);
+
+        for (Entry<Song, Integer> mapEntry : premiumListenedSongs.entrySet()) {
+            Song song = mapEntry.getKey();
+            int songListens = mapEntry.getValue();
+
+            song.addRevenue(PREMIUM_CREDIT / totalSongs * songListens);
+        }
+
+        premiumListenedSongs.clear();
     }
 
     /**

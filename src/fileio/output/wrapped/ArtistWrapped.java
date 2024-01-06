@@ -29,7 +29,11 @@ public final class ArtistWrapped implements WrappedOutput {
     }
 
     @Override
-    public boolean checkEmpty() {
-        return topAlbums.isEmpty() && topSongs.isEmpty() && topFans.isEmpty();
+    public String returnMessage() {
+        if (topAlbums.isEmpty() && topSongs.isEmpty() && topFans.isEmpty()) {
+            return "No data to show for artist %s.";
+        }
+
+        return null;
     }
 }

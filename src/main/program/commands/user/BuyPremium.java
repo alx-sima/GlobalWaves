@@ -17,6 +17,11 @@ public final class BuyPremium extends OnlineUserCommand {
 
     @Override
     protected MessageResult execute(final User caller) {
-        return resultBuilder.build();
+        if (caller.isPremium()) {
+            return resultBuilder.returnMessage(user + " is already a premium user.");
+        }
+
+        caller.setPremium(true);
+        return resultBuilder.returnMessage(user + " bought the subscription successfully.");
     }
 }

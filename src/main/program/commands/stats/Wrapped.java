@@ -27,9 +27,11 @@ public final class Wrapped extends UserCommand {
         }
 
         WrappedOutput stats = target.getWrapped();
-        if (stats.checkEmpty()) {
-            return resultBuilder.returnMessage("No data to show for user " + user + ".");
+        String wrappedReturnMessage = stats.returnMessage();
+        if (wrappedReturnMessage != null) {
+            return resultBuilder.returnMessage(String.format(wrappedReturnMessage, user));
         }
+
         return resultBuilder.result(stats).build();
     }
 }

@@ -23,8 +23,12 @@ public final class UserWrapped implements WrappedOutput {
     }
 
     @Override
-    public boolean checkEmpty() {
-        return topArtists.isEmpty() && topGenres.isEmpty() && topSongs.isEmpty()
-            && topAlbums.isEmpty() && topEpisodes.isEmpty();
+    public String returnMessage() {
+        if (topArtists.isEmpty() && topGenres.isEmpty() && topSongs.isEmpty()
+            && topAlbums.isEmpty() && topEpisodes.isEmpty()) {
+            return "No data to show for user %s.";
+        }
+
+        return null;
     }
 }

@@ -69,7 +69,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
             case "lyrics" -> lyrics.toLowerCase().contains(parameter.toLowerCase());
             case "genre" -> genre.equalsIgnoreCase(parameter);
             case "releaseYear" -> compareReleaseYear(parameter);
-            case "artist" -> artist.getName().equals(parameter);
+            case "artist", "owner" -> artist.getName().equals(parameter);
             default -> false;
         };
     }

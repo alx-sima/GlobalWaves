@@ -4,15 +4,14 @@ import fileio.input.commands.ChangePageInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
+import main.program.commands.user.OnlineUserCommand;
 import main.program.entities.audio.files.AudioFile;
+import main.program.entities.users.User;
 import main.program.entities.users.interactions.pages.ArtistPage;
 import main.program.entities.users.interactions.pages.HomePage;
 import main.program.entities.users.interactions.pages.HostPage;
 import main.program.entities.users.interactions.pages.LikedContentPage;
 import main.program.entities.users.interactions.pages.PageHistory;
-import main.program.entities.users.User;
-import main.program.exceptions.InvalidOperation;
-import main.program.commands.user.OnlineUserCommand;
 
 public final class ChangePage extends OnlineUserCommand {
 
@@ -28,9 +27,8 @@ public final class ChangePage extends OnlineUserCommand {
     @Override
     public MessageResult execute(final User caller) {
         PageHistory history = caller.getPageHistory();
-        AudioFile nowPlaying = caller.getPlayer().getPlayingAt(timestamp);
 
-        try {
+
             switch (nextPage) {
                 case "Home":
                     history.changePage(new HomePage(caller));
@@ -38,19 +36,24 @@ public final class ChangePage extends OnlineUserCommand {
                 case "LikedContent":
                     history.changePage(new LikedContentPage(caller));
                     break;
-                case "Host":
-                    history.changePage(new HostPage(nowPlaying.getHost()));
-                    break;
-                case "Artist":
-                    history.changePage(new ArtistPage(nowPlaying.getArtist()));
+                case "Host", "Artist":
+                    AudioFile nowPlaying = caller.getPlayer().getPlayingAt(timestamp);
+                    if (nowPlaying == null) {
+                        return resultBuilder.returnMessage(
+                            user + " is trying to access a non-existent page.");
+                    }
+
+                    String creatorName = nowPlaying.getOwner();
+                    if (nextPage.equals("Host")) {
+                        history.changePage(new HostPage(creatorName));
+                    } else {
+                        history.changePage(new ArtistPage(creatorName));
+                    }
                     break;
                 default:
                     return resultBuilder.returnMessage(
                         user + " is trying to access a non-existent page.");
             }
-        } catch (InvalidOperation e) {
-            return resultBuilder.returnMessage(user + " is trying to access a non-existent page.");
-        }
         return resultBuilder.returnMessage(user + " accessed " + nextPage + " successfully.");
     }
 }

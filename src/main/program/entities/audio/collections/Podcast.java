@@ -24,15 +24,13 @@ public final class Podcast implements SearchableAudio {
     public Podcast(final PodcastInput input) {
         name = input.getName();
         owner = input.getOwner();
-        episodes = input.getEpisodes().stream()
-            .map(Episode::new).toList();
+        episodes = input.getEpisodes().stream().map(e -> new Episode(e, owner)).toList();
     }
 
     public Podcast(final String name, final String owner, final List<EpisodeInput> episodes) {
         this.name = name;
         this.owner = owner;
-        this.episodes = episodes.stream().map(Episode::new)
-            .toList();
+        this.episodes = episodes.stream().map(e -> new Episode(e, owner)).toList();
     }
 
     @Override

@@ -7,9 +7,9 @@ import main.program.commands.player.recommendations.UpdateRecommendations;
 
 @Getter
 @Setter
-public final class UpdateRecommendationsInput extends CommandInput{
+public final class UpdateRecommendationsInput extends CommandInput {
 
-    private  String recommendationType;
+    private String recommendationType;
 
     @Override
     public Command createCommand() {

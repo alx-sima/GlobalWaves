@@ -12,19 +12,22 @@ public final class Recommendations {
     private Playlist playlist;
 
     /**
-     * Set the `song` as recommended`.
+     * Set the song as recommended.
      */
-    public void setRecommendation(Song song) {
-        this.song = song;
-        playlist = null;
+    public boolean setRecommendation(final Song recommendation) {
+        if (song != null && song.getName().equals(recommendation.getName())) {
+            return false;
+        }
+
+        this.song = recommendation;
+        return true;
     }
 
     /**
-     * Set the `playlist` as recommended.
+     * Set the playlist as recommended.
      */
-    public void setRecommendation(Playlist playlist) {
-        this.playlist = playlist;
-        song = null;
+    public void setRecommendation(final Playlist recommendation) {
+        this.playlist = recommendation;
     }
 
     /**

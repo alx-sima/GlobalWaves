@@ -4,10 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import main.program.entities.users.User;
-import main.program.entities.users.creators.Artist;
 import main.program.entities.users.interactions.wrapped.CreatorWrapped;
-import main.program.entities.users.creators.Host;
-import main.program.exceptions.InvalidOperation;
 
 /**
  * An audio file, which can be part of a play queue.
@@ -24,14 +21,6 @@ public abstract class AudioFile {
         this.name = name;
         this.duration = duration;
         this.owner = owner;
-    }
-
-    public  Host getHost() throws InvalidOperation {
-        throw new InvalidOperation();
-    }
-
-    public Artist getArtist() throws InvalidOperation {
-        throw new InvalidOperation();
     }
 
     /**

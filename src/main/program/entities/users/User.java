@@ -8,23 +8,24 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.stream.Stream;
 import lombok.Getter;
 import lombok.Setter;
+import main.program.databases.Library;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Episode;
 import main.program.entities.audio.files.Song;
-import main.program.entities.users.interactions.wrapped.WrappedStats;
-import main.program.entities.users.interactions.pages.HomePage;
-import main.program.entities.users.interactions.pages.Page;
-import main.program.entities.users.interactions.pages.PageHistory;
-import main.program.entities.users.interactions.wrapped.CreatorWrapped;
 import main.program.entities.users.creators.content.Merch;
-import main.program.databases.Library;
 import main.program.entities.users.interactions.Player;
 import main.program.entities.users.interactions.Recommendations;
 import main.program.entities.users.interactions.Searchbar;
 import main.program.entities.users.interactions.notifications.Notification;
 import main.program.entities.users.interactions.notifications.Subscriber;
+import main.program.entities.users.interactions.pages.HomePage;
+import main.program.entities.users.interactions.pages.Page;
+import main.program.entities.users.interactions.pages.PageHistory;
+import main.program.entities.users.interactions.wrapped.CreatorWrapped;
+import main.program.entities.users.interactions.wrapped.WrappedStats;
 
 /**
  * A user of the application, with their own playlists and liked songs.
@@ -265,6 +266,26 @@ public class User implements Subscriber {
     @Override
     public final void update(final Notification notification) {
         notifications.add(notification);
+    }
+
+    /**
+     * Get the user's top genres.
+     *
+     * @return a stream of the names of the top genres.
+     */
+    public Stream<String> getTopGenres() {
+        Stream<Song> liked = likedSongs.stream();
+        Stream<Song> playlistSongs = playlists.stream().flatMap(p -> p.getSongs().stream());
+        Stream<Song> followedPlaylistSongs = followedPlaylists.stream()
+            .flatMap(p -> p.getSongs().stream());
+
+        Map<String, Integer> topGenres = new HashMap<>();
+        Stream.concat(Stream.concat(liked, playlistSongs), followedPlaylistSongs).forEach(
+            song -> topGenres.merge(song.getGenre(), 1, Integer::sum)
+        );
+
+        return topGenres.entrySet().stream().sorted(Entry.<String, Integer>comparingByValue()
+            .reversed()).map(Entry::getKey);
     }
 
     @Getter

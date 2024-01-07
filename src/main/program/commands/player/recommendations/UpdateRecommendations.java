@@ -5,35 +5,34 @@ import static main.program.Program.MAX_RESULTS;
 import fileio.input.commands.UpdateRecommendationsInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
+import java.util.ArrayList;
 import java.util.Comparator;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Stream;
 import lombok.Getter;
+import main.program.commands.user.OnlineUserCommand;
+import main.program.databases.Library;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Song;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.Artist;
-import main.program.databases.Library;
 import main.program.entities.users.interactions.Player;
-import main.program.commands.user.OnlineUserCommand;
 
 @Getter
 public final class UpdateRecommendations extends OnlineUserCommand {
 
     private static final int MINIMUM_LISTEN_TIME = 30;
+    private static final int[] SONGS_FROM_TOP_GENRES = {5, 3, 2};
+
     private final Builder resultBuilder = new Builder(this);
     private final String recommendationType;
 
     public UpdateRecommendations(final UpdateRecommendationsInput input) {
         super(input);
         recommendationType = input.getRecommendationType();
-    }
-
-    private static Stream<Song> getTopSongs(final User user) {
-        return user.getLikedSongs().stream()
-            .sorted(Comparator.comparingInt(Song::getLikes).reversed()).limit(MAX_RESULTS);
     }
 
     private boolean getRandomSong(final User user) {
@@ -56,17 +55,38 @@ public final class UpdateRecommendations extends OnlineUserCommand {
             .toList();
 
         int songIndex = new Random(listenTime).nextInt(0, songs.size());
-        user.getRecommendations().setRecommendation(songs.get(songIndex));
-        return true;
+        return user.getRecommendations().setRecommendation(songs.get(songIndex));
     }
 
     private boolean getRandomPlaylist(final User user) {
-        return false;
+        Iterator<String> genresIter = user.getTopGenres().limit(SONGS_FROM_TOP_GENRES.length)
+            .iterator();
+
+        List<Song> recommendedSongs = new ArrayList<>();
+
+        for (int songsFromTopGenre : SONGS_FROM_TOP_GENRES) {
+            if (!genresIter.hasNext()) {
+                break;
+            }
+
+            String genre = genresIter.next();
+            Stream<Song> songs = Library.getInstance().getSongs().stream()
+                .filter(song -> song.getGenre().equals(genre))
+                .sorted(Comparator.comparingInt(Song::getLikes).reversed());
+            recommendedSongs.addAll(songs.limit(songsFromTopGenre).toList());
+        }
+
+        user.getRecommendations().setRecommendation(
+            new Playlist(user + "'s recommendations", user, timestamp, recommendedSongs));
+        return true;
     }
 
     private boolean getFanPlaylist(final User user) {
         Player player = user.getPlayer();
         Song nowPlaying = (Song) player.getPlayingAt(timestamp);
+        if (nowPlaying == null) {
+            return false;
+        }
         Artist artist = nowPlaying.getArtist();
 
         List<User> fans = artist.getListeners().entrySet().stream().sorted(

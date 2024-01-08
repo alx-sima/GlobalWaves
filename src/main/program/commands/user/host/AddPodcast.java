@@ -2,11 +2,10 @@ package main.program.commands.user.host;
 
 import fileio.input.EpisodeInput;
 import fileio.input.commands.AddPodcastInput;
-import fileio.output.MessageResult;
 import java.util.List;
+import main.program.databases.Library;
 import main.program.entities.audio.collections.Podcast;
 import main.program.entities.users.creators.Host;
-import main.program.databases.Library;
 
 public final class AddPodcast extends HostCommand {
 
@@ -20,21 +19,19 @@ public final class AddPodcast extends HostCommand {
     }
 
     @Override
-    protected MessageResult execute(final Host host) {
+    protected String returnExecutionMessage(final Host host) {
         List<Podcast> podcasts = Library.getInstance().getPodcasts();
 
         if (podcasts.stream().anyMatch(podcast -> podcast.getName().equals(name))) {
-            return getResultBuilder().returnMessage(
-                user + " has another podcast with the same name.");
+            return user + " has another podcast with the same name.";
         }
 
         // Check for duplicate song names.
         if (episodes.stream().map(EpisodeInput::getName).distinct().count() != episodes.size()) {
-            return getResultBuilder().returnMessage(
-                user + " has the same song at least twice in this album.");
+            return user + " has the same song at least twice in this album.";
         }
 
         podcasts.add(new Podcast(name, user, episodes));
-        return getResultBuilder().returnMessage(user + " has added new podcast successfully.");
+        return user + " has added new podcast successfully.";
     }
 }

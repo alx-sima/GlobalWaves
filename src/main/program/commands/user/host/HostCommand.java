@@ -1,22 +1,17 @@
 package main.program.commands.user.host;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
 import java.util.stream.Stream;
 import lombok.Getter;
+import main.program.commands.DefaultOutputCommand;
 import main.program.databases.UserDatabase;
 import main.program.entities.users.creators.Host;
-import main.program.commands.Command;
 
 /**
  * A command that can be executed only by hosts.
  */
 @Getter
-public abstract class HostCommand extends Command {
-
-    protected final MessageResult.Builder resultBuilder = new Builder(this);
+public abstract class HostCommand extends DefaultOutputCommand {
 
     protected HostCommand(final CommandInput input) {
         super(input);
@@ -28,17 +23,17 @@ public abstract class HostCommand extends Command {
     }
 
     @Override
-    public final CommandResult execute() {
+    public final String returnExecutionMessage() {
         if (!UserDatabase.getInstance().existsUser(user)) {
-            return resultBuilder.returnMessage("The username " + user + " doesn't exist.");
+            return "The username " + user + " doesn't exist.";
         }
 
         Host caller = getHost();
         if (caller == null) {
-            return resultBuilder.returnMessage(user + " is not a host.");
+            return user + " is not a host.";
         }
 
-        return execute(caller);
+        return returnExecutionMessage(caller);
     }
 
     /**
@@ -47,5 +42,5 @@ public abstract class HostCommand extends Command {
      * @param host the host that called the command.
      * @return the result of the command.
      */
-    protected abstract MessageResult execute(Host host);
+    protected abstract String returnExecutionMessage(Host host);
 }

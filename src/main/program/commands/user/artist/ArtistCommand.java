@@ -1,21 +1,17 @@
 package main.program.commands.user.artist;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
 import java.util.stream.Stream;
 import lombok.Getter;
+import main.program.commands.DefaultOutputCommand;
 import main.program.databases.UserDatabase;
 import main.program.entities.users.creators.Artist;
-import main.program.commands.Command;
 
 /**
  * A command that can be executed only by artists.
  */
 @Getter
-public abstract class ArtistCommand extends Command {
-
-    private final MessageResult.Builder resultBuilder = new Builder(this);
+public abstract class ArtistCommand extends DefaultOutputCommand {
 
     protected ArtistCommand(final CommandInput input) {
         super(input);
@@ -27,17 +23,17 @@ public abstract class ArtistCommand extends Command {
     }
 
     @Override
-    public final MessageResult execute() {
+    protected final String returnExecutionMessage() {
         if (!UserDatabase.getInstance().existsUser(user)) {
-            return getResultBuilder().returnMessage("The username " + user + " doesn't exist.");
+            return "The username " + user + " doesn't exist.";
         }
 
         Artist caller = getArtist();
         if (caller == null) {
-            return getResultBuilder().returnMessage(user + " is not an artist.");
+            return user + " is not an artist.";
         }
 
-        return execute(caller);
+        return returnExecutionMessage(caller);
     }
 
     /**
@@ -46,5 +42,5 @@ public abstract class ArtistCommand extends Command {
      * @param artist the artist that called the command.
      * @return the result of the command.
      */
-    protected abstract MessageResult execute(Artist artist);
+    protected abstract String returnExecutionMessage(Artist artist);
 }

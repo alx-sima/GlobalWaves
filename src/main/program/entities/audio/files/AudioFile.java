@@ -29,7 +29,7 @@ public abstract class AudioFile {
      * @param listener the user that listened the file.
      */
     public void addListen(final User listener) {
-        CreatorWrapped.increment(listeners, listener);
+        listeners.merge(listener, 1, Integer::sum);
     }
 
     /**

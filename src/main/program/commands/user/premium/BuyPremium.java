@@ -22,7 +22,9 @@ public final class BuyPremium extends OnlineUserCommand {
             return resultBuilder.returnMessage(user + " is already a premium user.");
         }
 
+        caller.getPlayer().updateTime(timestamp);
         caller.setPremium(true);
+
         return resultBuilder.returnMessage(user + " bought the subscription successfully.");
     }
 }

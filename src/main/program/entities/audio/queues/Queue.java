@@ -51,7 +51,7 @@ public abstract class Queue {
         // Skip the files that ended in the meantime.
         while (playTime >= currentlyPlaying.getDuration()) {
             playTime -= currentlyPlaying.getDuration();
-            currentlyPlaying = getdwm();
+            currentlyPlaying = getNextSongOrAd();
 
             // Check if queue ended.
             if (currentlyPlaying == null) {
@@ -107,7 +107,7 @@ public abstract class Queue {
 
     protected abstract AudioFile getFilePlaying();
 
-    private AudioFile getdwm() {
+    private AudioFile getNextSongOrAd() {
         if (nextAdPrice != null) {
             user.splitAdMoney(nextAdPrice);
             nextAdPrice = null;
@@ -142,7 +142,7 @@ public abstract class Queue {
      * @return the next file, or null if the queue has ended.
      */
     public AudioFile next() {
-        AudioFile nextFile = getdwm();
+        AudioFile nextFile = getNextSongOrAd();
         currentlyPlaying = nextFile;
         playTime = 0;
 

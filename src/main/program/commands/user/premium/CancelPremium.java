@@ -22,8 +22,10 @@ public final class CancelPremium extends OnlineUserCommand {
             return resultBuilder.returnMessage(user + " is not a premium user.");
         }
 
+        caller.getPlayer().updateTime(timestamp);
         caller.setPremium(false);
-        caller.splitPremiumMoney(timestamp);
+
+        caller.splitPremiumMoney();
         return resultBuilder.returnMessage(user + " cancelled the subscription successfully.");
     }
 }

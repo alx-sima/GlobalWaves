@@ -53,11 +53,13 @@ public class User implements Subscriber {
     private final Wrapped wrapped = new Wrapped();
     @Getter
     private boolean isOnline = true;
+
     private final Map<Song, Integer> freeListenedSongs = new HashMap<>();
     private final Map<Song, Integer> premiumListenedSongs = new HashMap<>();
     @Getter
     @Setter
     private boolean isPremium = false;
+
     private final List<Notification> notifications = new ArrayList<>();
 
     @Getter
@@ -184,9 +186,9 @@ public class User implements Subscriber {
         CreatorWrapped.increment(wrapped.topAlbums, song.getAlbum().getName());
 
         if (isPremium) {
-            CreatorWrapped.increment(premiumListenedSongs, song);
+            premiumListenedSongs.merge(song, 1, Integer::sum);
         } else {
-            CreatorWrapped.increment(freeListenedSongs, song);
+            freeListenedSongs.merge(song, 1, Integer::sum);
         }
     }
 
@@ -207,13 +209,14 @@ public class User implements Subscriber {
     }
 
     private void splitMoney(final Map<Song, Integer> songs, final double value) {
-        int totalSongs = songs.values().stream().reduce(0, Integer::sum);
+        int totalListens = songs.values().stream().reduce(0, Integer::sum);
+        double listenValue = value / totalListens;
 
         for (Entry<Song, Integer> mapEntry : songs.entrySet()) {
             Song song = mapEntry.getKey();
             int songListens = mapEntry.getValue();
 
-            song.addRevenue(value / totalSongs * songListens);
+            song.addRevenue(listenValue * songListens);
         }
 
         songs.clear();
@@ -221,11 +224,8 @@ public class User implements Subscriber {
 
     /**
      * Split the premium credit to the songs listened while the subscription was active.
-     *
-     * @param timestamp when the split happens.
      */
-    public void splitPremiumMoney(final int timestamp) {
-        player.updateTime(timestamp);
+    public void splitPremiumMoney() {
         splitMoney(premiumListenedSongs, PREMIUM_CREDIT);
     }
 

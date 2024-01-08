@@ -46,6 +46,11 @@ public final class Artist extends Creator {
         return albums.stream().flatMap(album -> album.getSongs().stream());
     }
 
+    public double getTotalRevenue() {
+        return merch.stream().map(Merch::getTotalEarned).reduce(0.0d, Double::sum)
+            + getAllSongs().map(Song::getTotalEarned).reduce(0.0d, Double::sum);
+    }
+
     /**
      * Add a new album to the artist.
      *

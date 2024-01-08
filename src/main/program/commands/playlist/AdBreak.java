@@ -6,6 +6,7 @@ import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.program.entities.users.User;
 import main.program.commands.user.OnlineUserCommand;
+import main.program.entities.users.interactions.Player;
 
 @Getter
 public final class AdBreak extends OnlineUserCommand {
@@ -21,11 +22,13 @@ public final class AdBreak extends OnlineUserCommand {
 
     @Override
     protected MessageResult execute(final User caller) {
-        if (caller.getPlayer().getPlayingAt(timestamp) == null) {
+        Player player = caller.getPlayer();
+
+        if (player.getPlayingAt(timestamp) == null) {
             return resultBuilder.returnMessage(user + " is not playing any music.");
         }
 
-        caller.getPlayer().getQueue().pushAd(price);
+        player.getQueue().pushAd(price);
         return resultBuilder.returnMessage("Ad inserted successfully.");
     }
 }

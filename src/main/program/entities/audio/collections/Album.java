@@ -40,6 +40,13 @@ public final class Album implements SearchableAudio, SongSource {
             .toList();
     }
 
+    /**
+     * Get the total number of likes this album has.
+     */
+    public int getLikes() {
+        return songs.stream().map(Song::getLikes).reduce(0, Integer::sum);
+    }
+
     @Override
     public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {

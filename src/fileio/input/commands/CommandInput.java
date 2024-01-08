@@ -24,21 +24,18 @@ import main.program.commands.playlist.Like;
 import main.program.commands.playlist.ShowPlaylists;
 import main.program.commands.stats.GetAllUsers;
 import main.program.commands.stats.GetOnlineUsers;
-import main.program.commands.stats.GetTop5Albums;
-import main.program.commands.stats.GetTop5Artists;
-import main.program.commands.stats.GetTop5Playlists;
-import main.program.commands.stats.GetTop5Songs;
+import main.program.commands.stats.GetTop;
 import main.program.commands.stats.ShowPreferredSongs;
 import main.program.commands.stats.Wrapped;
-import main.program.commands.user.premium.BuyPremium;
-import main.program.commands.user.premium.CancelPremium;
-import main.program.commands.user.notifications.GetNotifications;
-import main.program.commands.user.merch.SeeMerch;
-import main.program.commands.user.notifications.Subscribe;
 import main.program.commands.user.SwitchConnectionStatus;
 import main.program.commands.user.admin.DeleteUser;
 import main.program.commands.user.admin.ShowAlbums;
 import main.program.commands.user.admin.ShowPodcasts;
+import main.program.commands.user.merch.SeeMerch;
+import main.program.commands.user.notifications.GetNotifications;
+import main.program.commands.user.notifications.Subscribe;
+import main.program.commands.user.premium.BuyPremium;
+import main.program.commands.user.premium.CancelPremium;
 
 @Getter
 @Setter
@@ -90,10 +87,8 @@ public class CommandInput {
             case "showPlaylists" -> new ShowPlaylists(this);
             case "getAllUsers" -> new GetAllUsers(this);
             case "getOnlineUsers" -> new GetOnlineUsers(this);
-            case "getTop5Albums" -> new GetTop5Albums(this);
-            case "getTop5Artists" -> new GetTop5Artists(this);
-            case "getTop5Playlists" -> new GetTop5Playlists(this);
-            case "getTop5Songs" -> new GetTop5Songs(this);
+            case "getTop5Albums", "getTop5Artists", "getTop5Playlists", "getTop5Songs" ->
+                new GetTop(this);
             case "showPreferredSongs" -> new ShowPreferredSongs(this);
             case "wrapped" -> new Wrapped(this);
             case "deleteUser" -> new DeleteUser(this);

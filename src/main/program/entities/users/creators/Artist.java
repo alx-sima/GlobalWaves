@@ -46,6 +46,13 @@ public final class Artist extends Creator {
         return albums.stream().flatMap(album -> album.getSongs().stream());
     }
 
+    /**
+     * Get the total number of likes this artist has.
+     */
+    public int getLikes() {
+        return albums.stream().map(Album::getLikes).reduce(0, Integer::sum);
+    }
+
     public double getTotalRevenue() {
         return merch.stream().map(Merch::getTotalEarned).reduce(0.0d, Double::sum)
             + getAllSongs().map(Song::getTotalEarned).reduce(0.0d, Double::sum);
@@ -85,7 +92,6 @@ public final class Artist extends Creator {
             new Notification("New Merchandise", "New Merchandise from " + username + "."));
     }
 
-
     @Override
     public ArtistWrapped getWrapped() {
         return new ArtistWrapped(this);
@@ -124,6 +130,7 @@ public final class Artist extends Creator {
         }
         return fans;
     }
+
 
     @Getter
     public static final class Stats {

@@ -7,7 +7,7 @@ import fileio.output.MessageResult.Builder;
 import lombok.Getter;
 import main.program.commands.Command;
 import main.program.commands.exceptions.InvalidOperation;
-import main.program.commands.requirements.ExistsUser;
+import main.program.commands.requirements.RequireUserExists;
 import main.program.entities.users.User;
 import main.program.databases.UserDatabase;
 
@@ -22,7 +22,7 @@ public final class SwitchConnectionStatus extends Command {
 
     @Override
     protected CommandResult execute() throws InvalidOperation {
-        User target = new ExistsUser(user).check();
+        User target = new RequireUserExists(user).check();
 
         if (!UserDatabase.getInstance().getUsers().contains(target)) {
             return resultBuilder.returnMessage(user + " is not a normal user.");

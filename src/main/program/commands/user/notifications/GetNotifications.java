@@ -5,10 +5,9 @@ import fileio.output.MessageResult;
 import fileio.output.ResultBuilder;
 import java.util.List;
 import lombok.Getter;
+import main.program.commands.Command;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
-import main.program.entities.users.User;
-import main.program.commands.Command;
 import main.program.entities.users.interactions.notifications.Notification;
 
 @Getter

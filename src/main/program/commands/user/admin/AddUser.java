@@ -1,10 +1,10 @@
 package main.program.commands.user.admin;
 
 import fileio.input.commands.AddUserInput;
-import main.program.commands.DefaultOutputCommand;
+import main.program.commands.NoOutputCommand;
 import main.program.databases.UserDatabase;
 
-public final class AddUser extends DefaultOutputCommand {
+public final class AddUser extends NoOutputCommand {
 
     private final String type;
     private final int age;
@@ -18,7 +18,7 @@ public final class AddUser extends DefaultOutputCommand {
     }
 
     @Override
-    public String returnExecutionMessage() {
+    public String executeNoOutput() {
         UserDatabase database = UserDatabase.getInstance();
 
         if (database.existsUser(user)) {

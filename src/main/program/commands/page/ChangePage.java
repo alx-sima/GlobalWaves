@@ -1,10 +1,7 @@
 package main.program.commands.page;
 
 import fileio.input.commands.ChangePageInput;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
-import lombok.Getter;
-import main.program.commands.Command;
+import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.files.AudioFile;
@@ -15,10 +12,8 @@ import main.program.entities.users.interactions.pages.HostPage;
 import main.program.entities.users.interactions.pages.LikedContentPage;
 import main.program.entities.users.interactions.pages.PageHistory;
 
-public final class ChangePage extends Command {
+public final class ChangePage extends NoOutputCommand {
 
-    @Getter
-    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final String nextPage;
 
     public ChangePage(final ChangePageInput input) {
@@ -27,7 +22,7 @@ public final class ChangePage extends Command {
     }
 
     @Override
-    public MessageResult execute() throws InvalidOperation {
+    public String executeNoOutput() throws InvalidOperation {
         User caller = new RequireUserOnline(user).check();
         PageHistory history = caller.getPageHistory();
 
@@ -41,8 +36,7 @@ public final class ChangePage extends Command {
                 case "Host", "Artist":
                     AudioFile nowPlaying = caller.getPlayer().getPlayingAt(timestamp);
                     if (nowPlaying == null) {
-                        return resultBuilder.returnMessage(
-                            user + " is trying to access a non-existent page.");
+                        return user + " is trying to access a non-existent page.";
                     }
 
                     String creatorName = nowPlaying.getOwner();
@@ -53,9 +47,8 @@ public final class ChangePage extends Command {
                     }
                     break;
                 default:
-                    return resultBuilder.returnMessage(
-                        user + " is trying to access a non-existent page.");
+                    return user + " is trying to access a non-existent page.";
             }
-        return resultBuilder.returnMessage(user + " accessed " + nextPage + " successfully.");
+        return user + " accessed " + nextPage + " successfully.";
     }
 }

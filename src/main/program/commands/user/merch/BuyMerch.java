@@ -1,19 +1,14 @@
 package main.program.commands.user.merch;
 
 import fileio.input.commands.CommandInputWithName;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
-import lombok.Getter;
-import main.program.commands.Command;
+import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.Creator;
 
-@Getter
-public final class BuyMerch extends Command {
+public final class BuyMerch extends NoOutputCommand {
 
-    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final String name;
 
     public BuyMerch(final CommandInputWithName input) {
@@ -22,18 +17,18 @@ public final class BuyMerch extends Command {
     }
 
     @Override
-    protected MessageResult execute() throws InvalidOperation {
+    protected String executeNoOutput() throws InvalidOperation {
         User caller = new RequireUserOnline(user).check();
         Creator watchedCreator = caller.getCurrentPage().getPageOwner();
         try {
             if (!watchedCreator.buyMerch(caller, name)) {
-                return resultBuilder.returnMessage("The merch " + name + " doesn't exist.");
+                return "The merch " + name + " doesn't exist.";
             }
 
-            return resultBuilder.returnMessage(user + " has added new merch successfully.");
+            return user + " has added new merch successfully.";
 
         } catch (Exception e) {
-            return resultBuilder.returnMessage("Cannot buy merch from this page.");
+            return "Cannot buy merch from this page.";
         }
     }
 }

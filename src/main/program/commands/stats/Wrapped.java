@@ -8,7 +8,7 @@ import fileio.output.wrapped.WrappedOutput;
 import lombok.Getter;
 import main.program.commands.Command;
 import main.program.commands.exceptions.InvalidOperation;
-import main.program.commands.requirements.ExistsUser;
+import main.program.commands.requirements.RequireUserExists;
 import main.program.databases.UserDatabase;
 import main.program.entities.users.User;
 
@@ -23,7 +23,7 @@ public final class Wrapped extends Command {
 
     @Override
     protected CommandResult execute() throws InvalidOperation {
-        User target = new ExistsUser(user).check();
+        User target = new RequireUserExists(user).check();
 
         // Update everyone's player in case they affect the target's wrapped.
         for (User u : UserDatabase.getInstance().getUsers()) {

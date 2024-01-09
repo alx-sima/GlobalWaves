@@ -3,7 +3,7 @@ package main.program.commands.user.artist;
 import fileio.input.commands.CommandInput;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.program.commands.DefaultOutputCommand;
+import main.program.commands.NoOutputCommand;
 import main.program.databases.UserDatabase;
 import main.program.entities.users.creators.Artist;
 
@@ -11,7 +11,7 @@ import main.program.entities.users.creators.Artist;
  * A command that can be executed only by artists.
  */
 @Getter
-public abstract class ArtistCommand extends DefaultOutputCommand {
+public abstract class ArtistCommand extends NoOutputCommand {
 
     protected ArtistCommand(final CommandInput input) {
         super(input);
@@ -23,7 +23,7 @@ public abstract class ArtistCommand extends DefaultOutputCommand {
     }
 
     @Override
-    protected final String returnExecutionMessage() {
+    protected final String executeNoOutput() {
         if (!UserDatabase.getInstance().existsUser(user)) {
             return "The username " + user + " doesn't exist.";
         }

@@ -5,9 +5,11 @@ import main.program.commands.exceptions.InvalidOperation;
 public interface Requirement<T> {
 
     /**
-     * Check the requirement. If satisfied, set the required target, else set an error message.
+     * Check the requirement. If satisfied, return the required target, else throw an error.
      *
+     * @throws InvalidOperation if the requirement is not satisfied. The error message contains the
+     * reason.
      * @return whether the requirement is satisfied.
      */
-    public abstract T check() throws InvalidOperation;
+    T check() throws InvalidOperation;
 }

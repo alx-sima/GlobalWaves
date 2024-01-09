@@ -4,11 +4,11 @@ import main.program.commands.exceptions.InvalidOperation;
 import main.program.databases.UserDatabase;
 import main.program.entities.users.User;
 
-public final class ExistsUser implements Requirement<User> {
+public final class RequireUserExists implements Requirement<User> {
 
     private final String username;
 
-    public ExistsUser(final String username) {
+    public RequireUserExists(final String username) {
         this.username = username;
     }
 

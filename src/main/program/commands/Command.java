@@ -47,8 +47,8 @@ public abstract class Command {
     public final CommandResult run() {
         try {
             return execute();
-        } catch (InvalidOperation exception) {
-            return getResultBuilder().returnMessage(exception.getMessage());
+        } catch (InvalidOperation e) {
+            return getResultBuilder().returnMessage(e.getMessage());
         }
     }
 

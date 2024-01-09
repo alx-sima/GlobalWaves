@@ -13,7 +13,6 @@ import main.program.commands.Command;
 @Getter
 public final class ShowAlbums extends Command {
 
-
     private final AlbumResult.Builder resultBuilder = new Builder(this);
 
     public ShowAlbums(final CommandInput input) {

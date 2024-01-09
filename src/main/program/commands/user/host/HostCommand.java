@@ -3,7 +3,7 @@ package main.program.commands.user.host;
 import fileio.input.commands.CommandInput;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.program.commands.DefaultOutputCommand;
+import main.program.commands.NoOutputCommand;
 import main.program.databases.UserDatabase;
 import main.program.entities.users.creators.Host;
 
@@ -11,7 +11,7 @@ import main.program.entities.users.creators.Host;
  * A command that can be executed only by hosts.
  */
 @Getter
-public abstract class HostCommand extends DefaultOutputCommand {
+public abstract class HostCommand extends NoOutputCommand {
 
     protected HostCommand(final CommandInput input) {
         super(input);
@@ -23,7 +23,7 @@ public abstract class HostCommand extends DefaultOutputCommand {
     }
 
     @Override
-    public final String returnExecutionMessage() {
+    public final String executeNoOutput() {
         if (!UserDatabase.getInstance().existsUser(user)) {
             return "The username " + user + " doesn't exist.";
         }

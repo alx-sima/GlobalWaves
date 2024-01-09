@@ -7,13 +7,13 @@ public final class RequireUserOnline implements Requirement<User> {
 
     private final String username;
 
-    public RequireUserOnline(String username) {
+    public RequireUserOnline(final String username) {
         this.username = username;
     }
 
     @Override
     public User check() throws InvalidOperation {
-        User target = new ExistsUser(username).check();
+        User target = new RequireUserExists(username).check();
         if (target.isOnline()) {
             return target;
         }

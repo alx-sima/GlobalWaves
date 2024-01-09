@@ -4,13 +4,15 @@ import fileio.input.commands.PlaylistOperationInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Song;
 import main.program.entities.audio.queues.Queue;
 import main.program.entities.users.User;
-import main.program.commands.user.OnlineUserCommand;
 
-public final class AddRemoveInPlaylist extends OnlineUserCommand {
+public final class AddRemoveInPlaylist extends Command {
 
     @Getter
     private final MessageResult.Builder resultBuilder = new Builder(this);
@@ -22,7 +24,8 @@ public final class AddRemoveInPlaylist extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {

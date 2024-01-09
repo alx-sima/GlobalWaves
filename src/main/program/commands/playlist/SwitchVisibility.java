@@ -5,12 +5,14 @@ import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import java.util.List;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.users.User;
 import main.program.databases.Library;
-import main.program.commands.user.OnlineUserCommand;
 
-public final class SwitchVisibility extends OnlineUserCommand {
+public final class SwitchVisibility extends Command {
 
     @Getter
     private final MessageResult.Builder resultBuilder = new Builder(this);
@@ -22,8 +24,8 @@ public final class SwitchVisibility extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
-        List<Playlist> playlists = caller.getPlaylists();
+    protected MessageResult execute() throws InvalidOperation {
+        List<Playlist> playlists = new RequireUserOnline(user).check().getPlaylists();
 
         if (playlistId > playlists.size()) {
             return resultBuilder.returnMessage("The specified playlist ID is too high.");

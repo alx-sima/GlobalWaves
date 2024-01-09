@@ -4,13 +4,15 @@ import fileio.input.commands.CommandInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.SearchableAudio;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.users.User;
-import main.program.commands.user.OnlineUserCommand;
 
 @Getter
-public final class Follow extends OnlineUserCommand {
+public final class Follow extends Command {
 
     private final MessageResult.Builder resultBuilder = new Builder(this);
 
@@ -19,7 +21,8 @@ public final class Follow extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         SearchableAudio selected = caller.getSearchbar().getSelectedAudioSource();
 
         if (selected == null) {

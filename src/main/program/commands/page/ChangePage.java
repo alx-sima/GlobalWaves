@@ -4,7 +4,9 @@ import fileio.input.commands.ChangePageInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
-import main.program.commands.user.OnlineUserCommand;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.files.AudioFile;
 import main.program.entities.users.User;
 import main.program.entities.users.interactions.pages.ArtistPage;
@@ -13,7 +15,7 @@ import main.program.entities.users.interactions.pages.HostPage;
 import main.program.entities.users.interactions.pages.LikedContentPage;
 import main.program.entities.users.interactions.pages.PageHistory;
 
-public final class ChangePage extends OnlineUserCommand {
+public final class ChangePage extends Command {
 
     @Getter
     private final MessageResult.Builder resultBuilder = new Builder(this);
@@ -25,9 +27,9 @@ public final class ChangePage extends OnlineUserCommand {
     }
 
     @Override
-    public MessageResult execute(final User caller) {
+    public MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         PageHistory history = caller.getPageHistory();
-
 
             switch (nextPage) {
                 case "Home":

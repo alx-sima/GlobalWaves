@@ -13,7 +13,9 @@ import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Stream;
 import lombok.Getter;
-import main.program.commands.user.OnlineUserCommand;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.databases.Library;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Song;
@@ -22,7 +24,7 @@ import main.program.entities.users.creators.Artist;
 import main.program.entities.users.interactions.Player;
 
 @Getter
-public final class UpdateRecommendations extends OnlineUserCommand {
+public final class UpdateRecommendations extends Command {
 
     private static final int MINIMUM_LISTEN_TIME = 30;
     private static final int[] SONGS_FROM_TOP_GENRES = {5, 3, 2};
@@ -103,7 +105,8 @@ public final class UpdateRecommendations extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         boolean commandStatus = switch (recommendationType) {
             case "random_song" -> getRandomSong(caller);
             case "random_playlist" -> getRandomPlaylist(caller);

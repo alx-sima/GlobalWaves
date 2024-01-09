@@ -6,14 +6,16 @@ import fileio.output.MessageResult.Builder;
 import java.util.List;
 import java.util.Objects;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.ExistsUser;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.queues.visitors.OwnerVisitor;
 import main.program.entities.users.User;
 import main.program.databases.UserDatabase;
-import main.program.commands.user.UserCommand;
 
 @Getter
-public final class DeleteUser extends UserCommand {
+public final class DeleteUser extends Command {
 
     private final MessageResult.Builder resultBuilder = new Builder(this);
 
@@ -61,8 +63,9 @@ public final class DeleteUser extends UserCommand {
     }
 
     @Override
-    protected MessageResult executeFor(final User target) {
+    protected MessageResult execute() throws InvalidOperation {
         UserDatabase database = UserDatabase.getInstance();
+        User target = new ExistsUser(user).check();
 
         for (User user : database.getUsers()) {
             user.getPlayer().updateTime(timestamp);

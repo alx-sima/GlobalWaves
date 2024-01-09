@@ -4,13 +4,15 @@ import fileio.input.commands.CommandInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.queues.Queue;
 import main.program.entities.users.User;
 import main.program.entities.users.interactions.Player;
-import main.program.commands.user.OnlineUserCommand;
 
 @Getter
-public final class Forward extends OnlineUserCommand {
+public final class Forward extends Command {
 
     private static final int FORWARD_TIME = 90;
     private final MessageResult.Builder resultBuilder = new Builder(this);
@@ -20,7 +22,8 @@ public final class Forward extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         Player player = caller.getPlayer();
         player.updateTime(timestamp);
         Queue queue = player.getQueue();

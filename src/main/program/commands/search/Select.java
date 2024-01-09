@@ -5,12 +5,14 @@ import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import java.util.List;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.Searchable;
 import main.program.entities.users.User;
 import main.program.entities.users.interactions.Searchbar;
-import main.program.commands.user.OnlineUserCommand;
 
-public final class Select extends OnlineUserCommand {
+public final class Select extends Command {
 
     @Getter
     private final MessageResult.Builder resultBuilder = new Builder(this);
@@ -22,7 +24,9 @@ public final class Select extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
+
         Searchbar searchbar = caller.getSearchbar();
         List<Searchable> searchResults = searchbar.getSearchResults();
         searchbar.clearSelection();

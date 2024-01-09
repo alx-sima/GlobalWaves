@@ -4,8 +4,9 @@ import fileio.input.commands.CommandInput;
 import fileio.output.CommandResult;
 import fileio.output.ResultBuilder;
 import lombok.Getter;
-import main.program.entities.users.User;
+import main.program.commands.exceptions.InvalidOperation;
 import main.program.databases.UserDatabase;
+import main.program.entities.users.User;
 
 /**
  * A command that can be executed by a user, returning a result.
@@ -13,7 +14,7 @@ import main.program.databases.UserDatabase;
 @Getter
 public abstract class Command {
 
-   protected final String command;
+    protected final String command;
     protected final String user;
     protected final int timestamp;
 
@@ -34,14 +35,28 @@ public abstract class Command {
     /**
      * Get the user that executed the command.
      */
-    protected User getCaller() {
+    protected final User getCaller() {
         return UserDatabase.getInstance().getUser(user);
     }
 
     /**
      * Execute the command.
      *
-     * @return The result of the execution.
+     * @return The result of the execution, be it valid or an error.
      */
-    public abstract CommandResult execute();
+    public final CommandResult run() {
+        try {
+            return execute();
+        } catch (InvalidOperation exception) {
+            return getResultBuilder().returnMessage(exception.getMessage());
+        }
+    }
+
+    /**
+     * Execute the command.
+     *
+     * @return The result of the execution, if valid.
+     * @throws InvalidOperation If the command cannot be executed; Contains the error message.
+     */
+    protected abstract CommandResult execute() throws InvalidOperation;
 }

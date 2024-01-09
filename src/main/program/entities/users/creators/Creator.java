@@ -3,7 +3,7 @@ package main.program.entities.users.creators;
 import lombok.Getter;
 import main.program.entities.Searchable;
 import main.program.entities.users.User;
-import main.program.exceptions.InvalidOperation;
+import main.program.commands.exceptions.InvalidOperation;
 import main.program.entities.users.interactions.notifications.Notifier;
 
 @Getter

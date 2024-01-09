@@ -4,10 +4,12 @@ import fileio.input.commands.PlaylistCreateInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.users.User;
-import main.program.commands.user.OnlineUserCommand;
 
-public final class CreatePlaylist extends OnlineUserCommand {
+public final class CreatePlaylist extends Command {
 
     @Getter
     private final MessageResult.Builder resultBuilder = new Builder(this);
@@ -19,7 +21,8 @@ public final class CreatePlaylist extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         if (caller.createPlaylist(playListName, timestamp)) {
             return resultBuilder.returnMessage("Playlist created successfully.");
         }

@@ -40,17 +40,14 @@ public final class EndProgram {
         }
     }
 
+    @Getter
     private static final class ArtistEndResult {
 
         private static final double ROUNDING_EXPONENT = 1e2;
 
-        @Getter
         private final double merchRevenue;
-        @Getter
         private final double songRevenue;
-        @Getter
         private final int ranking;
-        @Getter
         private final String mostProfitableSong;
 
         ArtistEndResult(final Artist artist, final int ranking) {

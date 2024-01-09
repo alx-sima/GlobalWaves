@@ -4,12 +4,14 @@ import fileio.input.commands.CommandInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.queues.Queue;
 import main.program.entities.users.User;
-import main.program.commands.user.OnlineUserCommand;
 
 @Getter
-public final class Backward extends OnlineUserCommand {
+public final class Backward extends Command {
 
     private static final int BACKWARD_TIME = -90;
     private final MessageResult.Builder resultBuilder = new Builder(this);
@@ -19,7 +21,8 @@ public final class Backward extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         Queue queue = caller.getPlayer().getQueue();
 
         if (queue == null) {

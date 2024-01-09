@@ -4,12 +4,14 @@ import fileio.input.commands.CommandInputWithName;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.Creator;
-import main.program.commands.user.OnlineUserCommand;
 
 @Getter
-public final class BuyMerch extends OnlineUserCommand {
+public final class BuyMerch extends Command {
 
     private final MessageResult.Builder resultBuilder = new Builder(this);
     private final String name;
@@ -20,7 +22,8 @@ public final class BuyMerch extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         Creator watchedCreator = caller.getCurrentPage().getPageOwner();
         try {
             if (!watchedCreator.buyMerch(caller, name)) {

@@ -5,13 +5,14 @@ import fileio.output.MessageResult;
 import fileio.output.ResultBuilder;
 import java.util.List;
 import lombok.Getter;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.users.User;
 import main.program.commands.Command;
-import main.program.commands.user.OnlineUserCommand;
 import main.program.entities.users.interactions.notifications.Notification;
 
 @Getter
-public final class GetNotifications extends OnlineUserCommand {
+public final class GetNotifications extends Command {
 
     private final NotificationsResult.Builder resultBuilder = new NotificationsResult.Builder(this);
 
@@ -20,9 +21,8 @@ public final class GetNotifications extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
-        List<Notification> notifications = caller.getNotifications();
-
+    protected MessageResult execute() throws InvalidOperation {
+        List<Notification> notifications = new RequireUserOnline(user).check().getNotifications();
         return resultBuilder.notifications(notifications).build();
     }
 

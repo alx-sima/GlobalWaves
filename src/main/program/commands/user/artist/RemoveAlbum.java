@@ -9,6 +9,7 @@ import main.program.databases.UserDatabase;
 import main.program.entities.audio.collections.Album;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Song;
+import main.program.entities.audio.queues.Queue;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.Artist;
 
@@ -32,8 +33,11 @@ public final class RemoveAlbum extends ArtistCommand {
             return user + " doesn't have an album with the given name.";
         }
 
-        if (users.stream().map(u -> u.getPlayer().getPlayingAt(timestamp)).filter(Objects::nonNull)
-            .anyMatch(file -> user.equals(file.getOwner()))) {
+        if (users.stream().map(u -> {
+                u.getPlayer().updateTime(timestamp);
+                return u.getPlayer().getQueue();
+            }).filter(Objects::nonNull).map(Queue::getCurrentSong).filter(Objects::nonNull)
+            .anyMatch(song -> user.equals(song.getArtist().getName()))) {
             return user + " can't delete this album.";
         }
 

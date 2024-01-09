@@ -4,14 +4,16 @@ import fileio.input.commands.ShuffleInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.queues.Queue;
 import main.program.entities.audio.queues.Shuffler;
 import main.program.entities.audio.queues.visitors.ShuffleVisitor;
 import main.program.entities.users.User;
 import main.program.entities.users.interactions.Player;
-import main.program.commands.user.OnlineUserCommand;
 
-public final class Shuffle extends OnlineUserCommand {
+public final class Shuffle extends Command {
 
     @Getter
     private final MessageResult.Builder resultBuilder = new Builder(this);
@@ -23,7 +25,8 @@ public final class Shuffle extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         Player player = caller.getPlayer();
         player.updateTime(timestamp);
         Queue queue = player.getQueue();

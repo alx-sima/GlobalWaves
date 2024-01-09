@@ -4,12 +4,14 @@ import fileio.input.commands.CommandInput;
 import fileio.output.MessageResult;
 import fileio.output.MessageResult.Builder;
 import lombok.Getter;
-import main.program.entities.users.creators.Creator;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.users.User;
-import main.program.commands.user.OnlineUserCommand;
+import main.program.entities.users.creators.Creator;
 
 @Getter
-public final class Subscribe extends OnlineUserCommand {
+public final class Subscribe extends Command {
 
     private final MessageResult.Builder resultBuilder = new Builder(this);
 
@@ -18,7 +20,8 @@ public final class Subscribe extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         Creator watchedCreator = caller.getCurrentPage().getPageOwner();
         if (watchedCreator == null) {
             return resultBuilder.returnMessage(

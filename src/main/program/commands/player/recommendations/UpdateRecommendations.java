@@ -61,6 +61,10 @@ public final class UpdateRecommendations extends OnlineUserCommand {
     private boolean getRandomPlaylist(final User user) {
         Iterator<String> genresIter = user.getTopGenres().limit(SONGS_FROM_TOP_GENRES.length)
             .iterator();
+        // The user doesn't have any suggested genres, so we can't recommend anything.
+        if (!genresIter.hasNext()) {
+            return false;
+        }
 
         List<Song> recommendedSongs = new ArrayList<>();
 
@@ -115,6 +119,6 @@ public final class UpdateRecommendations extends OnlineUserCommand {
             return resultBuilder.returnMessage(
                 "The recommendations for user " + user + " have been updated successfully.");
         }
-        return resultBuilder.returnMessage("No new recommendations were found.");
+        return resultBuilder.returnMessage("No new recommendations were found");
     }
 }

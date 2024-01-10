@@ -5,13 +5,14 @@ import fileio.output.MessageResult;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
+import main.program.databases.Library;
+import main.program.databases.UserDatabase;
 import main.program.entities.audio.collections.Album;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Song;
+import main.program.entities.audio.queues.Queue;
 import main.program.entities.users.User;
-import main.program.databases.UserDatabase;
 import main.program.entities.users.creators.Artist;
-import main.program.databases.Library;
 
 public final class RemoveAlbum extends ArtistCommand {
 
@@ -34,7 +35,10 @@ public final class RemoveAlbum extends ArtistCommand {
                 user + " doesn't have an album with the given name.");
         }
 
-        if (users.stream().map(u -> u.getPlayer().getPlayingAt(timestamp)).filter(Objects::nonNull)
+        if (users.stream().map(u -> {
+                u.getPlayer().updateTime(timestamp);
+                return u.getPlayer().getQueue();
+            }).filter(Objects::nonNull).map(Queue::getCurrentSong).filter(Objects::nonNull)
             .anyMatch(file -> user.equals(file.getOwner()))) {
             return getResultBuilder().returnMessage(user + " can't delete this album.");
         }

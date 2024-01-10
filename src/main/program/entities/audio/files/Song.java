@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Map;
 import lombok.Getter;
 import lombok.Setter;
+import main.program.commands.search.SearchFilter;
 import main.program.entities.audio.SearchableAudio;
 import main.program.entities.audio.collections.Album;
 import main.program.entities.audio.collections.SongSource;
@@ -61,10 +62,10 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
     @Override
     public boolean matchFilter(final String filter, final String parameter) {
         return switch (filter) {
-            case "name" -> getName().toLowerCase().startsWith(parameter.toLowerCase());
+            case "name" -> SearchFilter.isPrefixCaseInsensitive(name, parameter);
             case "album" -> album.getName().equals(parameter);
             case "tags" -> tags.contains(parameter);
-            case "lyrics" -> lyrics.toLowerCase().contains(parameter.toLowerCase());
+            case "lyrics" -> SearchFilter.isPrefixCaseInsensitive(lyrics, parameter);
             case "genre" -> genre.equalsIgnoreCase(parameter);
             case "releaseYear" -> compareReleaseYear(parameter);
             case "artist", "owner" -> artist.getName().equals(parameter);

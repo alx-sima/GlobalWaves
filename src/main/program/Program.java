@@ -48,7 +48,7 @@ public final class Program {
                 System.exit(-1);
             }
 
-            CommandResult output = command.execute();
+            CommandResult output = command.run();
             outputNodes.addPOJO(output);
         }
 

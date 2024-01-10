@@ -1,7 +1,6 @@
 package main.program.commands.user.artist;
 
 import fileio.input.commands.AddEventInput;
-import fileio.output.MessageResult;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import main.program.entities.users.creators.Artist;
@@ -30,7 +29,7 @@ public final class AddEvent extends ArtistCommand {
     /**
      * Checks if the given date is valid.
      */
-    private boolean isValidDate(final int day, final int month, final int year) {
+    private static boolean isValidDate(final int day, final int month, final int year) {
         if (day < 1 || day > DAYS_IN_MONTH) {
             return false;
         }
@@ -45,7 +44,7 @@ public final class AddEvent extends ArtistCommand {
      *
      * @param dateFormat a string possibly representing a date.
      */
-    private boolean isValidDateFormat(final String dateFormat) {
+    private static boolean isValidDateFormat(final String dateFormat) {
         Matcher matcher = DATE_PATTERN.matcher(dateFormat);
         if (!matcher.matches()) {
             return false;
@@ -62,14 +61,12 @@ public final class AddEvent extends ArtistCommand {
     }
 
     @Override
-    protected MessageResult execute(final Artist artist) {
+    protected String returnExecutionMessage(final Artist artist) {
         if (!isValidDateFormat(date)) {
-            return getResultBuilder().returnMessage(
-                "Event for " + user + " does not have a valid date.");
+            return "Event for " + user + " does not have a valid date.";
         }
 
         artist.addEvent(new Event(user, name, description, date));
-
-        return getResultBuilder().returnMessage(user + " has added new event successfully.");
+        return user + " has added new event successfully.";
     }
 }

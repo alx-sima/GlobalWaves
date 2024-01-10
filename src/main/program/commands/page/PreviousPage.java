@@ -1,29 +1,25 @@
 package main.program.commands.page;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
-import lombok.Getter;
+import main.program.commands.NoOutputCommand;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.users.User;
-import main.program.commands.user.OnlineUserCommand;
 
-@Getter
-public final class PreviousPage extends OnlineUserCommand {
-
-    private final MessageResult.Builder resultBuilder = new Builder(this);
+public final class PreviousPage extends NoOutputCommand {
 
     public PreviousPage(final CommandInput input) {
         super(input);
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected String executeNoOutput() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         if (!caller.getPageHistory().undo()) {
-            return resultBuilder.returnMessage("There are no pages left to go back.");
+            return "There are no pages left to go back.";
         }
 
-        return resultBuilder.returnMessage(
-            "The user " + user + " has navigated successfully to the previous page.");
+        return "The user " + user + " has navigated successfully to the previous page.";
     }
 }
 

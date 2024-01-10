@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Stream;
 import lombok.Getter;
 import main.program.databases.Library;
 import main.program.databases.UserDatabase;
@@ -38,6 +39,17 @@ public final class Artist extends Creator {
     public String selectResultBy(final User user) {
         user.setCurrentPage(new ArtistPage(this));
         return username + "'s page";
+    }
+
+    public Stream<Song> getAllSongs() {
+        return albums.stream().flatMap(album -> album.getSongs().stream());
+    }
+
+    /**
+     * Get the total number of likes this artist has.
+     */
+    public int getLikes() {
+        return albums.stream().map(Album::getLikes).reduce(0, Integer::sum);
     }
 
     public double getTotalRevenue() {
@@ -79,7 +91,6 @@ public final class Artist extends Creator {
             new Notification("New Merchandise", "New Merchandise from " + username + "."));
     }
 
-
     @Override
     public ArtistWrapped getWrapped() {
         return new ArtistWrapped(this);
@@ -120,6 +131,7 @@ public final class Artist extends Creator {
     public void addSongRevenue(final Song song, final double revenue) {
         stats.songRevenue.merge(song.getName(), revenue, Double::sum);
     }
+
 
     @Getter
     public static final class Stats {

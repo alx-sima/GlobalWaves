@@ -1,21 +1,17 @@
 package main.program.commands.user.admin;
 
 import fileio.input.commands.CommandInput;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
 import java.util.List;
 import java.util.Objects;
-import lombok.Getter;
+import main.program.commands.NoOutputCommand;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserExists;
+import main.program.databases.UserDatabase;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.queues.visitors.OwnerVisitor;
 import main.program.entities.users.User;
-import main.program.databases.UserDatabase;
-import main.program.commands.user.UserCommand;
 
-@Getter
-public final class DeleteUser extends UserCommand {
-
-    private final MessageResult.Builder resultBuilder = new Builder(this);
+public final class DeleteUser extends NoOutputCommand {
 
     public DeleteUser(final CommandInput input) {
         super(input);
@@ -61,22 +57,23 @@ public final class DeleteUser extends UserCommand {
     }
 
     @Override
-    protected MessageResult executeFor(final User target) {
+    protected String executeNoOutput() throws InvalidOperation {
         UserDatabase database = UserDatabase.getInstance();
+        User target = new RequireUserExists(user).check();
 
         for (User user : database.getUsers()) {
             user.getPlayer().updateTime(timestamp);
         }
 
         if (isBusyUser()) {
-            return resultBuilder.returnMessage(user + " can't be deleted.");
+            return user + " can't be deleted.";
         }
 
         database.removeUser(user);
         decreasePlaylistFollowersCount(target);
         removeTracesFromOtherUsers(target);
 
-        return resultBuilder.returnMessage(user + " was successfully deleted.");
+        return user + " was successfully deleted.";
 
     }
 }

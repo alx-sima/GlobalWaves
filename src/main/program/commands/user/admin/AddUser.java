@@ -1,17 +1,11 @@
 package main.program.commands.user.admin;
 
 import fileio.input.commands.AddUserInput;
-import fileio.output.CommandResult;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
-import lombok.Getter;
+import main.program.commands.NoOutputCommand;
 import main.program.databases.UserDatabase;
-import main.program.commands.Command;
 
-public final class AddUser extends Command {
+public final class AddUser extends NoOutputCommand {
 
-    @Getter
-    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final String type;
     private final int age;
     private final String city;
@@ -24,16 +18,14 @@ public final class AddUser extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    public String executeNoOutput() {
         UserDatabase database = UserDatabase.getInstance();
 
         if (database.existsUser(user)) {
-            resultBuilder.returnMessage("The username " + user + " is already taken.");
-            return resultBuilder.build();
+            return "The username " + user + " is already taken.";
         }
 
         database.addUser(type, user, age, city);
-        resultBuilder.returnMessage("The username " + user + " has been added successfully.");
-        return resultBuilder.build();
+        return "The username " + user + " has been added successfully.";
     }
 }

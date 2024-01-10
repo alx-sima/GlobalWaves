@@ -14,7 +14,6 @@ import main.program.commands.Command;
 @Getter
 public final class GetOnlineUsers extends Command {
 
-
     private final StatsResult.Builder resultBuilder = new Builder(this);
 
     public GetOnlineUsers(final CommandInput input) {

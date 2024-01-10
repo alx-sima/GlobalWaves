@@ -11,15 +11,17 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
+import main.program.commands.Command;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.Searchable;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.users.User;
 import main.program.databases.UserDatabase;
 import main.program.databases.Library;
 import main.program.entities.users.interactions.Player;
-import main.program.commands.user.OnlineUserCommand;
 
-public final class Search extends OnlineUserCommand {
+public final class Search extends Command {
 
     @Getter
     private final SearchResult.Builder resultBuilder = new Builder(this);
@@ -67,7 +69,8 @@ public final class Search extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected MessageResult execute() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
 
         Stream<? extends Searchable> searchPlace = getSearchPlace(caller, type);
         List<Searchable> valid = searchPlace.filter(this::itemMatchesFilters).limit(MAX_RESULTS)

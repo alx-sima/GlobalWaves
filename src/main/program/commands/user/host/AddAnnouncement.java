@@ -1,7 +1,6 @@
 package main.program.commands.user.host;
 
 import fileio.input.commands.AddAnnouncementInput;
-import fileio.output.MessageResult;
 import main.program.entities.users.creators.Host;
 import main.program.entities.users.creators.content.Announcement;
 
@@ -17,8 +16,8 @@ public final class AddAnnouncement extends HostCommand {
     }
 
     @Override
-    protected MessageResult execute(final Host host) {
+    protected String returnExecutionMessage(final Host host) {
         host.addAnnouncement(new Announcement(user, name, description));
-        return getResultBuilder().returnMessage(user + " has successfully added new announcement.");
+        return user + " has successfully added new announcement.";
     }
 }

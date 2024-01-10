@@ -7,7 +7,7 @@ import lombok.Getter;
 import main.program.entities.users.interactions.pages.HostPage;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.content.Announcement;
-import main.program.exceptions.InvalidOperation;
+import main.program.commands.exceptions.InvalidOperation;
 import main.program.entities.users.interactions.notifications.Notification;
 import main.program.entities.users.interactions.notifications.Notifier;
 

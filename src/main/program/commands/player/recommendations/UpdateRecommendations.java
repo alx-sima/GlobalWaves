@@ -3,8 +3,6 @@ package main.program.commands.player.recommendations;
 import static main.program.Program.MAX_RESULTS;
 
 import fileio.input.commands.UpdateRecommendationsInput;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -12,8 +10,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Stream;
-import lombok.Getter;
-import main.program.commands.user.OnlineUserCommand;
+import main.program.commands.NoOutputCommand;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.databases.Library;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Song;
@@ -21,13 +20,11 @@ import main.program.entities.users.User;
 import main.program.entities.users.creators.Artist;
 import main.program.entities.users.interactions.Player;
 
-@Getter
-public final class UpdateRecommendations extends OnlineUserCommand {
+public final class UpdateRecommendations extends NoOutputCommand {
 
     private static final int MINIMUM_LISTEN_TIME = 30;
     private static final int[] SONGS_FROM_TOP_GENRES = {5, 3, 2};
 
-    private final Builder resultBuilder = new Builder(this);
     private final String recommendationType;
 
     public UpdateRecommendations(final UpdateRecommendationsInput input) {
@@ -110,7 +107,8 @@ public final class UpdateRecommendations extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
+    protected String executeNoOutput() throws InvalidOperation {
+        User caller = new RequireUserOnline(user).check();
         boolean commandStatus = switch (recommendationType) {
             case "random_song" -> getRandomSong(caller);
             case "random_playlist" -> getRandomPlaylist(caller);
@@ -119,9 +117,10 @@ public final class UpdateRecommendations extends OnlineUserCommand {
         };
 
         if (commandStatus) {
-            return resultBuilder.returnMessage(
-                "The recommendations for user " + user + " have been updated successfully.");
+            return
+                "The recommendations for user " + user + " have been updated successfully.";
         }
-        return resultBuilder.returnMessage("No new recommendations were found");
+
+        return "No new recommendations were found";
     }
 }

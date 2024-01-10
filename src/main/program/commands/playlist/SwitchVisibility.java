@@ -1,19 +1,15 @@
 package main.program.commands.playlist;
 
 import fileio.input.commands.PlaylistOperationInput;
-import fileio.output.MessageResult;
-import fileio.output.MessageResult.Builder;
 import java.util.List;
-import lombok.Getter;
-import main.program.entities.audio.collections.Playlist;
-import main.program.entities.users.User;
+import main.program.commands.NoOutputCommand;
+import main.program.commands.exceptions.InvalidOperation;
+import main.program.commands.requirements.RequireUserOnline;
 import main.program.databases.Library;
-import main.program.commands.user.OnlineUserCommand;
+import main.program.entities.audio.collections.Playlist;
 
-public final class SwitchVisibility extends OnlineUserCommand {
+public final class SwitchVisibility extends NoOutputCommand {
 
-    @Getter
-    private final MessageResult.Builder resultBuilder = new Builder(this);
     private final int playlistId;
 
     public SwitchVisibility(final PlaylistOperationInput input) {
@@ -22,11 +18,11 @@ public final class SwitchVisibility extends OnlineUserCommand {
     }
 
     @Override
-    protected MessageResult execute(final User caller) {
-        List<Playlist> playlists = caller.getPlaylists();
+    protected String executeNoOutput() throws InvalidOperation {
+        List<Playlist> playlists = new RequireUserOnline(user).check().getPlaylists();
 
         if (playlistId > playlists.size()) {
-            return resultBuilder.returnMessage("The specified playlist ID is too high.");
+            return "The specified playlist ID is too high.";
         }
 
         List<Playlist> publicPlaylists = Library.getInstance().getPublicPlaylists();
@@ -41,7 +37,6 @@ public final class SwitchVisibility extends OnlineUserCommand {
         }
 
         String visibilityStatus = playlist.isPrivate() ? "private" : "public";
-        return resultBuilder.returnMessage(
-            "Visibility status updated successfully to " + visibilityStatus + ".");
+        return "Visibility status updated successfully to " + visibilityStatus + ".";
     }
 }

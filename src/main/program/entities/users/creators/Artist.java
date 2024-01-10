@@ -3,23 +3,19 @@ package main.program.entities.users.creators;
 import fileio.output.wrapped.ArtistWrapped;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.stream.Stream;
 import lombok.Getter;
+import main.program.databases.Library;
+import main.program.databases.UserDatabase;
 import main.program.entities.audio.collections.Album;
 import main.program.entities.audio.files.Song;
-import main.program.entities.users.interactions.wrapped.CreatorWrapped;
-import main.program.entities.users.interactions.pages.ArtistPage;
 import main.program.entities.users.User;
-import main.program.databases.UserDatabase;
 import main.program.entities.users.creators.content.Event;
 import main.program.entities.users.creators.content.Merch;
-import main.program.databases.Library;
 import main.program.entities.users.interactions.notifications.Notification;
 import main.program.entities.users.interactions.notifications.Notifier;
+import main.program.entities.users.interactions.pages.ArtistPage;
 
 /**
  * An artist, that can add albums, events, and merch.
@@ -30,7 +26,9 @@ public final class Artist extends Creator {
     private final List<Album> albums = new ArrayList<>();
     private final List<Event> events = new ArrayList<>();
     private final List<Merch> merch = new ArrayList<>();
+
     private final Notifier notifier = new Notifier();
+    private final Stats stats = new Stats();
 
     public Artist(final String username, final int age, final String city) {
         super(username, age, city);
@@ -42,13 +40,9 @@ public final class Artist extends Creator {
         return username + "'s page";
     }
 
-    public Stream<Song> getAllSongs() {
-        return albums.stream().flatMap(album -> album.getSongs().stream());
-    }
-
     public double getTotalRevenue() {
         return merch.stream().map(Merch::getTotalEarned).reduce(0.0d, Double::sum)
-            + getAllSongs().map(Song::getTotalEarned).reduce(0.0d, Double::sum);
+            + stats.songRevenue.values().stream().reduce(0.0d, Double::sum);
     }
 
     /**
@@ -114,42 +108,26 @@ public final class Artist extends Creator {
      * @return a mapping between the listener and the number of listens to this artist.
      */
     public Map<User, Integer> getListeners() {
-        Map<User, Integer> fans = new HashMap<>();
-        Iterator<Entry<User, Integer>> iterator = getAllSongs().flatMap(
-            song -> song.getListeners().entrySet().stream()).iterator();
+        return stats.listensByUser;
+    }
 
-        while (iterator.hasNext()) {
-            Entry<User, Integer> entry = iterator.next();
-            CreatorWrapped.add(fans, entry.getKey(), entry.getValue());
-        }
-        return fans;
+    public void addSongListen(final Song song, final User listener) {
+        stats.albumListens.merge(song.getAlbum().getName(), 1, Integer::sum);
+        stats.songListens.merge(song.getName(), 1, Integer::sum);
+        stats.listensByUser.merge(listener, 1, Integer::sum);
+    }
+
+    public void addSongRevenue(final Song song, final double revenue) {
+        stats.songRevenue.merge(song.getName(), revenue, Double::sum);
     }
 
     @Getter
     public static final class Stats {
 
-        private final Map<String, Integer> albumsMap = new HashMap<>();
-        private final Map<String, Integer> songsMap = new HashMap<>();
-        private final Map<String, Integer> fansMap = new HashMap<>();
+        private final Map<String, Integer> albumListens = new HashMap<>();
+        private final Map<User, Integer> listensByUser = new HashMap<>();
 
-        public Stats(final Artist artist) {
-            Iterator<Song> songs = artist.getAllSongs().iterator();
-
-            while (songs.hasNext()) {
-                Song song = songs.next();
-
-                int totalListens = song.getNumberOfListens();
-                if (totalListens == 0) {
-                    continue;
-                }
-
-                CreatorWrapped.add(albumsMap, song.getAlbum().getName(), totalListens);
-                CreatorWrapped.add(songsMap, song.getName(), totalListens);
-
-                for (Entry<User, Integer> entry : song.getListeners().entrySet()) {
-                    CreatorWrapped.add(fansMap, entry.getKey().toString(), entry.getValue());
-                }
-            }
-        }
+        private final Map<String, Integer> songListens = new HashMap<>();
+        private final Map<String, Double> songRevenue = new HashMap<>();
     }
 }

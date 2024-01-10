@@ -216,7 +216,7 @@ public class User implements Subscriber {
             Song song = mapEntry.getKey();
             int songListens = mapEntry.getValue();
 
-            song.addRevenue(listenValue * songListens);
+            song.getArtist().addSongRevenue(song, listenValue * songListens);
         }
 
         songs.clear();

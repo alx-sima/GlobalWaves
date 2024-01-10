@@ -39,7 +39,7 @@ public final class RemoveAlbum extends ArtistCommand {
                 u.getPlayer().updateTime(timestamp);
                 return u.getPlayer().getQueue();
             }).filter(Objects::nonNull).map(Queue::getCurrentSong).filter(Objects::nonNull)
-            .anyMatch(file -> user.equals(file.getOwner()))) {
+            .anyMatch(file -> file.getAlbum().getName().equals(name))) {
             return getResultBuilder().returnMessage(user + " can't delete this album.");
         }
 
@@ -55,6 +55,7 @@ public final class RemoveAlbum extends ArtistCommand {
 
         Library.getInstance().getSongs().removeIf(song -> album.getSongs().contains(song));
         albums.remove(album);
+
         return getResultBuilder().returnMessage(user + " deleted the album successfully.");
     }
 }

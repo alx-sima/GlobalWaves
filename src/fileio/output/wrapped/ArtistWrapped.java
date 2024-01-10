@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import lombok.Getter;
-import main.program.entities.users.creators.Artist;
-import main.program.entities.users.creators.Artist.Stats;
 import main.program.Program;
+import main.program.entities.users.User;
+import main.program.entities.users.creators.Artist;
 
 @Getter
 public final class ArtistWrapped implements WrappedOutput {
@@ -18,16 +18,17 @@ public final class ArtistWrapped implements WrappedOutput {
     private final int listeners;
 
     public ArtistWrapped(final Artist artist) {
-        Artist.Stats stats = new Stats(artist);
+        Artist.Stats stats = artist.getStats();
 
-        Comparator<Entry<String, Integer>> comparator = Entry.<String, Integer>comparingByValue()
-            .reversed().thenComparing(Entry.comparingByKey());
-        topAlbums = WrappedOutput.getTop(stats.getAlbumsMap());
-        topSongs = WrappedOutput.getTop(stats.getSongsMap());
-        topFans = stats.getFansMap().entrySet().stream().sorted(comparator)
-            .limit(Program.MAX_RESULTS)
-            .map(Entry::getKey).toList();
-        listeners = stats.getFansMap().size();
+        Comparator<Entry<User, Integer>> comparator = Entry.<User, Integer>comparingByValue()
+            .reversed()
+            .thenComparing(Entry.comparingByKey(Comparator.comparing(User::getUsername)));
+
+        topAlbums = WrappedOutput.getTop(stats.getAlbumListens());
+        topSongs = WrappedOutput.getTop(stats.getSongListens());
+        topFans = stats.getListensByUser().entrySet().stream().sorted(comparator)
+            .limit(Program.MAX_RESULTS).map(e -> e.getKey().getUsername()).toList();
+        listeners = stats.getListensByUser().size();
     }
 
     @Override

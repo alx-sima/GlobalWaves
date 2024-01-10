@@ -2,7 +2,6 @@ package main.program.commands.stats;
 
 import fileio.output.wrapped.WrappedOutput.Pair;
 import java.util.Comparator;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -10,7 +9,6 @@ import java.util.Objects;
 import java.util.TreeMap;
 import lombok.Getter;
 import main.program.databases.UserDatabase;
-import main.program.entities.audio.files.Song;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.Artist;
 import main.program.entities.users.creators.content.Merch;
@@ -40,17 +38,14 @@ public final class EndProgram {
         }
     }
 
+    @Getter
     private static final class ArtistEndResult {
 
         private static final double ROUNDING_EXPONENT = 1e2;
 
-        @Getter
         private final double merchRevenue;
-        @Getter
         private final double songRevenue;
-        @Getter
         private final int ranking;
-        @Getter
         private final String mostProfitableSong;
 
         ArtistEndResult(final Artist artist, final int ranking) {
@@ -59,23 +54,16 @@ public final class EndProgram {
             merchRevenue = roundDouble(
                 artist.getMerch().stream().map(Merch::getTotalEarned).reduce(0.0d, Double::sum));
 
-            List<Song> songs = artist.getAlbums().stream()
-                .flatMap(album -> album.getSongs().stream()).toList();
-
             songRevenue = roundDouble(
-                songs.stream().map(Song::getTotalEarned).reduce(0.0d, Double::sum));
+                artist.getStats().getSongRevenue().values().stream().reduce(0.0d, Double::sum));
 
             String bestSong = getBestSong(artist);
             mostProfitableSong = Objects.requireNonNullElse(bestSong, "N/A");
         }
 
         private static String getBestSong(final Artist artist) {
-            Map<String, Double> songRevenue = new HashMap<>();
-
-            artist.getAllSongs().forEach(
-                song -> songRevenue.merge(song.getName(), song.getTotalEarned(), Double::sum));
-
-            Entry<String, Double> bestSongEntry = songRevenue.entrySet().stream().max(
+            Entry<String, Double> bestSongEntry = artist.getStats().getSongRevenue().entrySet()
+                .stream().max(
                 Entry.<String, Double>comparingByValue()
                     .thenComparing(Entry.<String, Double>comparingByKey().reversed())).orElse(null);
             if (bestSongEntry == null || bestSongEntry.getValue() <= 0.0d) {

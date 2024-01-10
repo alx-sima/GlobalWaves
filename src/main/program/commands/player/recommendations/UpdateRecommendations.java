@@ -99,6 +99,9 @@ public final class UpdateRecommendations extends OnlineUserCommand {
 
         List<Song> songs = fans.stream()
             .flatMap(fan -> fan.getLikedSongs().stream().limit(MAX_RESULTS)).toList();
+        if (songs.isEmpty()) {
+            return false;
+        }
 
         Playlist newPlaylist = new Playlist(artist.getUsername() + " Fan Club recommendations",
             user, timestamp, songs);

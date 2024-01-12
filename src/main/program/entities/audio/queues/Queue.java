@@ -1,11 +1,10 @@
 package main.program.entities.audio.queues;
 
 import lombok.Getter;
+import main.program.databases.Library;
 import main.program.entities.audio.files.AudioFile;
-import main.program.entities.audio.files.Song;
 import main.program.entities.audio.queues.visitors.QueueVisitor;
 import main.program.entities.users.User;
-import main.program.databases.Library;
 
 /**
  * A play queue, holding the files that will play in the music player.
@@ -116,15 +115,6 @@ public abstract class Queue {
         }
 
         return getNextFile();
-    }
-
-    /**
-     * Get the song that is currently playing.
-     *
-     * @return none, if the file playing is not a song.
-     */
-    public Song getCurrentSong() {
-        return null;
     }
 
     /**

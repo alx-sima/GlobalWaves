@@ -7,6 +7,7 @@ import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Song;
 import main.program.entities.audio.queues.Queue;
+import main.program.entities.audio.queues.visitors.PlayingSongVisitor;
 import main.program.entities.users.User;
 
 public final class AddRemoveInPlaylist extends NoOutputCommand {
@@ -27,7 +28,10 @@ public final class AddRemoveInPlaylist extends NoOutputCommand {
             return "Please load a source before adding to or removing from the playlist.";
         }
 
-        Song currentSong = queue.getCurrentSong();
+        PlayingSongVisitor visitor = new PlayingSongVisitor();
+        queue.accept(visitor);
+
+        Song currentSong = visitor.getPlayingSong();
         if (currentSong == null) {
             return "The loaded source is not a song.";
         }

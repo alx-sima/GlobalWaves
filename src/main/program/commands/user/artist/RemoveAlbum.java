@@ -2,7 +2,6 @@ package main.program.commands.user.artist;
 
 import fileio.input.commands.CommandWithNameInput;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Stream;
 import main.program.databases.Library;
 import main.program.databases.UserDatabase;
@@ -10,8 +9,10 @@ import main.program.entities.audio.collections.Album;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.audio.files.Song;
 import main.program.entities.audio.queues.Queue;
+import main.program.entities.audio.queues.visitors.PlayingSongVisitor;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.Artist;
+import main.program.entities.users.interactions.Player;
 
 public final class RemoveAlbum extends ArtistCommand {
 
@@ -20,6 +21,23 @@ public final class RemoveAlbum extends ArtistCommand {
     public RemoveAlbum(final CommandWithNameInput input) {
         super(input);
         name = input.getName();
+    }
+
+    private boolean isAlbumPlaying(final Stream<Player> players) {
+        return players.anyMatch(player -> {
+            player.updateTime(timestamp);
+
+            Queue queue = player.getQueue();
+            if (queue == null) {
+                return false;
+            }
+
+            PlayingSongVisitor visitor = new PlayingSongVisitor();
+            queue.accept(visitor);
+
+            Song song = visitor.getPlayingSong();
+            return song.getAlbum().getName().equals(name);
+        });
     }
 
     @Override
@@ -33,11 +51,7 @@ public final class RemoveAlbum extends ArtistCommand {
             return user + " doesn't have an album with the given name.";
         }
 
-        if (users.stream().map(u -> {
-                u.getPlayer().updateTime(timestamp);
-                return u.getPlayer().getQueue();
-            }).filter(Objects::nonNull).map(Queue::getCurrentSong).filter(Objects::nonNull)
-            .anyMatch(file -> file.getAlbum().getName().equals(name))) {
+        if (isAlbumPlaying(users.stream().map(User::getPlayer))) {
             return user + " can't delete this album.";
         }
 

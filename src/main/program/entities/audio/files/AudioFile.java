@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 import lombok.Getter;
 import main.program.entities.users.User;
-import main.program.entities.users.interactions.wrapped.CreatorWrapped;
 
 /**
  * An audio file, which can be part of a play queue.

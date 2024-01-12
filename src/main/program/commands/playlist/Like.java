@@ -6,6 +6,7 @@ import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.files.Song;
 import main.program.entities.audio.queues.Queue;
+import main.program.entities.audio.queues.visitors.PlayingSongVisitor;
 import main.program.entities.users.User;
 import main.program.entities.users.interactions.Player;
 
@@ -26,12 +27,15 @@ public final class Like extends NoOutputCommand {
             return "Please load a source before liking or unliking.";
         }
 
-        Song song = queue.getCurrentSong();
-        if (song == null) {
+        PlayingSongVisitor visitor = new PlayingSongVisitor();
+        queue.accept(visitor);
+
+        Song currentSong = visitor.getPlayingSong();
+        if (currentSong == null) {
             return "Loaded source is not a song";
         }
 
-        if (caller.like(song)) {
+        if (caller.like(currentSong)) {
             return "Like registered successfully.";
         }
         return "Unlike registered successfully.";

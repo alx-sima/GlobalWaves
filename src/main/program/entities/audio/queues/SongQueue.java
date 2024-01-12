@@ -21,28 +21,28 @@ public final class SongQueue extends Queue {
         super(user);
         this.songSource = songSource;
         this.size = size;
-        currentlyPlaying = getCurrentSong();
+        currentlyPlaying = getFilePlaying();
     }
 
     @Override
-    protected AudioFile getNextFile() {
+    protected Song getNextFile() {
         if (repeatMode == RepeatMode.REPEAT_CURRENT || repeatMode == RepeatMode.REPEAT_INFINITE) {
-            return getCurrentSong();
+            return getFilePlaying();
         }
 
         if (repeatMode == RepeatMode.REPEAT_ONCE) {
             repeatMode = RepeatMode.NO_REPEAT;
-            return getCurrentSong();
+            return getFilePlaying();
         }
 
         playIndex++;
         if (playIndex < songSource.size()) {
-            return getCurrentSong();
+            return getFilePlaying();
         }
 
         if (repeatMode == RepeatMode.REPEAT_ALL) {
             playIndex = 0;
-            return getCurrentSong();
+            return getFilePlaying();
         }
 
         return null;
@@ -59,12 +59,7 @@ public final class SongQueue extends Queue {
     }
 
     @Override
-    protected AudioFile getFilePlaying() {
-        return getCurrentSong();
-    }
-
-    @Override
-    public Song getCurrentSong() {
+    public Song getFilePlaying() {
         Song nowPlaying = songSource.get(getSongIndex(playIndex));
         if (nowPlaying != currentlyPlaying) {
             nowPlaying.addListen(user);
@@ -80,7 +75,7 @@ public final class SongQueue extends Queue {
     public AudioFile prev() {
         if (playTime == 0 && playIndex != 0) {
             playIndex--;
-            currentlyPlaying = getCurrentSong();
+            currentlyPlaying = getFilePlaying();
         }
 
         playTime = 0;

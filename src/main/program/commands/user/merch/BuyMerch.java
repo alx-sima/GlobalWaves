@@ -1,6 +1,6 @@
 package main.program.commands.user.merch;
 
-import fileio.input.commands.CommandInputWithName;
+import fileio.input.commands.CommandWithNameInput;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
@@ -11,7 +11,7 @@ public final class BuyMerch extends NoOutputCommand {
 
     private final String name;
 
-    public BuyMerch(final CommandInputWithName input) {
+    public BuyMerch(final CommandWithNameInput input) {
         super(input);
         this.name = input.getName();
     }

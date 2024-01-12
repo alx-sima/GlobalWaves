@@ -1,6 +1,6 @@
 package main.program.commands.user.host;
 
-import fileio.input.commands.CommandInputWithName;
+import fileio.input.commands.CommandWithNameInput;
 import java.util.List;
 import main.program.entities.users.creators.Host;
 import main.program.entities.users.creators.content.Announcement;
@@ -9,7 +9,7 @@ public final class RemoveAnnouncement extends HostCommand {
 
     private final String name;
 
-    public RemoveAnnouncement(final CommandInputWithName input) {
+    public RemoveAnnouncement(final CommandWithNameInput input) {
         super(input);
         name = input.getName();
     }

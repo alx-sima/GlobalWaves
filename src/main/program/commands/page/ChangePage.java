@@ -1,6 +1,9 @@
 package main.program.commands.page;
 
-import fileio.input.commands.ChangePageInput;
+import fileio.input.commands.CommandInput;
+import lombok.Getter;
+import lombok.Setter;
+import main.program.commands.Command;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
@@ -16,7 +19,7 @@ public final class ChangePage extends NoOutputCommand {
 
     private final String nextPage;
 
-    public ChangePage(final ChangePageInput input) {
+    public ChangePage(final Input input) {
         super(input);
         nextPage = input.getNextPage();
     }
@@ -50,5 +53,17 @@ public final class ChangePage extends NoOutputCommand {
                     return user + " is trying to access a non-existent page.";
             }
         return user + " accessed " + nextPage + " successfully.";
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandInput {
+
+        private String nextPage;
+
+        @Override
+        public Command createCommand() {
+            return new ChangePage(this);
+        }
     }
 }

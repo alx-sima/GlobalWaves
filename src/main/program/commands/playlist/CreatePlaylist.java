@@ -1,6 +1,9 @@
 package main.program.commands.playlist;
 
-import fileio.input.commands.PlaylistCreateInput;
+import fileio.input.commands.CommandInput;
+import lombok.Getter;
+import lombok.Setter;
+import main.program.commands.Command;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
@@ -10,7 +13,7 @@ public final class CreatePlaylist extends NoOutputCommand {
 
     private final String playListName;
 
-    public CreatePlaylist(final PlaylistCreateInput input) {
+    public CreatePlaylist(final Input input) {
         super(input);
         playListName = input.getPlaylistName();
     }
@@ -22,5 +25,17 @@ public final class CreatePlaylist extends NoOutputCommand {
             return "Playlist created successfully.";
         }
         return "A playlist with the same name already exists.";
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandInput {
+
+        private String playlistName;
+
+        @Override
+        public Command createCommand() {
+            return new CreatePlaylist(this);
+        }
     }
 }

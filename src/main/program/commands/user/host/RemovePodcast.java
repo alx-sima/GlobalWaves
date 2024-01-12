@@ -1,6 +1,6 @@
 package main.program.commands.user.host;
 
-import fileio.input.commands.CommandInputWithName;
+import fileio.input.commands.CommandWithNameInput;
 import java.util.Objects;
 import main.program.databases.Library;
 import main.program.databases.UserDatabase;
@@ -11,7 +11,7 @@ public final class RemovePodcast extends HostCommand {
 
     private final String name;
 
-    public RemovePodcast(final CommandInputWithName input) {
+    public RemovePodcast(final CommandWithNameInput input) {
         super(input);
         name = input.getName();
     }

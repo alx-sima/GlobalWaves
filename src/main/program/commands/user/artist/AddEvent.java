@@ -1,8 +1,11 @@
 package main.program.commands.user.artist;
 
-import fileio.input.commands.AddEventInput;
+import fileio.input.commands.CommandWithNameInput;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+import lombok.Getter;
+import lombok.Setter;
+import main.program.commands.Command;
 import main.program.entities.users.creators.Artist;
 import main.program.entities.users.creators.content.Event;
 
@@ -19,7 +22,7 @@ public final class AddEvent extends ArtistCommand {
     private final String description;
     private final String date;
 
-    public AddEvent(final AddEventInput input) {
+    public AddEvent(final Input input) {
         super(input);
         this.name = input.getName();
         this.description = input.getDescription();
@@ -68,5 +71,18 @@ public final class AddEvent extends ArtistCommand {
 
         artist.addEvent(new Event(user, name, description, date));
         return user + " has added new event successfully.";
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandWithNameInput {
+
+        private String description;
+        private String date;
+
+        @Override
+        public Command createCommand() {
+            return new AddEvent(this);
+        }
     }
 }

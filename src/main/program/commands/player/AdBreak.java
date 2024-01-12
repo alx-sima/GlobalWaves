@@ -1,6 +1,9 @@
-package main.program.commands.playlist;
+package main.program.commands.player;
 
-import fileio.input.commands.AdBreakInput;
+import fileio.input.commands.CommandInput;
+import lombok.Getter;
+import lombok.Setter;
+import main.program.commands.Command;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
@@ -10,7 +13,7 @@ public final class AdBreak extends NoOutputCommand {
 
     private final double price;
 
-    public AdBreak(final AdBreakInput input) {
+    public AdBreak(final Input input) {
         super(input);
         price = input.getPrice();
     }
@@ -25,5 +28,17 @@ public final class AdBreak extends NoOutputCommand {
 
         player.getQueue().pushAd(price);
         return "Ad inserted successfully.";
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandInput {
+
+        private double price;
+
+        @Override
+        public Command createCommand() {
+            return new AdBreak(this);
+        }
     }
 }

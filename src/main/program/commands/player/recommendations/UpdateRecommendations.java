@@ -2,7 +2,7 @@ package main.program.commands.player.recommendations;
 
 import static main.program.Program.MAX_RESULTS;
 
-import fileio.input.commands.UpdateRecommendationsInput;
+import fileio.input.commands.CommandInput;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -10,6 +10,9 @@ import java.util.List;
 import java.util.Map.Entry;
 import java.util.Random;
 import java.util.stream.Stream;
+import lombok.Getter;
+import lombok.Setter;
+import main.program.commands.Command;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
@@ -27,7 +30,7 @@ public final class UpdateRecommendations extends NoOutputCommand {
 
     private final String recommendationType;
 
-    public UpdateRecommendations(final UpdateRecommendationsInput input) {
+    public UpdateRecommendations(final Input input) {
         super(input);
         recommendationType = input.getRecommendationType();
     }
@@ -122,5 +125,17 @@ public final class UpdateRecommendations extends NoOutputCommand {
         }
 
         return "No new recommendations were found";
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandInput {
+
+        private String recommendationType;
+
+        @Override
+        public Command createCommand() {
+            return new UpdateRecommendations(this);
+        }
     }
 }

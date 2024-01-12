@@ -1,6 +1,9 @@
 package main.program.commands.player;
 
-import fileio.input.commands.ShuffleInput;
+import fileio.input.commands.CommandInput;
+import lombok.Getter;
+import lombok.Setter;
+import main.program.commands.Command;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
@@ -14,7 +17,7 @@ public final class Shuffle extends NoOutputCommand {
 
     private final int seed;
 
-    public Shuffle(final ShuffleInput input) {
+    public Shuffle(final Input input) {
         super(input);
         seed = input.getSeed();
     }
@@ -47,5 +50,21 @@ public final class Shuffle extends NoOutputCommand {
         queue.disableShuffle();
         player.updateTime(timestamp);
         return "Shuffle function deactivated successfully.";
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandInput {
+
+        private int seed;
+
+        @Override
+        public Command createCommand() {
+            if (command.equals("shuffle")) {
+                return new Shuffle(this);
+            }
+
+            return null;
+        }
     }
 }

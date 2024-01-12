@@ -1,6 +1,6 @@
 package main.program.commands.user.artist;
 
-import fileio.input.commands.CommandInputWithName;
+import fileio.input.commands.CommandWithNameInput;
 import java.util.List;
 import main.program.entities.users.creators.Artist;
 import main.program.entities.users.creators.content.Event;
@@ -9,7 +9,7 @@ public final class RemoveEvent extends ArtistCommand {
 
     private final String name;
 
-    public RemoveEvent(final CommandInputWithName input) {
+    public RemoveEvent(final CommandWithNameInput input) {
         super(input);
         name = input.getName();
     }

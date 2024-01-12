@@ -1,6 +1,6 @@
 package main.program.commands.user.artist;
 
-import fileio.input.commands.CommandInputWithName;
+import fileio.input.commands.CommandWithNameInput;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Stream;
@@ -17,7 +17,7 @@ public final class RemoveAlbum extends ArtistCommand {
 
     private final String name;
 
-    public RemoveAlbum(final CommandInputWithName input) {
+    public RemoveAlbum(final CommandWithNameInput input) {
         super(input);
         name = input.getName();
     }

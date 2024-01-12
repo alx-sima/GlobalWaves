@@ -12,9 +12,6 @@ public final class PlaylistOperationInput extends CommandInput {
 
     private int playlistId;
 
-    public PlaylistOperationInput() {
-    }
-
     @Override
     public Command createCommand() {
         return switch (command) {

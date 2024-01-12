@@ -11,7 +11,7 @@ import main.program.commands.user.host.RemovePodcast;
 
 @Getter
 @Setter
-public class CommandInputWithName extends CommandInput {
+public class CommandWithNameInput extends CommandInput {
 
     protected String name;
 

@@ -1,8 +1,11 @@
 package main.program.commands.user.host;
 
 import fileio.input.EpisodeInput;
-import fileio.input.commands.AddPodcastInput;
+import fileio.input.commands.CommandWithNameInput;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import main.program.commands.Command;
 import main.program.databases.Library;
 import main.program.entities.audio.collections.Podcast;
 import main.program.entities.users.creators.Host;
@@ -12,7 +15,7 @@ public final class AddPodcast extends HostCommand {
     private final String name;
     private final List<EpisodeInput> episodes;
 
-    public AddPodcast(final AddPodcastInput input) {
+    public AddPodcast(final Input input) {
         super(input);
         name = input.getName();
         episodes = input.getEpisodes();
@@ -33,5 +36,17 @@ public final class AddPodcast extends HostCommand {
 
         podcasts.add(new Podcast(name, user, episodes));
         return user + " has added new podcast successfully.";
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandWithNameInput {
+
+        private List<EpisodeInput> episodes;
+
+        @Override
+        public Command createCommand() {
+            return new AddPodcast(this);
+        }
     }
 }

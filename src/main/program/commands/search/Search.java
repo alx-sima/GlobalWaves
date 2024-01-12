@@ -2,23 +2,26 @@ package main.program.commands.search;
 
 import static main.program.Program.MAX_RESULTS;
 
-import fileio.input.commands.SearchInput;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import fileio.input.commands.CommandInput;
 import fileio.output.MessageResult;
 import fileio.output.SearchResult;
 import fileio.output.SearchResult.Builder;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.Getter;
+import lombok.Setter;
 import main.program.commands.Command;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
+import main.program.databases.Library;
+import main.program.databases.UserDatabase;
 import main.program.entities.Searchable;
 import main.program.entities.audio.collections.Playlist;
 import main.program.entities.users.User;
-import main.program.databases.UserDatabase;
-import main.program.databases.Library;
 import main.program.entities.users.interactions.Player;
 
 public final class Search extends Command {
@@ -28,7 +31,7 @@ public final class Search extends Command {
     private final String type;
     private final List<SearchFilter> filters;
 
-    public Search(final SearchInput input) {
+    public Search(final Input input) {
         super(input);
         type = input.getType();
         filters = input.createFilters();
@@ -85,5 +88,31 @@ public final class Search extends Command {
 
         return resultBuilder.results(result)
             .returnMessage("Search returned " + result.size() + " results");
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandInput {
+
+        @JsonFormat(with = JsonFormat.Feature.ACCEPT_SINGLE_VALUE_AS_ARRAY)
+        private Map<String, List<String>> filters;
+        private String type;
+
+        @Override
+        public Command createCommand() {
+            return new Search(this);
+        }
+
+        /**
+         * Create a list of filters for the search, based on the `filters` field.
+         */
+        public List<SearchFilter> createFilters() {
+            return filters.entrySet().stream().map(entry -> {
+                String filter = entry.getKey();
+                List<String> parameters = entry.getValue();
+
+                return new SearchFilter(filter, parameters);
+            }).toList();
+        }
     }
 }

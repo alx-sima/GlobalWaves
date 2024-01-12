@@ -1,7 +1,10 @@
 package main.program.commands.user.artist;
 
-import fileio.input.commands.AddMerchInput;
+import fileio.input.commands.CommandWithNameInput;
 import java.util.List;
+import lombok.Getter;
+import lombok.Setter;
+import main.program.commands.Command;
 import main.program.entities.users.creators.Artist;
 import main.program.entities.users.creators.content.Merch;
 
@@ -11,7 +14,7 @@ public final class AddMerch extends ArtistCommand {
     private final String description;
     private final int price;
 
-    public AddMerch(final AddMerchInput input) {
+    public AddMerch(final Input input) {
         super(input);
         name = input.getName();
         description = input.getDescription();
@@ -33,5 +36,18 @@ public final class AddMerch extends ArtistCommand {
         artist.addMerch(new Merch(user, name, description, price));
 
         return user + " has added new merchandise successfully.";
+    }
+
+    @Getter
+    @Setter
+    public static final class Input extends CommandWithNameInput {
+
+        private String description;
+        private int price;
+
+        @Override
+        public Command createCommand() {
+            return new AddMerch(this);
+        }
     }
 }

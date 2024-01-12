@@ -28,9 +28,8 @@ import main.program.commands.playlist.Like;
 import main.program.commands.playlist.ShowPlaylists;
 import main.program.commands.search.Search;
 import main.program.commands.search.Select;
-import main.program.commands.stats.GetAllUsers;
-import main.program.commands.stats.GetOnlineUsers;
 import main.program.commands.stats.GetTop;
+import main.program.commands.stats.GetUsers;
 import main.program.commands.stats.Wrapped;
 import main.program.commands.user.SwitchConnectionStatus;
 import main.program.commands.user.admin.AddUser;
@@ -89,9 +88,8 @@ public class CommandInput {
             case "cancelPremium" -> new CancelPremium(this);
             case "deleteUser" -> new DeleteUser(this);
             case "follow" -> new Follow(this);
-            case "getAllUsers" -> new GetAllUsers(this);
+            case "getAllUsers", "getOnlineUsers" -> new GetUsers(this);
             case "getNotifications" -> new GetNotifications(this);
-            case "getOnlineUsers" -> new GetOnlineUsers(this);
             case "getTop5Albums", "getTop5Artists", "getTop5Playlists", "getTop5Songs" ->
                 new GetTop(this);
             case "like" -> new Like(this);

@@ -1,9 +1,5 @@
 package main.program.entities.audio.collections;
 
-import static main.program.entities.audio.queues.RepeatMode.NO_REPEAT;
-import static main.program.entities.audio.queues.RepeatMode.REPEAT_ALL;
-import static main.program.entities.audio.queues.RepeatMode.REPEAT_CURRENT;
-
 import fileio.input.SongInput;
 import java.util.List;
 import java.util.Map;
@@ -12,8 +8,8 @@ import main.program.entities.audio.SearchableAudio;
 import main.program.entities.audio.files.Song;
 import main.program.entities.audio.queues.PodcastQueue;
 import main.program.entities.audio.queues.Queue;
-import main.program.entities.audio.queues.RepeatMode;
 import main.program.entities.audio.queues.SongQueue;
+import main.program.entities.audio.queues.repetition.PlaylistRepeatStrategy;
 import main.program.entities.audio.queues.visitors.SongSourceVisitor;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.Artist;
@@ -59,7 +55,7 @@ public final class Album implements SearchableAudio, SongSource {
 
     @Override
     public Queue createQueue(final User user, final Map<String, PodcastQueue> podcastHistory) {
-        return new SongQueue(user, this, songs.size());
+        return new SongQueue(user, this, new PlaylistRepeatStrategy());
     }
 
     @Override
@@ -74,16 +70,6 @@ public final class Album implements SearchableAudio, SongSource {
         }
 
         return null;
-    }
-
-    @Override
-    public RepeatMode getNextRepeatMode(final RepeatMode repeatMode) {
-        return switch (repeatMode) {
-            case NO_REPEAT -> REPEAT_ALL;
-            case REPEAT_ALL -> REPEAT_CURRENT;
-            case REPEAT_CURRENT -> NO_REPEAT;
-            default -> null;
-        };
     }
 
     @Override

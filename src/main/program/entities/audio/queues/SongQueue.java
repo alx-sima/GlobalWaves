@@ -5,6 +5,8 @@ import main.program.databases.UserDatabase;
 import main.program.entities.audio.collections.SongSource;
 import main.program.entities.audio.files.AudioFile;
 import main.program.entities.audio.files.Song;
+import main.program.entities.audio.queues.repetition.RepeatChangeStrategy;
+import main.program.entities.audio.queues.repetition.RepeatMode;
 import main.program.entities.audio.queues.visitors.QueueVisitor;
 import main.program.entities.users.User;
 
@@ -17,10 +19,11 @@ public final class SongQueue extends Queue {
     private final SongSource songSource;
     private final int size;
 
-    public SongQueue(final User user, final SongSource songSource, final int size) {
-        super(user);
+    public SongQueue(final User user, final SongSource songSource,
+        final RepeatChangeStrategy repeatChangeStrategy) {
+        super(user, repeatChangeStrategy);
         this.songSource = songSource;
-        this.size = size;
+        this.size = songSource.size();
         currentlyPlaying = getFilePlaying();
     }
 
@@ -46,12 +49,6 @@ public final class SongQueue extends Queue {
         }
 
         return null;
-    }
-
-    @Override
-    public RepeatMode changeRepeatMode() {
-        repeatMode = songSource.getNextRepeatMode(repeatMode);
-        return repeatMode;
     }
 
     private int getSongIndex(final int index) {

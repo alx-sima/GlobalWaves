@@ -3,6 +3,8 @@ package main.program.entities.audio.queues;
 import lombok.Getter;
 import main.program.databases.Library;
 import main.program.entities.audio.files.AudioFile;
+import main.program.entities.audio.queues.repetition.RepeatChangeStrategy;
+import main.program.entities.audio.queues.repetition.RepeatMode;
 import main.program.entities.audio.queues.visitors.QueueVisitor;
 import main.program.entities.users.User;
 
@@ -12,8 +14,11 @@ import main.program.entities.users.User;
 public abstract class Queue {
 
     protected final User user;
+
     @Getter
     protected RepeatMode repeatMode = RepeatMode.NO_REPEAT;
+    private final RepeatChangeStrategy repeatChanger;
+
     @Getter
     protected AudioFile currentlyPlaying = null;
     protected int playTime = 0;
@@ -24,8 +29,9 @@ public abstract class Queue {
      */
     protected Double nextAdPrice = null;
 
-    protected Queue(final User user) {
+    protected Queue(final User user, final RepeatChangeStrategy repeatChanger) {
         this.user = user;
+        this.repeatChanger = repeatChanger;
     }
 
     /**
@@ -98,11 +104,11 @@ public abstract class Queue {
     }
 
     /**
-     * Change to the next repeat mode, based on the queue that is playing.
-     *
-     * @return the next mode.
+     * Change to the next repeat mode, based on the queue's repeat strategy.
      */
-    public abstract RepeatMode changeRepeatMode();
+    public void changeRepeatMode() {
+        repeatMode = repeatChanger.getNextRepeatMode(repeatMode);
+    }
 
     protected abstract AudioFile getFilePlaying();
 

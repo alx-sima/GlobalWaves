@@ -4,6 +4,8 @@ import java.util.List;
 import main.program.entities.audio.collections.Podcast;
 import main.program.entities.audio.files.AudioFile;
 import main.program.entities.audio.files.Episode;
+import main.program.entities.audio.queues.repetition.OrderedListenStrategy;
+import main.program.entities.audio.queues.repetition.RepeatMode;
 import main.program.entities.audio.queues.visitors.QueueVisitor;
 import main.program.entities.users.User;
 
@@ -12,7 +14,7 @@ public final class PodcastQueue extends Queue {
     private final List<Episode> episodes;
 
     public PodcastQueue(final Podcast podcast, final User user) {
-        super(user);
+        super(user, new OrderedListenStrategy());
         episodes = podcast.getEpisodes();
         currentlyPlaying = getFilePlaying();
     }
@@ -33,16 +35,6 @@ public final class PodcastQueue extends Queue {
         }
 
         return getFilePlaying();
-    }
-
-    @Override
-    public RepeatMode changeRepeatMode() {
-        return switch (repeatMode) {
-            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
-            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
-            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
-            default -> null;
-        };
     }
 
     @Override

@@ -1,7 +1,6 @@
 package main.program.entities.audio.collections;
 
 import main.program.entities.audio.files.Song;
-import main.program.entities.audio.queues.RepeatMode;
 import main.program.entities.audio.queues.visitors.SongSourceVisitor;
 
 /**
@@ -20,13 +19,6 @@ public interface SongSource {
      * @return null, if the song doesn't exist.
      */
     Song get(int index);
-
-    /**
-     * Get the next way to repeat the collection, based on its internal type.
-     *
-     * @param repeatMode the current repeat mode.
-     */
-    RepeatMode getNextRepeatMode(RepeatMode repeatMode);
 
     /**
      * Accept a SongSourceVisitor.

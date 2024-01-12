@@ -11,8 +11,8 @@ import main.program.entities.audio.collections.Album;
 import main.program.entities.audio.collections.SongSource;
 import main.program.entities.audio.queues.PodcastQueue;
 import main.program.entities.audio.queues.Queue;
-import main.program.entities.audio.queues.RepeatMode;
 import main.program.entities.audio.queues.SongQueue;
+import main.program.entities.audio.queues.repetition.OrderedListenStrategy;
 import main.program.entities.audio.queues.visitors.SongSourceVisitor;
 import main.program.entities.users.User;
 import main.program.entities.users.creators.Artist;
@@ -75,7 +75,7 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
 
     @Override
     public Queue createQueue(final User user, final Map<String, PodcastQueue> podcastHistory) {
-        return new SongQueue(user, this, 1);
+        return new SongQueue(user, this, new OrderedListenStrategy());
     }
 
     @Override
@@ -90,16 +90,6 @@ public final class Song extends AudioFile implements SearchableAudio, SongSource
         }
 
         return null;
-    }
-
-    @Override
-    public RepeatMode getNextRepeatMode(final RepeatMode repeatMode) {
-        return switch (repeatMode) {
-            case NO_REPEAT -> RepeatMode.REPEAT_ONCE;
-            case REPEAT_ONCE -> RepeatMode.REPEAT_INFINITE;
-            case REPEAT_INFINITE -> RepeatMode.NO_REPEAT;
-            default -> null;
-        };
     }
 
     @Override

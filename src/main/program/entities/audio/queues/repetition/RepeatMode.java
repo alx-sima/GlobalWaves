@@ -1,4 +1,4 @@
-package main.program.entities.audio.queues;
+package main.program.entities.audio.queues.repetition;
 
 /**
  * The ways of repeating a play queue.

@@ -5,7 +5,7 @@ import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
 import main.program.commands.requirements.RequireUserOnline;
 import main.program.entities.audio.queues.Queue;
-import main.program.entities.audio.queues.RepeatMode;
+import main.program.entities.audio.queues.repetition.RepeatMode;
 import main.program.entities.users.User;
 import main.program.entities.users.interactions.Player;
 
@@ -27,7 +27,8 @@ public final class Repeat extends NoOutputCommand {
                 "Please load a source before setting the repeat status.";
         }
 
-        RepeatMode newMode = queue.changeRepeatMode();
+        queue.changeRepeatMode();
+        RepeatMode newMode = queue.getRepeatMode();
         return
             "Repeat mode changed to " + newMode.toString().toLowerCase() + ".";
     }

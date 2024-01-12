@@ -7,7 +7,7 @@ import main.program.entities.audio.SearchableAudio;
 import main.program.entities.audio.files.AudioFile;
 import main.program.entities.audio.queues.PodcastQueue;
 import main.program.entities.audio.queues.Queue;
-import main.program.entities.audio.queues.RepeatMode;
+import main.program.entities.audio.queues.repetition.RepeatMode;
 import main.program.entities.users.User;
 
 /**

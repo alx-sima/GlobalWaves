@@ -30,11 +30,4 @@ public abstract class AudioFile {
     public void addListen(final User listener) {
         listeners.merge(listener, 1, Integer::sum);
     }
-
-    /**
-     * Get the total number of listens of this file.
-     */
-    public int getNumberOfListens() {
-        return listeners.values().stream().reduce(0, Integer::sum);
-    }
 }

@@ -1,6 +1,7 @@
 package main.program.entities.audio.queues;
 
 import lombok.Getter;
+import main.program.commands.exceptions.InvalidOperation;
 import main.program.databases.Library;
 import main.program.entities.audio.files.AudioFile;
 import main.program.entities.audio.queues.repetition.RepeatChangeStrategy;
@@ -124,13 +125,12 @@ public abstract class Queue {
     }
 
     /**
-     * Skip `deltaTime` seconds (if the queue supports it).
+     * Skip `deltaTime` seconds.
      *
-     * @return true if the skip succeeded.
+     * @param deltaTime time skipped (or rewound if negative).
+     * @throws InvalidOperation if the queue does not support this operation.
      */
-    public boolean skip(final int deltaTime) {
-        return false;
-    }
+    public abstract void skip(int deltaTime) throws InvalidOperation;
 
     /**
      * Advance to the next file.

@@ -46,15 +46,14 @@ public final class PodcastQueue extends Queue {
     }
 
     @Override
-    public boolean skip(final int deltaTime) {
-        if (playTime + deltaTime < 0) {
-            playTime = 0;
-            prev();
-            return true;
+    public void skip(final int deltaTime) {
+        if (playTime + deltaTime >= 0) {
+            addTimeIncrement(deltaTime);
+            return;
         }
 
-        addTimeIncrement(deltaTime);
-        return true;
+        playTime = 0;
+        prev();
     }
 
     @Override

@@ -1,6 +1,7 @@
 package main.program.entities.audio.queues;
 
 import lombok.Getter;
+import main.program.commands.exceptions.InvalidOperation;
 import main.program.databases.UserDatabase;
 import main.program.entities.audio.collections.SongSource;
 import main.program.entities.audio.files.AudioFile;
@@ -79,8 +80,14 @@ public final class SongQueue extends Queue {
         return currentlyPlaying;
     }
 
+    @Override
+    public void skip(final int deltaTime) throws InvalidOperation {
+        // `skip` is unsupported on this queue.
+        throw new InvalidOperation();
+    }
+
     /**
-     * Accept a QueueVisitor.
+     * Accept a {@link QueueVisitor}.
      */
     @Override
     public void accept(final QueueVisitor visitor) {

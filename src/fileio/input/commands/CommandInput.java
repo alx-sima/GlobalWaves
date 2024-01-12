@@ -12,14 +12,13 @@ import main.program.commands.page.NextPage;
 import main.program.commands.page.PreviousPage;
 import main.program.commands.page.PrintCurrentPage;
 import main.program.commands.player.AdBreak;
-import main.program.commands.player.Backward;
-import main.program.commands.player.Forward;
 import main.program.commands.player.Load;
 import main.program.commands.player.Next;
 import main.program.commands.player.PlayPause;
 import main.program.commands.player.Prev;
 import main.program.commands.player.Repeat;
 import main.program.commands.player.Shuffle;
+import main.program.commands.player.SkipTime;
 import main.program.commands.player.Status;
 import main.program.commands.player.recommendations.LoadRecommendations;
 import main.program.commands.player.recommendations.UpdateRecommendations;
@@ -85,12 +84,11 @@ public class CommandInput {
      */
     public Command createCommand() {
         return switch (command) {
-            case "backward" -> new Backward(this);
+            case "backward", "forward" -> new SkipTime(this);
             case "buyPremium" -> new BuyPremium(this);
             case "cancelPremium" -> new CancelPremium(this);
             case "deleteUser" -> new DeleteUser(this);
             case "follow" -> new Follow(this);
-            case "forward" -> new Forward(this);
             case "getAllUsers" -> new GetAllUsers(this);
             case "getNotifications" -> new GetNotifications(this);
             case "getOnlineUsers" -> new GetOnlineUsers(this);

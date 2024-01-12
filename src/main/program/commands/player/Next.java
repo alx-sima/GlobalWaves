@@ -26,15 +26,13 @@ public final class Next extends NoOutputCommand {
 
             if (nextFile != null) {
                 caller.getPlayer().setPaused(false, timestamp);
-                return
-                    "Skipped to next track successfully. The current track is "
-                        + nextFile.getName() + ".";
+                return "Skipped to next track successfully. The current track is "
+                    + nextFile.getName() + ".";
             }
 
             caller.getPlayer().clearQueue();
         }
 
-        return
-            "Please load a source before skipping to the next track.";
+        return "Please load a source before skipping to the next track.";
     }
 }

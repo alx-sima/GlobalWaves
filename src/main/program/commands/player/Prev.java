@@ -23,8 +23,7 @@ public final class Prev extends NoOutputCommand {
         player.updateTime(timestamp);
 
         if (queue == null) {
-            return
-                "Please load a source before returning to the previous track.";
+            return "Please load a source before returning to the previous track.";
         }
 
         AudioFile prevFile = queue.prev();
@@ -32,8 +31,7 @@ public final class Prev extends NoOutputCommand {
         if (prevFile == null) {
             return "There is no previous track to return to.";
         }
-        return
-            "Returned to previous track successfully. The current track is " + prevFile.getName()
-                + ".";
+        return "Returned to previous track successfully. The current track is " + prevFile.getName()
+            + ".";
     }
 }

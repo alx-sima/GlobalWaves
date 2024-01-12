@@ -6,14 +6,16 @@ import lombok.Setter;
 import main.program.commands.Command;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
-import main.program.commands.requirements.RequireUserOnline;
+import main.program.commands.requirements.RequirePlaying;
 import main.program.entities.audio.queues.Queue;
 import main.program.entities.audio.queues.Shuffler;
 import main.program.entities.audio.queues.visitors.ShuffleVisitor;
 import main.program.entities.users.User;
-import main.program.entities.users.interactions.Player;
 
 public final class Shuffle extends NoOutputCommand {
+
+    private static final String NOT_PLAYING_ERROR =
+        "Please load a source before using the shuffle function.";
 
     private final int seed;
 
@@ -24,15 +26,8 @@ public final class Shuffle extends NoOutputCommand {
 
     @Override
     protected String executeNoOutput() throws InvalidOperation {
-        User caller = new RequireUserOnline(user).check();
-        Player player = caller.getPlayer();
-        player.updateTime(timestamp);
-        Queue queue = player.getQueue();
-
-        if (queue == null) {
-            return
-                "Please load a source before using the shuffle function.";
-        }
+        RequirePlaying requirement = new RequirePlaying(user, timestamp, NOT_PLAYING_ERROR);
+        Queue queue = requirement.check();
 
         ShuffleVisitor visitor = new ShuffleVisitor(seed);
         queue.accept(visitor);
@@ -48,7 +43,9 @@ public final class Shuffle extends NoOutputCommand {
         }
 
         queue.disableShuffle();
-        player.updateTime(timestamp);
+
+        User caller = requirement.getCaller();
+        caller.getPlayer().updateTime(timestamp);
         return "Shuffle function deactivated successfully.";
     }
 
@@ -60,11 +57,7 @@ public final class Shuffle extends NoOutputCommand {
 
         @Override
         public Command createCommand() {
-            if (command.equals("shuffle")) {
-                return new Shuffle(this);
-            }
-
-            return null;
+            return new Shuffle(this);
         }
     }
 }

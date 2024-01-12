@@ -4,10 +4,8 @@ import fileio.input.commands.CommandInput;
 import lombok.AllArgsConstructor;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
-import main.program.commands.requirements.RequireUserOnline;
+import main.program.commands.requirements.RequirePlaying;
 import main.program.entities.audio.queues.Queue;
-import main.program.entities.users.User;
-import main.program.entities.users.interactions.Player;
 
 public final class SkipTime extends NoOutputCommand {
 
@@ -44,20 +42,13 @@ public final class SkipTime extends NoOutputCommand {
         private final String successMessage;
 
         public String execute() throws InvalidOperation {
-            User caller = new RequireUserOnline(user).check();
-            Player player = caller.getPlayer();
-            player.updateTime(timestamp);
-
-            Queue queue = player.getQueue();
-            if (queue == null) {
-                return "Please load a source before attempting to forward.";
-            }
+            Queue queue = new RequirePlaying(user, timestamp, errorMessage).check();
 
             try {
                 queue.skip(skipTime);
                 return successMessage;
             } catch (InvalidOperation e) {
-                return errorMessage;
+                return "The loaded song is not a podcast.";
             }
         }
     }

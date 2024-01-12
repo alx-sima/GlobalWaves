@@ -19,10 +19,8 @@ public final class PlayPause extends NoOutputCommand {
 
         Player player = caller.getPlayer();
         player.updateTime(timestamp);
-
         if (player.getQueue() == null) {
-            return
-                "Please load a source before attempting to pause or resume playback.";
+            return "Please load a source before attempting to pause or resume playback.";
         }
 
         boolean willPause = !player.isPaused();

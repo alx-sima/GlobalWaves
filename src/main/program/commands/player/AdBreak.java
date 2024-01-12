@@ -6,8 +6,8 @@ import lombok.Setter;
 import main.program.commands.Command;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
-import main.program.commands.requirements.RequireUserOnline;
-import main.program.entities.users.interactions.Player;
+import main.program.commands.requirements.RequirePlaying;
+import main.program.entities.audio.queues.Queue;
 
 public final class AdBreak extends NoOutputCommand {
 
@@ -20,13 +20,9 @@ public final class AdBreak extends NoOutputCommand {
 
     @Override
     protected String executeNoOutput() throws InvalidOperation {
-        Player player = new RequireUserOnline(user).check().getPlayer();
-
-        if (player.getPlayingAt(timestamp) == null) {
-            return user + " is not playing any music.";
-        }
-
-        player.getQueue().pushAd(price);
+        Queue queue = new RequirePlaying(user, timestamp,
+            user + " is not playing any music.").check();
+        queue.pushAd(price);
         return "Ad inserted successfully.";
     }
 

@@ -3,13 +3,13 @@ package main.program.commands.player;
 import fileio.input.commands.CommandInput;
 import main.program.commands.NoOutputCommand;
 import main.program.commands.exceptions.InvalidOperation;
-import main.program.commands.requirements.RequireUserOnline;
+import main.program.commands.requirements.RequirePlaying;
 import main.program.entities.audio.queues.Queue;
 import main.program.entities.audio.queues.repetition.RepeatMode;
-import main.program.entities.users.User;
-import main.program.entities.users.interactions.Player;
 
 public final class Repeat extends NoOutputCommand {
+
+    private static final String NOT_PLAYING_ERROR = "Please load a source before setting the repeat status.";
 
     public Repeat(final CommandInput input) {
         super(input);
@@ -17,19 +17,10 @@ public final class Repeat extends NoOutputCommand {
 
     @Override
     protected String executeNoOutput() throws InvalidOperation {
-        User caller = new RequireUserOnline(user).check();
-        Player player = caller.getPlayer();
-        player.updateTime(timestamp);
-        Queue queue = player.getQueue();
-
-        if (queue == null) {
-            return
-                "Please load a source before setting the repeat status.";
-        }
-
+        Queue queue = new RequirePlaying(user, timestamp, NOT_PLAYING_ERROR).check();
         queue.changeRepeatMode();
+
         RepeatMode newMode = queue.getRepeatMode();
-        return
-            "Repeat mode changed to " + newMode.toString().toLowerCase() + ".";
+        return "Repeat mode changed to " + newMode.toString().toLowerCase() + ".";
     }
 }
